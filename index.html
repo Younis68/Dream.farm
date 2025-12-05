@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream Farm - Add Farm in Menu</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS Styles --- */
+        :root { --primary-color: #d4af37; --bg-color: #fdfbf7; --card-bg: #ffffff; --text-dark: #333; }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg-color); color: var(--text-dark); margin: 0; padding: 0; }
+        
+        header {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('dream.jpg');
+            background-size: cover; 
+            background-position: center;
+            height: 320px;
+            color: white; text-align: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            position: relative; 
+        }
+
+        header p { font-size: 1.2rem; color: #eee; margin-top: 5px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
+
+        /* --- ستایلێ سێ خالا --- */
+        .settings-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 50;
+        }
+
+        .settings-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .settings-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: rotate(90deg);
+        }
+
+        .settings-dropdown {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: white;
+            color: #333;
+            width: 200px; 
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            overflow: hidden;
+            text-align: right;
+            border: 1px solid #eee;
+        }
+
+        .settings-dropdown a {
+            display: block;
+            padding: 12px 15px;
+            color: #333;
+            text-decoration: none;
+            font-size: 0.95rem;
+            border-bottom: 1px solid #f9f9f9;
+            transition: 0.2s;
+        }
+
+        .settings-dropdown a:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* ستایلێ تایبەت بۆ لینکێ (أضف مزرعتك) د مینیویێ دا */
+        .add-farm-link {
+            color: #28a745 !important; /* ڕەنگێ کەسک */
+            font-weight: bold;
+        }
+        .add-farm-link:hover {
+            background-color: #28a745 !important;
+            color: white !important;
+        }
+
+        .price-alert {
+            background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba;
+            padding: 15px; margin: 20px auto 0; max-width: 800px; border-radius: 8px;
+            text-align: center; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; width: 90%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .search-container { max-width: 600px; margin: 30px auto; padding: 0 20px; position: relative; z-index: 10; }
+        .search-box { position: relative; width: 100%; }
+        .search-box input { width: 100%; padding: 18px 50px 18px 20px; border: none; border-radius: 50px; font-size: 1.1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); outline: none; font-family: 'Cairo', sans-serif; }
+        .search-box i { position: absolute; right: 25px; top: 50%; transform: translateY(-50%); color: var(--primary-color); font-size: 1.2rem; }
+
+        .social-container { position: fixed; bottom: 20px; left: 20px; display: flex; flex-direction: column-reverse; gap: 15px; z-index: 100; }
+        .social-btn { width: 55px; height: 55px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 28px; text-decoration: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: transform 0.3s ease; }
+        .social-btn:hover { transform: scale(1.1); }
+        .whatsapp { background-color: #25D366; } .tiktok { background-color: #000000; } .facebook { background-color: #1877F2; } .instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+
+        /* Farm Card Styles */
+        .container { 
+            max-width: 1150px; 
+            margin: 40px auto; 
+            padding: 0 20px; 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 30px; 
+        }
+
+        /* --- ستایلێ نوێ بۆ موبایلێ --- */
+        /* ئەڤ کۆدە دبێژیت ئەگەر شاشە بچیکتر بوو ژ 768px (واتە موبایل)، بلا کارتان ببنە ئێک ستوین */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr !important; /* فەرز دکەت کو ببتە 1 ستوین */
+                padding: 0 15px; /* کێمکرنا ڤالاهیا تەنیشتان بۆ موبایلێ */
+                gap: 25px; /* کێمکرنا ڤالاهیا د ناڤبەرا کارتان دا */
+            }
+        }
+        
+        .farm-card { 
+            background: var(--card-bg); 
+            border-radius: 20px; 
+            overflow: hidden; 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            position: relative; 
+        }
+        .farm-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
+        
+        .share-btn-card { position: absolute; top: 15px; left: 15px; background: rgba(255, 255, 255, 0.9); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; z-index: 5; color: #333; transition: 0.3s; font-size: 1.1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .share-btn-card:hover { background: var(--primary-color); color: white; }
+
+        .media-container { 
+            position: relative; 
+            width: 100%; 
+            aspect-ratio: 16 / 9;
+            background: #f0f0f0; 
+            overflow: hidden; 
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        
+        .card-media { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            display: block; 
+            transition: opacity 0.3s ease;
+            cursor: grab;
+        }
+        .card-media:active { cursor: grabbing; }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 5;
+            pointer-events: auto; 
+        }
+        .dot {
+            width: 12px; 
+            height: 12px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            cursor: pointer;
+        }
+        .dot.active {
+            background-color: #fff;
+            transform: scale(1.3);
+            box-shadow: 0 1px 5px rgba(0,0,0,0.5);
+        }
+
+        .card-body { padding: 25px; }
+        .card-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .card-header-row h3 { margin: 0; font-size: 1.4rem; color: #222; }
+
+        .type-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .bg-family { background: #e91e63; }
+        .bg-youth { background: #2196f3; }
+        .bg-all { background: #28a745; }
+
+        .features { list-style: none; padding: 0; color: #555; font-size: 0.95rem; line-height: 1.6; border-top: 1px solid #f0f0f0; padding-top: 15px; }
+        .features li { margin-bottom: 8px; }
+        .price-tag { font-weight: bold; color: var(--primary-color); font-size: 1.3rem; margin-top: 15px; display: block; }
+        .price-note { font-size: 0.85rem; color: #888; font-weight: normal; } 
+
+        .btn-book { width: 100%; padding: 14px; margin-top: 20px; background: #111; color: var(--primary-color); border: none; border-radius: 10px; cursor: pointer; font-size: 1.1rem; font-weight: bold; transition: 0.3s; }
+        .btn-book:hover { background: var(--primary-color); color: white; transform: scale(1.02); }
+
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 200; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .modal-content { background: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 500px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        .close-btn { position: absolute; left: 20px; top: 15px; font-size: 30px; cursor: pointer; color: #333; z-index: 10;}
+        
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; transition: 0.3s; }
+        
+        .input-error { border: 2px solid #dc3545 !important; background-color: #fff8f8; color: #dc3545; }
+        .input-success { border: 2px solid #28a745 !important; background-color: #f8fff9; color: #155724; }
+        
+        .date-status-msg { font-size: 0.9rem; margin-right: 10px; font-weight: bold; }
+        .status-booked { color: #dc3545; }
+        .status-available { color: #28a745; }
+
+        .submit-btn { background: #25D366; color: white; border: none; padding: 14px; width: 100%; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: bold; transition: 0.3s; }
+        .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+        
+        #calculated-price { text-align: center; font-weight: bold; color: var(--primary-color); background: #fdfbf7; padding: 12px; border-radius: 8px; margin-bottom: 15px; display: none; border: 1px solid #eee; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="settings-container">
+            <button class="settings-btn" onclick="toggleSettings()">
+                <i class="fas fa-ellipsis-h"></i> 
+            </button>
+            <div class="settings-dropdown" id="settingsDropdown">
+                <a href="https://wa.me/9647502679528?text=السلام عليكم، أريد إضافة مزرعتي في الموقع" target="_blank" class="add-farm-link">
+                    <i class="fas fa-plus-circle"></i> أضف مزرعتك
+                </a>
+                <hr style="margin: 0; border: 0; border-top: 1px solid #eee;">
+                
+            </div>
+        </div>
+
+        <p>Dream Farm</p>
+        <p>أجمل المزارع للإيجار اليومي</p>
+    </header>
+
+    <div class="price-alert">
+        <i class="fas fa-info-circle"></i>
+        <span>ملاحظة: الأسعار متغيرة وتختلف حسب أيام العطل والمناسبات.</span>
+    </div>
+
+    <div class="search-container">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="ابحث عن اسم المزرعة أو الموقع...">
+        </div>
+    </div>
+
+    <div class="social-container">
+        <a href="LINK_FACEBOOK_HERE" class="social-btn facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="LINK_INSTAGRAM_HERE" class="social-btn instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@dream.farm68?is_from_webapp=1&sender_device=pc" class="social-btn tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
+    </div>
+
+    <div class="container" id="farm-list-container"></div>
+
+    <div id="booking-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('booking-modal')">×</span>
+            <h3>حجز: <span id="modal-farm-name" style="color:var(--primary-color)"></span></h3>
+            
+            <form id="booking-form">
+                <input type="hidden" id="farm-id-modal"> 
+                <label>الاسم الثلاثي:</label> 
+                <input type="text" id="name" required placeholder="أدخل اسمك هنا">
+                
+                <label>التاريخ: <span id="date-status-display" class="date-status-msg"></span></label> 
+                <input type="date" id="date" required onchange="updateModalPrice()">
+                
+                <div id="calculated-price"></div>
+                
+                <label>عدد الأشخاص:</label> <input type="number" id="guests" placeholder="10" required>
+                <label>نوع الكروب:</label>
+                <select id="type" required>
+                    </select>
+
+                <button type="submit" id="submit-booking-btn" class="submit-btn"><i class="fab fa-whatsapp"></i> إرسال الطلب واتساب</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const farmsData = [
+            {
+                id: 1, 
+                name: "مزرعة VIP",
+                location: "قرب السد",
+                images: ["wena1.png", "mmm.jpg", "jjj.jpg"], 
+                features: ["مسبح خاص", "كراج واسع", "كهرباء 24 ساعة"],
+                bookedDates: ["2025-12-25"], 
+                allowedType: "family", 
+                pricing: {
+                    default: "100,000", 
+                    weekDays: { 4: "150,000", 5: "150,000", 6: "125,000" },
+                    specialDates: { "2023-12-31": "300,000" }
+                }
+            },
+            {
+                id: 2,
+                name: "مزرعة الجبل",
+                location: "زاوية",
+                images: ["wena2.jpg", "wena2_view.jpg"], 
+                features: ["حديقة كبيرة", "مكان للشواء", "إطلالة خلابة"],
+                bookedDates: ["2025-12-25"], 
+                allowedType: "all", 
+                pricing: {
+                    default: "60,000",
+                    weekDays: { 4: "90,000", 5: "90,000" },
+                    specialDates: {}
+                }
+            },
+            {
+                id: 3,
+                name: "مزرعة النخيل",
+                location: "المنصور",
+                images: ["wena3.jpg"], 
+                features: ["مسبح مشترك", "جلسات خارجية", "موقع مركزي"],
+                bookedDates: [],
+                allowedType: "family", 
+                pricing: {
+                    default: "50,000",
+                    weekDays: { 5: "75,000" }, 
+                    specialDates: {}
+                }
+            },
+            {
+                id: 4,
+                name: "مزرعة الهدوء",
+                location: "الكرادة",
+                images: ["wena4.jpg", "wena4_kitchen.jpg"], 
+                features: ["مكان للأطفال", "مطبخ مجهز", "خدمة واي فاي"],
+                bookedDates: [],
+                allowedType: "youth", 
+                pricing: {
+                    default: "35,000",
+                    weekDays: { 4: "50,000", 5: "50,000" },
+                    specialDates: {}
+                }
+            }
+        ];
+
+        const container = document.getElementById('farm-list-container');
+        const searchInput = document.getElementById('searchInput');
+
+        let slideIndices = {};
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        // --- Toggle Settings Menu ---
+        function toggleSettings() {
+            const menu = document.getElementById('settingsDropdown');
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'block';
+            }
+        }
+        window.onclick = function(event) {
+            if (!event.target.matches('.settings-btn') && !event.target.matches('.settings-btn i')) {
+                const dropdowns = document.getElementsByClassName("settings-dropdown");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === 'block') {
+                        openDropdown.style.display = 'none';
+                    }
+                }
+            }
+            if (event.target.classList.contains('modal')) event.target.style.display = 'none';
+        }
+
+        function getPriceForDate(farm, dateObj) {
+            const year = dateObj.getFullYear();
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const day = String(dateObj.getDate()).padStart(2, '0');
+            const dateString = `${year}-${month}-${day}`;
+            const dayOfWeek = dateObj.getDay(); 
+
+            if (farm.bookedDates && farm.bookedDates.includes(dateString)) {
+                return { price: "محجوز", note: "غير متاح", isBooked: true };
+            }
+
+            if (farm.pricing.specialDates[dateString]) return { price: farm.pricing.specialDates[dateString], note: "سعر خاص 🔥", isBooked: false };
+            if (farm.pricing.weekDays[dayOfWeek]) return { price: farm.pricing.weekDays[dayOfWeek], note: "سعر العطلة", isBooked: false };
+            return { price: farm.pricing.default, note: "سعر عادي", isBooked: false };
+        }
+
+        function displayFarms(farms) {
+            container.innerHTML = "";
+            const today = new Date();
+
+            if (farms.length === 0) {
+                container.innerHTML = "<p style='text-align:center;width:100%;color:#666;'>لا توجد نتائج مطابقة.</p>";
+                return;
+            }
+
+            farms.forEach((farm) => {
+                slideIndices[farm.id] = 0;
+                let featuresHtml = farm.features.map(f => `<li><i class="fas fa-check-circle"></i> ${f}</li>`).join('');
+                const pricingInfo = getPriceForDate(farm, today);
+
+                let typeBadgeHtml = '';
+                if(farm.allowedType === 'family') {
+                    typeBadgeHtml = '<span class="type-badge bg-family"><i class="fas fa-users"></i> عائلات فقط</span>';
+                } else if (farm.allowedType === 'youth') {
+                    typeBadgeHtml = '<span class="type-badge bg-youth"><i class="fas fa-user-friends"></i> شباب فقط</span>';
+                } else {
+                    typeBadgeHtml = '<span class="type-badge bg-all"><i class="fas fa-check"></i> عائلات و شباب</span>';
+                }
+
+                let dotsHtml = '';
+                if (farm.images.length > 1) {
+                    let dotsSpans = '';
+                    farm.images.forEach((_, index) => {
+                        const activeClass = index === 0 ? 'active' : '';
+                        dotsSpans += `<span class="dot ${activeClass}" id="dot-${farm.id}-${index}" onclick="goToSlide(event, ${farm.id}, ${index})"></span>`;
+                    });
+                    dotsHtml = `<div class="slider-dots">${dotsSpans}</div>`;
+                }
+
+                const cardHtml = `
+                    <div class="farm-card">
+                        <button class="share-btn-card" onclick="shareFarm('${farm.name}', '${pricingInfo.price}')"><i class="fas fa-share-alt"></i></button>
+
+                        <div class="media-container">
+                            <img src="${farm.images[0]}" 
+                                 class="card-media" 
+                                 id="img-${farm.id}" 
+                                 alt="${farm.name}"
+                                 ontouchstart="recordTouchStart(event)" 
+                                 ontouchend="handleTouchEnd(event, ${farm.id})">
+                            ${dotsHtml}
+                        </div>
+                        
+                        <div class="card-body">
+                            <div class="card-header-row">
+                                <h3>${farm.name}</h3>
+                            </div>
+                            
+                            ${typeBadgeHtml}
+
+                            <ul class="features">
+                                <li><i class="fas fa-map-marker-alt"></i> ${farm.location}</li>
+                                ${featuresHtml}
+                            </ul>
+                            <span class="price-tag">
+                                ${pricingInfo.price} د.ع 
+                                <span class="price-note">(${pricingInfo.note})</span>
+                            </span>
+                            <button class="btn-book" onclick="openBookingModal('${farm.name}', ${farm.id})">احجز الآن</button>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHtml;
+            });
+        }
+
+        function goToSlide(event, farmId, index) {
+            event.stopPropagation(); 
+            const farm = farmsData.find(f => f.id === farmId);
+            if (!farm) return;
+            const oldDot = document.getElementById(`dot-${farmId}-${slideIndices[farmId]}`);
+            if(oldDot) oldDot.classList.remove('active');
+            slideIndices[farmId] = index;
+            const imgElement = document.getElementById(`img-${farmId}`);
+            if (imgElement) {
+                imgElement.style.opacity = '0.5';
+                setTimeout(() => {
+                    imgElement.src = farm.images[index];
+                    imgElement.style.opacity = '1';
+                }, 150);
+            }
+            const newDot = document.getElementById(`dot-${farmId}-${index}`);
+            if(newDot) newDot.classList.add('active');
+        }
+
+        function changeSlide(farmId, step) {
+            const farm = farmsData.find(f => f.id === farmId);
+            if (!farm) return;
+            const oldDot = document.getElementById(`dot-${farmId}-${slideIndices[farmId]}`);
+            if(oldDot) oldDot.classList.remove('active');
+            let newIndex = slideIndices[farmId] + step;
+            if (newIndex >= farm.images.length) { newIndex = 0; } 
+            else if (newIndex < 0) { newIndex = farm.images.length - 1; }
+            slideIndices[farmId] = newIndex;
+            const imgElement = document.getElementById(`img-${farmId}`);
+            if (imgElement) {
+                imgElement.style.opacity = '0.5';
+                setTimeout(() => {
+                    imgElement.src = farm.images[newIndex];
+                    imgElement.style.opacity = '1';
+                }, 150);
+            }
+            const newDot = document.getElementById(`dot-${farmId}-${newIndex}`);
+            if(newDot) newDot.classList.add('active');
+        }
+
+        function recordTouchStart(e) { touchStartX = e.changedTouches[0].screenX; }
+        function handleTouchEnd(e, farmId) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleGesture(farmId);
+        }
+        function handleGesture(farmId) {
+            const threshold = 50; 
+            if (touchEndX < touchStartX - threshold) { changeSlide(farmId, 1); }
+            if (touchEndX > touchStartX + threshold) { changeSlide(farmId, -1); }
+        }
+
+        function shareFarm(name, price) {
+            if (navigator.share) {
+                navigator.share({ title: 'Dream Farm', text: `شوفوا المزرعة: ${name} - السعر اليوم: ${price}`, url: window.location.href });
+            } else { alert(`شارك هذه المزرعة: ${name}`); }
+        }
+
+        searchInput.addEventListener('keyup', (e) => {
+            const searchString = e.target.value.toLowerCase();
+            const filteredFarms = farmsData.filter(farm => {
+                return (farm.name.toLowerCase().includes(searchString) || farm.location.toLowerCase().includes(searchString));
+            });
+            displayFarms(filteredFarms);
+        });
+        displayFarms(farmsData);
+
+        // --- Booking & Restrictions Logic ---
+        const priceDisplay = document.getElementById('calculated-price');
+        const submitBtn = document.getElementById('submit-booking-btn');
+        const dateInput = document.getElementById('date');
+        const dateStatusMsg = document.getElementById('date-status-display');
+        const typeSelect = document.getElementById('type'); 
+        let currentFarmId = null;
+
+        function openBookingModal(farmName, farmId) {
+            document.getElementById('modal-farm-name').textContent = farmName;
+            document.getElementById('farm-id-modal').value = farmId;
+            currentFarmId = farmId;
+            
+            const farm = farmsData.find(f => f.id === farmId);
+            typeSelect.innerHTML = ""; 
+
+            if (farm.allowedType === 'family') {
+                typeSelect.innerHTML = `<option value="عائلات (Family)">عائلات (Family)</option>`;
+            } else if (farm.allowedType === 'youth') {
+                typeSelect.innerHTML = `<option value="شباب (Youth)">شباب (Youth)</option>`;
+            } else {
+                typeSelect.innerHTML = `
+                    <option value="عائلات (Family)">عائلات (Family)</option>
+                    <option value="شباب (Youth)">شباب (Youth)</option>
+                `;
+            }
+
+            // Reset fields
+            dateInput.value = "";
+            dateInput.className = ""; 
+            dateStatusMsg.innerHTML = "";
+            
+            priceDisplay.style.display = "none";
+            priceDisplay.textContent = "";
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = "1";
+            
+            document.getElementById('booking-modal').style.display = 'flex';
+        }
+
+        function updateModalPrice() {
+            const dateVal = dateInput.value;
+            if (!dateVal || !currentFarmId) return;
+            
+            const farm = farmsData.find(f => f.id === currentFarmId);
+            const pricing = getPriceForDate(farm, new Date(dateVal));
+            
+            priceDisplay.style.display = "block";
+
+            dateInput.classList.remove('input-error', 'input-success');
+            dateStatusMsg.classList.remove('status-booked', 'status-available');
+
+            if (pricing.isBooked) {
+                dateInput.classList.add('input-error');
+                dateStatusMsg.innerHTML = "(محجوز ❌)";
+                dateStatusMsg.classList.add('status-booked');
+                priceDisplay.innerHTML = `<span style="color:#dc3545">للأسف، هذا اليوم محجوز بالكامل.</span>`;
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = "0.5";
+            } else {
+                dateInput.classList.add('input-success');
+                dateStatusMsg.innerHTML = "(متاح ✅)";
+                dateStatusMsg.classList.add('status-available');
+                priceDisplay.innerHTML = `السعر: <span style="color:black">${pricing.price} د.ع</span> <small>(${pricing.note})</small>`;
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = "1";
+            }
+        }
+
+        function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+        
+        document.getElementById('booking-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const farmId = parseInt(document.getElementById('farm-id-modal').value);
+            const farm = farmsData.find(f => f.id === farmId);
+            const name = document.getElementById('name').value;
+            const dateVal = dateInput.value;
+            const guests = document.getElementById('guests').value;
+            const type = document.getElementById('type').value;
+            const myNumber = "9647502679528"; 
+
+            const selectedDate = new Date(dateVal);
+            const pricing = getPriceForDate(farm, selectedDate);
+
+            if (pricing.isBooked) {
+                alert("هذا التاريخ محجوز!");
+                return;
+            }
+
+            const text = `طلب حجز جديد:\n\n` +
+                         `🏠 المزرعة: *${farm.name}*\n` +
+                         `📅 التاريخ: ${dateVal}\n` +
+                         `💰 السعر: ${pricing.price} د.ع (${pricing.note})\n` +
+                         `------------------\n` +
+                         `👤 الاسم: ${name}\n` +
+                         `👥 العدد: ${guests}\n` +
+                         `👨‍👩‍👧‍👦 النوع: ${type}`;
+
+            window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent(text)}`, '_blank');
+            closeModal('booking-modal');
+        });
+    </script>
+</body>
+</html>
