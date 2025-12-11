@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dream Farm - Add Farm in Menu</title>
+    <title>Dream Farm - Final Version</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
@@ -61,7 +61,7 @@
             right: 0;
             background: white;
             color: #333;
-            width: 200px; 
+            width: 280px; 
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             overflow: hidden;
@@ -84,9 +84,53 @@
             color: white;
         }
 
+        /* ستایلێ دەکما تێبینیان */
+        .notes-toggle-btn {
+            width: 100%;
+            background: none;
+            border: none;
+            text-align: right;
+            padding: 12px 15px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            color: #333;
+            border-bottom: 1px solid #f9f9f9;
+            font-family: 'Cairo', sans-serif;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .notes-toggle-btn:hover {
+            background-color: #fdfbf7;
+            color: var(--primary-color);
+        }
+
+        /* --- ستایلێ نوێ یێ نڤیسینا تێبینیان --- */
+        .menu-notes-content {
+            display: none; /* ڤەشارتی */
+            padding: 15px;
+            /* ڕەنگێ پاشبنەمایەکێ گەلەک سادە (Off-white/Blue tint) */
+            background-color: #f8f9fa; 
+            font-size: 0.9rem;
+            /* ڕەنگێ نڤیسینێ: شینەکێ تاری و مات (Dark Blue-Gray) - دیار و بێ ئیسعاج */
+            color: #2c3e50; 
+            border-top: 1px solid #eee;
+            line-height: 1.8; /* نێزیک بوونا دێڕان کێمکر داکو ب ساناهی بهێتە خواندن */
+            border-right: 4px solid var(--primary-color); /* خەتەکێ زێڕین ل تەنیشتێ */
+        }
+        
+        /* توندکرنا ناڤنیشانێ تێبینیێ */
+        .menu-notes-content strong {
+            color: #000;
+            display: block;
+            margin-bottom: 5px;
+        }
+
         /* ستایلێ تایبەت بۆ لینکێ (أضف مزرعتك) د مینیویێ دا */
         .add-farm-link {
-            color: #28a745 !important; /* ڕەنگێ کەسک */
+            color: #28a745 !important; 
             font-weight: bold;
         }
         .add-farm-link:hover {
@@ -121,13 +165,11 @@
             gap: 30px; 
         }
 
-        /* --- ستایلێ نوێ بۆ موبایلێ --- */
-        /* ئەڤ کۆدە دبێژیت ئەگەر شاشە بچیکتر بوو ژ 768px (واتە موبایل)، بلا کارتان ببنە ئێک ستوین */
         @media (max-width: 768px) {
             .container {
-                grid-template-columns: 1fr !important; /* فەرز دکەت کو ببتە 1 ستوین */
-                padding: 0 15px; /* کێمکرنا ڤالاهیا تەنیشتان بۆ موبایلێ */
-                gap: 25px; /* کێمکرنا ڤالاهیا د ناڤبەرا کارتان دا */
+                grid-template-columns: 1fr !important;
+                padding: 0 15px; 
+                gap: 25px; 
             }
         }
         
@@ -246,8 +288,18 @@
                 <a href="https://wa.me/9647502679528?text=السلام عليكم، أريد إضافة مزرعتي في الموقع" target="_blank" class="add-farm-link">
                     <i class="fas fa-plus-circle"></i> أضف مزرعتك
                 </a>
-                <hr style="margin: 0; border: 0; border-top: 1px solid #eee;">
                 
+                <button class="notes-toggle-btn" onclick="toggleNotes()">
+                    <i class="fas fa-info-circle"></i> تێبینی / ملاحظات
+                </button>
+
+                <div class="menu-notes-content" id="notesContent">
+                    <p style="margin: 0; text-align: justify;">
+                        <strong>أهلاً بكم في دريم فارم (Dream Farm)</strong><br>
+                        نود إعلام زبائننا الكرام بأن أسعار الحجوزات تختلف باختلاف الأيام (أيام الأسبوع، العطل الرسمية، والمناسبات الخاصة). لضمان تثبيت حجزكم، يرجى دفع "العربون" مسبقاً بعد الاتفاق. نرجو من ضيوفنا الأعزاء التعاون معنا في المحافظة على نظافة المكان والأثاث لضمان استمتاع الجميع بأجواء مريحة. نتمنى لكم إقامة سعيدة وأوقاتاً ممتعة!
+                    </p>
+                </div>
+
             </div>
         </div>
 
@@ -376,8 +428,20 @@
                 menu.style.display = 'block';
             }
         }
+
+        // --- فانکشنا نوی بۆ ڤەکرن و گرتنا تێبینیان ---
+        function toggleNotes() {
+            const notes = document.getElementById('notesContent');
+            if (notes.style.display === 'block') {
+                notes.style.display = 'none';
+            } else {
+                notes.style.display = 'block';
+            }
+        }
+
         window.onclick = function(event) {
-            if (!event.target.matches('.settings-btn') && !event.target.matches('.settings-btn i')) {
+            // ئەگەر کلیک ل دەرڤەی مینیویێ بوو، دابخە
+            if (!event.target.matches('.settings-btn') && !event.target.matches('.settings-btn i') && !event.target.closest('.settings-dropdown')) {
                 const dropdowns = document.getElementsByClassName("settings-dropdown");
                 for (let i = 0; i < dropdowns.length; i++) {
                     const openDropdown = dropdowns[i];
@@ -646,4 +710,3 @@
 </body>
 
 </html>
-
