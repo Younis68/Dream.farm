@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dream Farm - Final Version</title>
+    <title>Dream Farm - Linked Alert</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
@@ -11,7 +11,7 @@
     <style>
         /* --- CSS Styles --- */
         :root { --primary-color: #d4af37; --bg-color: #fdfbf7; --card-bg: #ffffff; --text-dark: #333; }
-        body { font-family: 'Cairo', sans-serif; background: var(--bg-color); color: var(--text-dark); margin: 0; padding: 0; }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg-color); color: var(--text-dark); margin: 0; padding: 0; scroll-behavior: smooth; }
         
         header {
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('dream.jpg');
@@ -107,28 +107,25 @@
             color: var(--primary-color);
         }
 
-        /* --- ستایلێ نوێ یێ نڤیسینا تێبینیان --- */
+        /* --- ستایلێ نڤیسینا تێبینیان --- */
         .menu-notes-content {
-            display: none; /* ڤەشارتی */
+            display: none; 
             padding: 15px;
-            /* ڕەنگێ پاشبنەمایەکێ گەلەک سادە (Off-white/Blue tint) */
             background-color: #f8f9fa; 
             font-size: 0.9rem;
-            /* ڕەنگێ نڤیسینێ: شینەکێ تاری و مات (Dark Blue-Gray) - دیار و بێ ئیسعاج */
             color: #2c3e50; 
             border-top: 1px solid #eee;
-            line-height: 1.8; /* نێزیک بوونا دێڕان کێمکر داکو ب ساناهی بهێتە خواندن */
-            border-right: 4px solid var(--primary-color); /* خەتەکێ زێڕین ل تەنیشتێ */
+            line-height: 1.8; 
+            border-right: 4px solid var(--primary-color); 
         }
         
-        /* توندکرنا ناڤنیشانێ تێبینیێ */
         .menu-notes-content strong {
             color: #000;
             display: block;
             margin-bottom: 5px;
         }
 
-        /* ستایلێ تایبەت بۆ لینکێ (أضف مزرعتك) د مینیویێ دا */
+        /* ستایلێ لینکێ (أضف مزرعتك) */
         .add-farm-link {
             color: #28a745 !important; 
             font-weight: bold;
@@ -138,11 +135,32 @@
             color: white !important;
         }
 
+        /* --- Price Alert Styles (Updated) --- */
         .price-alert {
             background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba;
             padding: 15px; margin: 20px auto 0; max-width: 800px; border-radius: 8px;
-            text-align: center; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; width: 90%;
+            text-align: center; font-weight: bold; 
+            display: flex; flex-wrap: wrap; /* بۆ موبایلێ */
+            align-items: center; justify-content: center; gap: 10px; width: 90%;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        /* دەکما نوی یا دیارکرنا تێبینیان */
+        .alert-action-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            transition: 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .alert-action-btn:hover {
+            background-color: #b59226;
+            transform: scale(1.05);
         }
 
         .search-container { max-width: 600px; margin: 30px auto; padding: 0 20px; position: relative; z-index: 10; }
@@ -290,14 +308,15 @@
                 </a>
                 
                 <button class="notes-toggle-btn" onclick="toggleNotes()">
-                    <i class="fas fa-info-circle"></i> 
-                    ملاحظات
+                    <i class="fas fa-info-circle"></i> ملاحظات
                 </button>
 
                 <div class="menu-notes-content" id="notesContent">
                     <p style="margin: 0; text-align: justify;">
                         <strong>أهلاً بكم في دريم فارم (Dream Farm)</strong><br>
-                        نود إعلام زبائننا الكرام بأن أسعار الحجوزات تختلف باختلاف الأيام (أيام الأسبوع، العطل الرسمية، والمناسبات الخاصة). لضمان تثبيت حجزكم، يرجى دفع "العربون" مسبقاً بعد الاتفاق. نرجو من ضيوفنا الأعزاء التعاون معنا في المحافظة على نظافة المكان والأثاث لضمان استمتاع الجميع بأجواء مريحة. نتمنى لكم إقامة سعيدة وأوقاتاً ممتعة!
+                        تنويه هام لزبائننا الكرام:
+
+نود إعلامكم بأن أسعار الحجوزات لدينا ليست ثابتة، بل تختلف باختلاف الأيام (الأيام العادية، العطل الرسمية، والمناسبات الخاصة). ولضمان تثبيت حجزكم بشكل نهائي، يرجى دفع "العربون" مسبقاً، مع العلم بأن طريقة الدفع المعتمدة هي حصراً عن طريق بطاقة (Qi Card). لذا، يرجى الانتباه إلى أنه لن يتم حجز المزرعة لكم ما لم يتم استلام مبلغ العربون، حيث لا يمكننا اعتماد الحجز قبل الدفع. كما نرجو من ضيوفنا الأعزاء التعاون معنا في المحافظة على نظافة المكان والأثاث لضمان توفير أجواء مريحة وممتعة للجميع. نتمنى لكم إقامة سعيدة وأوقاتاً مليئة بالفرح!
                     </p>
                 </div>
 
@@ -311,6 +330,7 @@
     <div class="price-alert">
         <i class="fas fa-info-circle"></i>
         <span>ملاحظة: الأسعار متغيرة وتختلف حسب أيام العطل والمناسبات.</span>
+        <button class="alert-action-btn" onclick="openMenuNotesFromAlert()">التفاصيل</button>
     </div>
 
     <div class="search-container">
@@ -420,7 +440,6 @@
         let touchStartX = 0;
         let touchEndX = 0;
 
-        // --- Toggle Settings Menu ---
         function toggleSettings() {
             const menu = document.getElementById('settingsDropdown');
             if (menu.style.display === 'block') {
@@ -430,7 +449,6 @@
             }
         }
 
-        // --- فانکشنا نوی بۆ ڤەکرن و گرتنا تێبینیان ---
         function toggleNotes() {
             const notes = document.getElementById('notesContent');
             if (notes.style.display === 'block') {
@@ -440,9 +458,27 @@
             }
         }
 
+        // --- فانکشنا نوی: کلیک ل دەکما Alert بکە، مینیو و تێبینی ڤەدبن ---
+        function openMenuNotesFromAlert() {
+            // 1. چوون بۆ سەرێ شاشێ
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // 2. ڤەکرنا مینیویێ
+            const menu = document.getElementById('settingsDropdown');
+            menu.style.display = 'block';
+
+            // 3. ڤەکرنا تێبینیان
+            const notes = document.getElementById('notesContent');
+            notes.style.display = 'block';
+        }
+
         window.onclick = function(event) {
-            // ئەگەر کلیک ل دەرڤەی مینیویێ بوو، دابخە
-            if (!event.target.matches('.settings-btn') && !event.target.matches('.settings-btn i') && !event.target.closest('.settings-dropdown')) {
+            // ئەگەر کلیک ل دەرڤەی مینیویێ بوو، دابخە (جگە ژ دەکما Alert)
+            if (!event.target.matches('.settings-btn') && 
+                !event.target.matches('.settings-btn i') && 
+                !event.target.closest('.settings-dropdown') &&
+                !event.target.classList.contains('alert-action-btn')) { // ئەڤە هاتە زێدەکرن دا دەمێ کلیک ل التفاصيل دکەی ئێکسەر نەهێتە گرتن
+                
                 const dropdowns = document.getElementsByClassName("settings-dropdown");
                 for (let i = 0; i < dropdowns.length; i++) {
                     const openDropdown = dropdowns[i];
@@ -711,4 +747,3 @@
 </body>
 
 </html>
-
