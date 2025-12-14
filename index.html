@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Dream Farm | باشترین مزارع بۆ بەکرێگرتن</title>
-    
     <meta name="description" content="احجز أجمل المزارع والفلل في العراق. مزارع VIP، مسابح، وأماكن عائلية بأسعار مناسبة.">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -27,7 +25,7 @@
         header h1 { font-size: 2.8rem; color: white; margin: 10px 0; font-weight: 800; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .brand-badge { background: rgba(255,255,255,0.15); padding: 8px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.3); color: var(--primary-gold); font-size: 0.9rem; font-weight: 700; backdrop-filter: blur(5px); }
         
-        /* Settings Button (Top Right) */
+        /* Settings Button */
         .settings-btn { position: absolute; top: 25px; right: 25px; background: rgba(255, 255, 255, 0.15); color: white; width: 45px; height: 45px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 100; transition: 0.3s; border: 1px solid rgba(255,255,255,0.2); }
         .settings-btn:hover { background: rgba(255, 255, 255, 0.3); transform: rotate(90deg); }
 
@@ -45,8 +43,44 @@
         .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
         .farm-card { background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.08); position: relative; display: flex; flex-direction: column; transition: transform 0.3s ease; border: 1px solid rgba(0,0,0,0.03); }
         .farm-card:hover { transform: translateY(-5px); }
+        
         .swiper { width: 100%; height: 260px; background: #eee; }
         .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
+        
+        /* --- CUSTOM LIGHTBOX STYLES --- */
+        .lightbox-overlay { 
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; 
+            display: none; justify-content: center; align-items: center; 
+            flex-direction: column; opacity: 0; transition: opacity 0.3s ease; 
+        }
+        .lightbox-active { display: flex; opacity: 1; pointer-events: all; }
+
+        .lightbox-img-container { position: relative; max-width: 90%; max-height: 80vh; }
+        .lightbox-img { 
+            max-width: 100%; max-height: 80vh; border-radius: 8px; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.5); object-fit: contain; 
+        }
+
+        .lb-close { 
+            position: absolute; top: 20px; right: 20px; color: white; 
+            font-size: 2.5rem; cursor: pointer; z-index: 10001; transition: 0.2s; 
+        }
+        .lb-close:hover { color: var(--primary-gold); transform: scale(1.1); }
+
+        .lb-nav { 
+            position: absolute; top: 50%; transform: translateY(-50%); 
+            color: white; font-size: 2rem; cursor: pointer; padding: 20px; 
+            background: rgba(255,255,255,0.1); border-radius: 50%; 
+            transition: 0.3s; user-select: none; z-index: 10002;
+        }
+        .lb-nav:hover { background: rgba(255,255,255,0.2); color: var(--primary-gold); }
+        .lb-prev { right: 20px; } /* بەهۆی RTL ئاراستەکان پێچەوانەن */
+        .lb-next { left: 20px; }
+
+        .lb-counter { 
+            color: #ccc; margin-top: 15px; font-family: sans-serif; font-size: 0.9rem; 
+        }
+
         .card-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
         .card-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .card-title-row h3 { font-size: 1.2rem; color: var(--primary-dark); }
@@ -74,17 +108,13 @@
         .welcome-list li { margin-bottom: 12px; font-size: 0.95rem; color: #444; display: flex; gap: 10px; align-items: center; }
         .welcome-btn { background: linear-gradient(135deg, var(--primary-dark), #15382b); color: white; width: 100%; padding: 16px; border: none; border-radius: 14px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 25px rgba(15, 46, 32, 0.2); }
 
-        /* --- Settings Specific Styles --- */
+        /* Settings Styles */
         .settings-section-title { font-size: 1rem; color: var(--primary-dark); font-weight: 800; margin-bottom: 12px; text-align: right; border-bottom: 2px solid #eee; padding-bottom: 8px; }
-        
-        /* 1. Add Farm Section */
         .add-farm-box { background: #f0fdf4; border: 1px dashed #25D366; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 25px; }
         .add-farm-box h4 { color: #1a1a1a; margin-bottom: 5px; font-size: 1.1rem; }
         .add-farm-box p { color: #666; font-size: 0.85rem; margin-bottom: 15px; }
         .admin-wa-btn { background: #25D366; color: white; text-decoration: none; padding: 12px 20px; border-radius: 50px; display: inline-flex; align-items: center; gap: 8px; font-weight: bold; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); transition: 0.3s; }
         .admin-wa-btn:hover { transform: scale(1.05); }
-
-        /* 2. Terms Section */
         .settings-list { list-style: none; padding: 0; }
         .settings-list li { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; font-size: 0.9rem; color: #555; text-align: right; line-height: 1.5; }
         .settings-list li i { color: var(--primary-gold); margin-top: 4px; }
@@ -105,6 +135,18 @@
 <body>
 
     <div id="loader"><i class="fas fa-gem loader-icon"></i></div>
+
+    <div id="lightbox" class="lightbox-overlay">
+        <span class="lb-close" onclick="closeLightbox()">&times;</span>
+        
+        <div class="lb-nav lb-prev" onclick="changeImage(-1)"><i class="fas fa-chevron-right"></i></div>
+        <div class="lb-nav lb-next" onclick="changeImage(1)"><i class="fas fa-chevron-left"></i></div>
+        
+        <div class="lightbox-img-container">
+            <img id="lb-image" class="lightbox-img" src="" alt="Full View">
+        </div>
+        <div class="lb-counter" id="lb-counter"></div>
+    </div>
 
     <div id="welcome-modal">
         <div class="welcome-box">
@@ -263,7 +305,6 @@
                 loader.style.opacity = '0';
                 setTimeout(() => {
                     loader.style.display = 'none';
-                    // Show Welcome Modal
                     document.getElementById('welcome-modal').classList.add('active');
                 }, 500);
                 
@@ -271,7 +312,6 @@
             }, 800);
         });
 
-        // --- Deep Linking ---
         function checkURLParams() {
             const params = new URLSearchParams(window.location.search);
             const farmId = params.get('id');
@@ -287,7 +327,6 @@
             }
         }
 
-        // --- Filter Logic ---
         window.filterFarms = (category, btnElement) => {
             document.getElementById('searchInput').value = '';
             currentSearch = '';
@@ -315,7 +354,6 @@
             renderFarms(filtered);
         }
 
-        // --- Render Logic ---
         function renderFarms(list) {
             if(swiperInstances.length > 0) {
                 swiperInstances.forEach(s => s.destroy(true, true));
@@ -333,7 +371,12 @@
                 let badgeText = farm.allowedType === 'family' ? 'عائلات' : (farm.allowedType === 'youth' ? 'شباب' : 'مختلط');
                 let badge = `<span style="background:${badgeClass};color:white;padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:bold">${badgeText}</span>`;
                 
-                const slides = farm.images.map(img => `<div class="swiper-slide"><img src="${img}" loading="lazy"></div>`).join('');
+                // *** UPDATED CODE FOR CUSTOM LIGHTBOX ***
+                const slides = farm.images.map((img, index) => 
+                    `<div class="swiper-slide" onclick="openLightbox(${farm.id}, ${index})" style="cursor: zoom-in;">
+                        <img src="${img}" loading="lazy">
+                    </div>`
+                ).join('');
 
                 container.innerHTML += `
                 <div class="farm-card" id="farm-${farm.id}">
@@ -362,10 +405,60 @@
             });
         }
 
-        // --- Helper & Modal Functions ---
+        // --- CUSTOM LIGHTBOX LOGIC ---
+        let currentLbImages = [];
+        let currentLbIndex = 0;
+        const lbOverlay = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lb-image');
+        const lbCounter = document.getElementById('lb-counter');
+
+        window.openLightbox = (farmId, index) => {
+            const farm = farmsData.find(f => f.id === farmId);
+            if (!farm) return;
+
+            currentLbImages = farm.images;
+            currentLbIndex = index;
+            
+            updateLightboxImage();
+            lbOverlay.classList.add('lightbox-active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        window.closeLightbox = () => {
+            lbOverlay.classList.remove('lightbox-active');
+            document.body.style.overflow = 'auto';
+        }
+
+        window.changeImage = (direction) => {
+            currentLbIndex += direction;
+            if (currentLbIndex >= currentLbImages.length) currentLbIndex = 0;
+            if (currentLbIndex < 0) currentLbIndex = currentLbImages.length - 1;
+            updateLightboxImage();
+        }
+
+        function updateLightboxImage() {
+            lbImg.style.opacity = '0.5';
+            setTimeout(() => {
+                lbImg.src = currentLbImages[currentLbIndex];
+                lbImg.style.opacity = '1';
+            }, 150);
+            lbCounter.innerText = `${currentLbIndex + 1} / ${currentLbImages.length}`;
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (!lbOverlay.classList.contains('lightbox-active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') changeImage(1);  
+            if (e.key === 'ArrowRight') changeImage(-1);
+        });
+
+        lbOverlay.addEventListener('click', (e) => {
+            if (e.target === lbOverlay) closeLightbox();
+        });
+
+        // --- END LIGHTBOX LOGIC ---
+
         window.acceptTerms = () => { document.getElementById('welcome-modal').classList.remove('active'); }
-        
-        // Settings Modal Logic
         window.openSettingsModal = () => { document.getElementById('settings-modal').classList.add('modal-active'); }
         window.closeSettingsModal = () => { document.getElementById('settings-modal').classList.remove('modal-active'); }
 
@@ -426,21 +519,15 @@
             e.preventDefault();
             const farmId = parseInt(document.getElementById('farm-id-modal').value);
             const securedFarm = farmsData.find(f => f.id === farmId); 
-            
             if (!securedFarm) { alert("خطأ في البيانات"); return; }
-
             const n = document.getElementById('name').value;
             const d = dateInput.value;
             const g = document.getElementById('guests').value;
             const t = document.getElementById('type').value;
-
             const dObj = new Date(d + 'T00:00:00');
             const day = dObj.getDay();
             let finalPrice = securedFarm.pricing.default;
-            if(securedFarm.pricing.special && securedFarm.pricing.special[day]) {
-                finalPrice = securedFarm.pricing.special[day];
-            }
-
+            if(securedFarm.pricing.special && securedFarm.pricing.special[day]) finalPrice = securedFarm.pricing.special[day];
             const msg = `*👋 طلب حجز جديد (من الموقع)*\n\n🏡 *المزرعة:* ${securedFarm.name}\n📅 *التاريخ:* ${d}\n💰 *السعر:* ${finalPrice} د.ع\n👤 *الاسم:* ${n}\n🔢 *العدد:* ${g}\n📋 *النوع:* ${t}\n\nيرجى مراجعة الطلب!`;
             window.open(`https://wa.me/9647502679528?text=${encodeURIComponent(msg)}`, '_blank');
             closeModal();
