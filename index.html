@@ -155,7 +155,6 @@
 
         .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; max-width: 1200px; margin: 40px auto; padding: 0 20px; flex: 1; width: 100%; }
         
-        /* ********** گۆڕانکاری لێرەدا دەبێت ********** */
         .farm-card { 
             background: var(--bg-card); 
             border-radius: var(--radius-lg); 
@@ -166,22 +165,18 @@
             flex-direction: column; 
             transition: transform 0.3s ease; 
             border: 1px solid var(--border-color); 
-            /* ********** ئەم بەشە لادەبەین ********** animation: fadeInUp 0.5s ease forwards;
-            */
-            opacity: 0; /* دەبێت بە ٠ دابنرێت بۆ ئەوەی JavaScript دواتر بیگۆڕێت بۆ ١ */
+            opacity: 0; 
         }
         
-        /* ئەم ئەنیمەیشنە بەکار ناهێنرێت ئیتر، تەنها بۆ ئاشناییە */
         @keyframes fadeInUp { 
             from { opacity: 0; transform: translateY(20px); } 
             to { opacity: 1; transform: translateY(0); } 
         }
 
         .farm-card.is-visible {
-            opacity: 1; /* دەبێت بە یەک دابنرێت بۆ ئەوەی دەربکەوێت */
-            animation: fadeInUp 0.5s ease forwards; /* ئەنیمەیشن تەنها بۆ کارتی یەکەم یان ئەوانەی دواتر دیاریدەکرێن */
+            opacity: 1;
+            animation: fadeInUp 0.5s ease forwards;
         }
-        /* *************************************** */
         
         .farm-card:hover { transform: translateY(-5px); }
         .swiper { width: 100%; height: 260px; background: #eee; }
@@ -240,11 +235,30 @@
         .footer-links a:hover { color: white; }
         .copyright { font-size: 0.8rem; opacity: 0.4; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; }
 
+        /* ستایل بۆ ڕێکەوتە هەڵبژێردراوەکان */
         .flatpickr-day.selected, .flatpickr-day.startRange { background: var(--primary-gold) !important; border-color: var(--primary-gold) !important; }
+        
         .flatpickr-calendar { direction: rtl; font-family: var(--font-main) !important; border-radius: 16px !important; }
         [data-theme="dark"] .flatpickr-calendar { background: #1e1e1e; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #333; }
         [data-theme="dark"] .flatpickr-day { color: #ccc; }
         [data-theme="dark"] .flatpickr-months .flatpickr-month { color: #fff; fill: #fff; }
+
+        /* ********** ستایل بۆ ڕێکەوتی حەوزکراو (سوور) ********** */
+        .flatpickr-day.flatpickr-disabled {
+            color: white !important;
+            background: #e53935 !important; /* سوور */
+            border-color: #d32f2f !important;
+            font-weight: 700;
+            opacity: 1;
+            cursor: not-allowed;
+        }
+
+        [data-theme="dark"] .flatpickr-day.flatpickr-disabled {
+            background: #c62828 !important; /* سوورێکی تۆختر بۆ دۆخی تاریک */
+            border-color: #b71c1c !important;
+            color: white !important;
+        }
+        /* ************************************************* */
 
         @media (max-width: 600px) { header { min-height: 320px; padding-bottom: 60px; } header h1 { font-size: 2.2rem; } .swiper { height: 220px; } .search-container { margin-top: -50px; } }
     </style>
@@ -480,7 +494,9 @@
                 isVerified: true, 
                 images: ["https://images.unsplash.com/photo-1542718610-a1d656d1884c?w=600&q=80"], 
                 features: ["تصميم خشبي", "خصوصية تامة", "نهر قريب"], 
-                bookedDates: [], 
+                // ********** گۆڕانکاری لێرەدا دەکرێت: زیادکردنی ڕێکەوتی حەوزکراو بۆ مەزرەعەی 3 **********
+                bookedDates: ["2025-12-19", "2025-12-24", "2026-01-05"], 
+                // ***********************************************************************************
                 allowedType: "youth", 
                 rawPrice: 50000,
                 pricing: { default: "50,000", special: { 4: "65,000", 5: "80,000", 6: "60,000" } } 
@@ -595,7 +611,6 @@
                             </div>`;
                 }).join('');
 
-                // ********** گۆڕانکاری لێرەدا دەبێت: هەموو کارتەکان is-visible وەردەگرن **********
                 container.innerHTML += `
                 <div class="farm-card is-visible" id="farm-${farm.id}">
                     <div class="img-actions">
@@ -623,7 +638,6 @@
                         </div>
                     </div>
                 </div>`;
-                // ***************************************
             });
 
             list.forEach(farm => {
@@ -790,7 +804,10 @@
 
             if(currentFarm.bookedDates.includes(dStr)) { 
                 priceArea.innerHTML = `<div style="color:#d32f2f;">عذراً، محجوز</div>`; 
-                priceArea.style.display='block'; return; 
+                priceArea.style.display='block';
+                submitBtn.disabled = true; 
+                submitBtn.style.opacity = '0.6';
+                return; 
             }
 
             let price = currentFarm.pricing.default; 
