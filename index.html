@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dream Farm | باشترین مزارع بۆ بەکرێگرتن</title>
     
+    <link rel="icon" href="https://img.icons8.com/emoji/48/crown-emoji.png" type="image/png">
+
     <meta name="description" content="احجز أجمل المزارع والفلل في العراق. مزارع VIP، مسابح، وأماكن عائلية بأسعار مناسبة.">
     <meta property="og:title" content="Dream Farm | باشترین مزارع بۆ بەکرێگرتن">
     <meta property="og:description" content="احجز أجمل المزارع والفلل في العراق. مزارع VIP، مسابح، وأماكن عائلية بأسعار مناسبة.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800"> <meta property="og:url" content="https://yourwebsite.com">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800">
+    <meta property="og:url" content="https://yourwebsite.com">
     <meta property="og:type" content="website">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,7 +21,7 @@
     <style>
         :root { --primary-gold: #D4AF37; --primary-dark: #0f2e20; --text-dark: #1a1a1a; --bg-body: #f4f7f6; --radius-lg: 24px; --font-main: 'Tajawal', sans-serif; }
         * { box-sizing: border-box; outline: none; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body { font-family: var(--font-main); background-color: var(--bg-body); color: var(--text-dark); overflow-x: hidden; padding-bottom: 80px; }
+        body { font-family: var(--font-main); background-color: var(--bg-body); color: var(--text-dark); overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }
         
         /* Loader */
         #loader { position: fixed; inset: 0; background: var(--primary-dark); z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: opacity 0.5s ease; pointer-events: none; }
@@ -29,8 +32,6 @@
         header { background: linear-gradient(135deg, var(--primary-dark), #1a3c30); height: 380px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; padding: 20px 20px 80px 20px; position: relative; }
         header h1 { font-size: 2.8rem; color: white; margin: 10px 0; font-weight: 800; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .brand-badge { background: rgba(255,255,255,0.15); padding: 8px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.3); color: var(--primary-gold); font-size: 0.9rem; font-weight: 700; backdrop-filter: blur(5px); }
-        
-        /* Settings Button */
         .settings-btn { position: absolute; top: 25px; right: 25px; background: rgba(255, 255, 255, 0.15); color: white; width: 45px; height: 45px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 100; transition: 0.3s; border: 1px solid rgba(255,255,255,0.2); }
         .settings-btn:hover { background: rgba(255, 255, 255, 0.3); transform: rotate(90deg); }
 
@@ -39,75 +40,21 @@
         .search-box { background: white; width: 100%; max-width: 700px; padding: 8px 15px; border-radius: 50px; display: flex; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.05); }
         .search-box i { padding: 0 15px; color: var(--primary-gold); font-size: 1.2rem; }
         .search-box input { width: 100%; border: none; font-size: 1rem; padding: 12px 0; font-family: inherit; color: #333; }
-        
         .filter-scroll { width: 100%; max-width: 800px; overflow-x: auto; padding-bottom: 10px; display: flex; gap: 10px; justify-content: flex-start; scrollbar-width: none; -webkit-overflow-scrolling: touch; cursor: grab; }
         .filter-btn { white-space: nowrap; padding: 10px 20px; border-radius: 30px; border: 1px solid white; background: rgba(255,255,255,0.9); color: var(--primary-dark); font-family: inherit; font-weight: 600; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
         .filter-btn.active { background: var(--primary-gold); color: white; border-color: var(--primary-gold); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); }
 
         /* Cards */
-        .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; max-width: 1200px; margin: 40px auto; padding: 0 20px; flex: 1; width: 100%; }
         .farm-card { background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.08); position: relative; display: flex; flex-direction: column; transition: transform 0.3s ease; border: 1px solid rgba(0,0,0,0.03); }
         .farm-card:hover { transform: translateY(-5px); }
-        
         .swiper { width: 100%; height: 260px; background: #eee; }
         .swiper-slide { position: relative; }
         .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* 2. Lightbox Expand Button (چارەسەریا خالا دووێ - دوگما مەزنکرنێ) */
-        .expand-btn {
-            position: absolute;
-            bottom: 15px;
-            right: 15px; /* ل لایێ ڕاستێ */
-            width: 38px;
-            height: 38px;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(4px);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.3);
-            z-index: 20;
-            transition: 0.2s;
-        }
+        
+        .expand-btn { position: absolute; bottom: 15px; right: 15px; width: 38px; height: 38px; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.3); z-index: 20; transition: 0.2s; }
         .expand-btn:hover { background: var(--primary-gold); transform: scale(1.1); }
         
-        /* Lightbox */
-        .lightbox-overlay { 
-            position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; 
-            display: none; justify-content: center; align-items: center; 
-            flex-direction: column; opacity: 0; transition: opacity 0.3s ease; 
-        }
-        .lightbox-active { display: flex; opacity: 1; pointer-events: all; }
-
-        .lightbox-img-container { position: relative; max-width: 90%; max-height: 80vh; }
-        .lightbox-img { 
-            max-width: 100%; max-height: 80vh; border-radius: 8px; 
-            box-shadow: 0 0 20px rgba(0,0,0,0.5); object-fit: contain; 
-        }
-
-        .lb-close { 
-            position: absolute; top: 20px; right: 20px; color: white; 
-            font-size: 2.5rem; cursor: pointer; z-index: 10001; transition: 0.2s; 
-        }
-        .lb-close:hover { color: var(--primary-gold); transform: scale(1.1); }
-
-        .lb-nav { 
-            position: absolute; top: 50%; transform: translateY(-50%); 
-            color: white; font-size: 2rem; cursor: pointer; padding: 20px; 
-            background: rgba(255,255,255,0.1); border-radius: 50%; 
-            transition: 0.3s; user-select: none; z-index: 10002;
-        }
-        .lb-nav:hover { background: rgba(255,255,255,0.2); color: var(--primary-gold); }
-        .lb-prev { right: 20px; }
-        .lb-next { left: 20px; }
-
-        .lb-counter { 
-            color: #ccc; margin-top: 15px; font-family: sans-serif; font-size: 0.9rem; 
-        }
-
         .card-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
         .card-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .card-title-row h3 { font-size: 1.2rem; color: var(--primary-dark); }
@@ -119,14 +66,32 @@
         .book-btn { background: var(--primary-dark); color: white; border: none; padding: 12px 28px; border-radius: 14px; cursor: pointer; font-weight: 700; transition: 0.3s; box-shadow: 0 4px 15px rgba(15, 46, 32, 0.2); }
         .book-btn:active { transform: scale(0.95); }
 
-        /* Modals */
+        /* 3. Empty State Design (دیزاینا هیچ ئەنجام نەبوون) */
+        .empty-state { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; text-align: center; color: #888; animation: fadeIn 0.5s; }
+        .empty-state i { font-size: 4rem; color: #e0e0e0; margin-bottom: 20px; }
+        .empty-state h3 { color: var(--primary-dark); margin-bottom: 10px; font-size: 1.5rem; }
+        .empty-state p { margin-bottom: 20px; font-size: 0.95rem; }
+        .reset-filter-btn { background: var(--primary-gold); color: white; border: none; padding: 10px 25px; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3); transition: 0.3s; }
+        .reset-filter-btn:hover { background: #bfa140; transform: translateY(-2px); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Lightbox & Modals (Same as before) */
+        .lightbox-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; display: none; justify-content: center; align-items: center; flex-direction: column; opacity: 0; transition: opacity 0.3s ease; }
+        .lightbox-active { display: flex; opacity: 1; pointer-events: all; }
+        .lightbox-img-container { position: relative; max-width: 90%; max-height: 80vh; }
+        .lightbox-img { max-width: 100%; max-height: 80vh; border-radius: 8px; box-shadow: 0 0 20px rgba(0,0,0,0.5); object-fit: contain; }
+        .lb-close { position: absolute; top: 20px; right: 20px; color: white; font-size: 2.5rem; cursor: pointer; z-index: 10001; transition: 0.2s; }
+        .lb-close:hover { color: var(--primary-gold); transform: scale(1.1); }
+        .lb-nav { position: absolute; top: 50%; transform: translateY(-50%); color: white; font-size: 2rem; cursor: pointer; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 50%; transition: 0.3s; user-select: none; z-index: 10002; }
+        .lb-nav:hover { background: rgba(255,255,255,0.2); color: var(--primary-gold); }
+        .lb-prev { right: 20px; } .lb-next { left: 20px; }
+        .lb-counter { color: #ccc; margin-top: 15px; font-family: sans-serif; font-size: 0.9rem; }
+
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15, 46, 32, 0.7); backdrop-filter: blur(8px); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
         .modal-box { background: white; width: 100%; max-width: 450px; border-radius: 24px; padding: 30px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.3); animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from{opacity:0; transform: translateY(20px);} to{opacity:1; transform: translateY(0);} }
         .modal-active { display: flex; }
         .close-modal { position: absolute; left: 20px; top: 20px; font-size: 1.2rem; background: #f0f0f0; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #555; cursor: pointer; transition: 0.2s; }
         
-        /* Welcome Modal */
         #welcome-modal { position: fixed; inset: 0; background: rgba(15, 46, 32, 0.95); z-index: 9500; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.5s; padding: 20px; }
         #welcome-modal.active { opacity: 1; pointer-events: all; }
         .welcome-box { background: white; width: 100%; max-width: 480px; padding: 35px 25px; border-radius: 24px; text-align: center; border: 2px solid var(--primary-gold); transform: scale(0.9); transition: 0.4s; box-shadow: 0 0 50px rgba(212, 175, 55, 0.2); }
@@ -135,7 +100,6 @@
         .welcome-list li { margin-bottom: 12px; font-size: 0.95rem; color: #444; display: flex; gap: 10px; align-items: center; }
         .welcome-btn { background: linear-gradient(135deg, var(--primary-dark), #15382b); color: white; width: 100%; padding: 16px; border: none; border-radius: 14px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 25px rgba(15, 46, 32, 0.2); }
 
-        /* Settings Styles */
         .settings-section-title { font-size: 1rem; color: var(--primary-dark); font-weight: 800; margin-bottom: 12px; text-align: right; border-bottom: 2px solid #eee; padding-bottom: 8px; }
         .add-farm-box { background: #f0fdf4; border: 1px dashed #25D366; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 25px; }
         .add-farm-box h4 { color: #1a1a1a; margin-bottom: 5px; font-size: 1.1rem; }
@@ -156,13 +120,38 @@
         .social-bubble { width: 45px; height: 45px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; box-shadow: 0 5px 20px rgba(0,0,0,0.25); text-decoration: none; transition: 0.3s; }
         .wa { background: #25D366; } .tk { background: #000; } .fb { background: #1877F2; } .in { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
 
-        /* 3. Mobile UX Fixes (چارەسەریا خالا سێیێ) */
+        /* 2. Back to Top Button (دوگما چوونا سەر) */
+        #scrollTopBtn {
+            position: fixed; bottom: 85px; left: 25px; /* Above social dock */
+            width: 45px; height: 45px; background: var(--primary-dark); color: var(--primary-gold);
+            border: 2px solid var(--primary-gold); border-radius: 50%;
+            display: none; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 89; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        #scrollTopBtn:hover { transform: translateY(-5px); background: var(--primary-gold); color: var(--primary-dark); }
+
+        /* 4. Footer (پێ) */
+        footer {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 40px 20px 20px;
+            text-align: center;
+            margin-top: 50px;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+        }
+        .footer-logo { font-size: 1.5rem; font-weight: 800; color: var(--primary-gold); margin-bottom: 10px; display: block; }
+        .footer-links { margin: 20px 0; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .footer-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+        .footer-links a:hover { color: var(--primary-gold); }
+        .copyright { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
+
         @media (max-width: 600px) { 
-            header { height: 320px; padding-bottom: 60px; } /* کێمکرنا بلندیا هێدەری */
+            header { height: 320px; padding-bottom: 60px; } 
             header h1 { font-size: 2.2rem; } 
             .swiper { height: 220px; } 
-            .search-container { margin-top: -50px; } /* ڕێکخستنا جهێ گەڕیانێ */
-            /* مەزنکرنا دوگما داخستنێ بۆ مۆبایلێ */
+            .search-container { margin-top: -50px; } 
             .close-modal { width: 45px; height: 45px; font-size: 1.4rem; }
         }
     </style>
@@ -173,13 +162,9 @@
 
     <div id="lightbox" class="lightbox-overlay">
         <span class="lb-close" onclick="closeLightbox()">&times;</span>
-        
         <div class="lb-nav lb-prev" onclick="changeImage(-1)"><i class="fas fa-chevron-right"></i></div>
         <div class="lb-nav lb-next" onclick="changeImage(1)"><i class="fas fa-chevron-left"></i></div>
-        
-        <div class="lightbox-img-container">
-            <img id="lb-image" class="lightbox-img" src="" alt="Full View">
-        </div>
+        <div class="lightbox-img-container"><img id="lb-image" class="lightbox-img" src="" alt="Full View"></div>
         <div class="lb-counter" id="lb-counter"></div>
     </div>
 
@@ -199,11 +184,7 @@
 
     <header>
         <span class="brand-badge">Premium Rentals</span>
-        
-        <div class="settings-btn" onclick="openSettingsModal()">
-            <i class="fas fa-cog"></i>
-        </div>
-
+        <div class="settings-btn" onclick="openSettingsModal()"><i class="fas fa-cog"></i></div>
         <h1>Dream Farm</h1>
         <p style="color:rgba(255,255,255,0.8);">تجربة استثنائية لأجمل المزارع السياحية</p>
     </header>
@@ -213,7 +194,6 @@
             <i class="fas fa-search"></i>
             <input type="text" id="searchInput" placeholder="ابحث عن اسم المزرعة أو المنطقة...">
         </div>
-        
         <div class="filter-scroll">
             <button class="filter-btn active" onclick="filterFarms('all', this)"><i class="fas fa-th"></i> الكل</button>
             <button class="filter-btn" onclick="filterFarms('family', this)"><i class="fas fa-users"></i> عائلات</button>
@@ -225,17 +205,31 @@
 
     <div class="container" id="farm-list-container"></div>
 
+    <button id="scrollTopBtn" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></button>
+
     <div class="social-dock">
         <a href="#" class="social-bubble fb"><i class="fab fa-facebook-f"></i></a>
         <a href="#" class="social-bubble in"><i class="fab fa-instagram"></i></a>
         <a href="https://www.tiktok.com/@dream.farm68" class="social-bubble tk"><i class="fab fa-tiktok"></i></a>
     </div>
 
+    <footer>
+        <span class="footer-logo">Dream Farm</span>
+        <p>استمتع بأفضل الأوقات مع العائلة والأصدقاء في أرقى المزارع.</p>
+        <div class="footer-links">
+            <a href="#" onclick="openSettingsModal()">الشروط</a>
+            <a href="https://wa.me/9647502679528">اتصل بنا</a>
+            <a href="#">حول الموقع</a>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Dream Farm. All Rights Reserved. <br> Made with <i class="fas fa-heart" style="color:var(--primary-gold)"></i> in Kurdistan.
+        </div>
+    </footer>
+
     <div id="settings-modal" class="modal-overlay">
         <div class="modal-box">
             <span class="close-modal" onclick="closeSettingsModal()">&times;</span>
             <h3 style="text-align:center; color:var(--primary-dark); margin-bottom:25px;">الإعدادات والمساعدة</h3>
-            
             <div class="add-farm-box">
                 <i class="fas fa-home" style="font-size:1.8rem; color:#25D366; margin-bottom:10px;"></i>
                 <h4>هل تملك مزرعة؟</h4>
@@ -244,9 +238,7 @@
                     <i class="fab fa-whatsapp"></i> تواصل مع الإدارة
                 </a>
             </div>
-
             <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
-
             <div class="settings-section-title">📜 الشروط والتعليمات</div>
             <ul class="settings-list">
                 <li><i class="fas fa-money-bill-wave"></i> <div>الحجز لا يعتبر مؤكداً إلا بعد دفع العربون.</div></li>
@@ -277,7 +269,7 @@
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
                     <div class="form-group">
                         <label>العدد التقريبي</label>
-                        <input type="number" id="guests" placeholder="مثال: 10" required min="1">
+                        <input type="number" id="guests" placeholder="مثال: 10" required min="1" oninput="this.value = !!this.value && Math.abs(this.value) >= 1 ? Math.abs(this.value) : null">
                     </div>
                     <div class="form-group">
                         <label>نوع الكروب</label>
@@ -342,10 +334,22 @@
                     loader.style.display = 'none';
                     document.getElementById('welcome-modal').classList.add('active');
                 }, 500);
-                
                 checkURLParams(); 
             }, 800);
         });
+
+        // Scroll to Top Logic
+        const scrollTopBtn = document.getElementById("scrollTopBtn");
+        window.onscroll = function() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                scrollTopBtn.style.display = "flex";
+            } else {
+                scrollTopBtn.style.display = "none";
+            }
+        };
+        window.scrollToTop = function() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
 
         function checkURLParams() {
             const params = new URLSearchParams(window.location.search);
@@ -370,6 +374,15 @@
             currentCategory = category;
             applyFilters();
         };
+
+        window.resetFilters = () => {
+            document.getElementById('searchInput').value = '';
+            currentSearch = '';
+            currentCategory = 'all';
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.filter-btn').classList.add('active'); // Set first one active
+            applyFilters();
+        }
 
         document.getElementById('searchInput').addEventListener('keyup', (e) => {
             currentSearch = e.target.value.toLowerCase();
@@ -396,8 +409,16 @@
             }
             container.innerHTML = "";
             
+            // 3. Empty State Logic
             if (list.length === 0) { 
-                container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:60px 20px; color:#888;"><h3>لا توجد نتائج مطابقة</h3></div>`; 
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h3>عذراً، لا توجد نتائج!</h3>
+                        <p>لم نجد أي مزرعة تطابق بحثك الحالي.</p>
+                        <button class="reset-filter-btn" onclick="resetFilters()">عرض جميع المزارع</button>
+                    </div>
+                `; 
                 return; 
             }
 
@@ -406,7 +427,6 @@
                 let badgeText = farm.allowedType === 'family' ? 'عائلات' : (farm.allowedType === 'youth' ? 'شباب' : 'مختلط');
                 let badge = `<span style="background:${badgeClass};color:white;padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:bold">${badgeText}</span>`;
                 
-                // *** Updated Slides with Expand Button (زێدەکرنا دوگما مەزنکرنێ بۆ هەر وێنەکی) ***
                 const slides = farm.images.map((img, index) => 
                     `<div class="swiper-slide">
                         <img src="${img}" loading="lazy">
@@ -443,7 +463,7 @@
             });
         }
 
-        // --- CUSTOM LIGHTBOX LOGIC ---
+        // Lightbox Logic
         let currentLbImages = [];
         let currentLbIndex = 0;
         const lbOverlay = document.getElementById('lightbox');
@@ -453,27 +473,22 @@
         window.openLightbox = (farmId, index) => {
             const farm = farmsData.find(f => f.id === farmId);
             if (!farm) return;
-
             currentLbImages = farm.images;
             currentLbIndex = index;
-            
             updateLightboxImage();
             lbOverlay.classList.add('lightbox-active');
             document.body.style.overflow = 'hidden';
         }
-
         window.closeLightbox = () => {
             lbOverlay.classList.remove('lightbox-active');
             document.body.style.overflow = 'auto';
         }
-
         window.changeImage = (direction) => {
             currentLbIndex += direction;
             if (currentLbIndex >= currentLbImages.length) currentLbIndex = 0;
             if (currentLbIndex < 0) currentLbIndex = currentLbImages.length - 1;
             updateLightboxImage();
         }
-
         function updateLightboxImage() {
             lbImg.style.opacity = '0.5';
             setTimeout(() => {
@@ -482,19 +497,15 @@
             }, 150);
             lbCounter.innerText = `${currentLbIndex + 1} / ${currentLbImages.length}`;
         }
-
         document.addEventListener('keydown', (e) => {
             if (!lbOverlay.classList.contains('lightbox-active')) return;
             if (e.key === 'Escape') closeLightbox();
             if (e.key === 'ArrowLeft') changeImage(1);  
             if (e.key === 'ArrowRight') changeImage(-1);
         });
-
         lbOverlay.addEventListener('click', (e) => {
             if (e.target === lbOverlay) closeLightbox();
         });
-
-        // --- END LIGHTBOX LOGIC ---
 
         window.acceptTerms = () => { document.getElementById('welcome-modal').classList.remove('active'); }
         window.openSettingsModal = () => { document.getElementById('settings-modal').classList.add('modal-active'); }
@@ -553,6 +564,7 @@
             submitBtn.disabled = false; submitBtn.style.opacity = '1';
         }
 
+        // 5. WhatsApp Format Improvement (فۆرماتا ناما واتسئەپی)
         document.getElementById('booking-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const farmId = parseInt(document.getElementById('farm-id-modal').value);
@@ -562,11 +574,29 @@
             const d = dateInput.value;
             const g = document.getElementById('guests').value;
             const t = document.getElementById('type').value;
+            
             const dObj = new Date(d + 'T00:00:00');
             const day = dObj.getDay();
             let finalPrice = securedFarm.pricing.default;
             if(securedFarm.pricing.special && securedFarm.pricing.special[day]) finalPrice = securedFarm.pricing.special[day];
-            const msg = `*👋 طلب حجز جديد (من الموقع)*\n\n🏡 *المزرعة:* ${securedFarm.name}\n📅 *التاريخ:* ${d}\n💰 *السعر:* ${finalPrice} د.ع\n👤 *الاسم:* ${n}\n🔢 *العدد:* ${g}\n📋 *النوع:* ${t}\n\nيرجى مراجعة الطلب!`;
+            
+            // The New Format
+            const msg = `
+*🔔 طلب حجز جديد (New Booking)*
+-----------------------------
+🏡 *المزرعة:* ${securedFarm.name}
+📍 *الموقع:* ${securedFarm.location}
+
+📅 *التاريخ:* ${d}
+💰 *السعر المتوقع:* ${finalPrice} د.ع
+
+👤 *الاسم:* ${n}
+👥 *العدد:* ${g} ضيوف
+📋 *النوع:* ${t}
+-----------------------------
+يرجى تأكيد الحجز وإرسال تفاصيل الدفع.
+            `.trim();
+
             window.open(`https://wa.me/9647502679528?text=${encodeURIComponent(msg)}`, '_blank');
             closeModal();
         });
