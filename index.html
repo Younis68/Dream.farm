@@ -44,7 +44,7 @@
         }
 
         * { box-sizing: border-box; outline: none; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body { font-family: var(--font-main); background-color: var(--bg-body); color: var(--text-main); overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; transition: background-color 0.3s, color 0.3s; }
+        body { font-family: var(--font-main); background-color: var(--bg-body); color: var(--text-main); overflow-x: hidden; display: flex; flex-direction: column; min-height: 10vh; transition: background-color 0.3s, color 0.3s; }
         
         /* Urgency Animation */
         @keyframes pulse-red {
@@ -63,7 +63,7 @@
             background: rgba(60, 20, 20, 0.8); color: #ff8a80; border-color: rgba(255, 138, 128, 0.2);
         }
 
-        /* --- NEW STYLES: Story Mode Overlay --- */
+        /* --- NEW STYLES: Story Mode Overlay (Kept but disabled in JS) --- */
         .story-overlay {
             position: fixed; inset: 0; z-index: 12000; background: #000; 
             display: none; justify-content: center; align-items: center;
@@ -154,8 +154,35 @@
         .filter-btn.active { background: var(--primary-gold) !important; color: white !important; border-color: var(--primary-gold) !important; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); }
 
         .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; max-width: 1200px; margin: 40px auto; padding: 0 20px; flex: 1; width: 100%; }
-        .farm-card { background: var(--bg-card); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 15px 40px var(--shadow-color); position: relative; display: flex; flex-direction: column; transition: transform 0.3s ease; border: 1px solid var(--border-color); animation: fadeInUp 0.5s ease forwards; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* ********** گۆڕانکاری لێرەدا دەبێت ********** */
+        .farm-card { 
+            background: var(--bg-card); 
+            border-radius: var(--radius-lg); 
+            overflow: hidden; 
+            box-shadow: 0 15px 40px var(--shadow-color); 
+            position: relative; 
+            display: flex; 
+            flex-direction: column; 
+            transition: transform 0.3s ease; 
+            border: 1px solid var(--border-color); 
+            /* ********** ئەم بەشە لادەبەین ********** animation: fadeInUp 0.5s ease forwards;
+            */
+            opacity: 0; /* دەبێت بە ٠ دابنرێت بۆ ئەوەی JavaScript دواتر بیگۆڕێت بۆ ١ */
+        }
+        
+        /* ئەم ئەنیمەیشنە بەکار ناهێنرێت ئیتر، تەنها بۆ ئاشناییە */
+        @keyframes fadeInUp { 
+            from { opacity: 0; transform: translateY(20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        .farm-card.is-visible {
+            opacity: 1; /* دەبێت بە یەک دابنرێت بۆ ئەوەی دەربکەوێت */
+            animation: fadeInUp 0.5s ease forwards; /* ئەنیمەیشن تەنها بۆ کارتی یەکەم یان ئەوانەی دواتر دیاریدەکرێن */
+        }
+        /* *************************************** */
+        
         .farm-card:hover { transform: translateY(-5px); }
         .swiper { width: 100%; height: 260px; background: #eee; }
         .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
@@ -543,7 +570,7 @@
                 return; 
             }
 
-            list.forEach(farm => {
+            list.forEach((farm, index) => {
                 let badgeClass = farm.allowedType === 'family' ? '#E91E63' : (farm.allowedType === 'youth' ? '#9C27B0' : '#009688');
                 let badgeText = farm.allowedType === 'family' ? 'عائلات' : (farm.allowedType === 'youth' ? 'شباب' : 'مختلط');
                 let badge = `<span style="background:${badgeClass};color:white;padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:bold; margin-right:auto;">${badgeText}</span>`;
@@ -568,12 +595,12 @@
                             </div>`;
                 }).join('');
 
+                // ********** گۆڕانکاری لێرەدا دەبێت: هەموو کارتەکان is-visible وەردەگرن **********
                 container.innerHTML += `
-                <div class="farm-card" id="farm-${farm.id}">
+                <div class="farm-card is-visible" id="farm-${farm.id}">
                     <div class="img-actions">
                         <div class="action-icon ${isFav}" onclick="toggleFav(${farm.id}, this)"><i class="${heartIcon}"></i></div>
                         <div class="action-icon" onclick="shareFarm(${farm.id})"><i class="fas fa-share-alt"></i></div>
-                        <div class="action-icon" style="color:#C13584" onclick="openStoryMode(${farm.id})"><i class="fas fa-camera"></i></div>
                     </div>
                     <div class="swiper mySwiper-${farm.id}"><div class="swiper-wrapper">${slides}</div><div class="swiper-pagination"></div></div>
                     <div class="card-content">
@@ -596,6 +623,7 @@
                         </div>
                     </div>
                 </div>`;
+                // ***************************************
             });
 
             list.forEach(farm => {
@@ -607,7 +635,7 @@
             });
         }
 
-        // --- NEW: Story Mode Functions ---
+        // --- NEW: Story Mode Functions (Kept for external calls, but icon removed) ---
         window.openStoryMode = (id) => {
             const farm = farmsData.find(f => f.id === id);
             if(!farm) return;
