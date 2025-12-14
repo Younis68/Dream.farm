@@ -63,6 +63,62 @@
             background: rgba(60, 20, 20, 0.8); color: #ff8a80; border-color: rgba(255, 138, 128, 0.2);
         }
 
+        /* --- NEW STYLES: Story Mode Overlay --- */
+        .story-overlay {
+            position: fixed; inset: 0; z-index: 12000; background: #000; 
+            display: none; justify-content: center; align-items: center;
+        }
+        .story-content {
+            width: 100%; height: 100%; max-width: 450px; 
+            position: relative; overflow: hidden; background: #fff;
+            display: flex; flex-direction: column;
+        }
+        .story-bg-img {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; opacity: 0.9;
+        }
+        .story-details {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0.6) 50%, transparent 100%);
+            padding: 60px 25px 80px; color: white; text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .story-logo-badge { 
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(8px);
+            padding: 8px 20px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.4);
+            display: inline-block; font-weight: bold; margin-bottom: 15px; letter-spacing: 1px;
+            font-size: 0.9rem; text-transform: uppercase;
+        }
+        .story-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; color: var(--primary-gold); text-shadow: 0 4px 8px rgba(0,0,0,0.6); }
+        .story-price { font-size: 2rem; font-weight: 700; margin-bottom: 15px; display: inline-block; background: var(--primary-gold); color: #000; padding: 5px 20px; border-radius: 12px; transform: rotate(-2deg); }
+        .close-story { position: absolute; top: 25px; left: 25px; color: white; font-size: 2rem; z-index: 12001; cursor: pointer; text-shadow: 0 2px 5px rgba(0,0,0,0.5); width: 40px; height: 40px; background: rgba(0,0,0,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .story-hint {
+            position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.7); color: white; padding: 20px 30px; border-radius: 20px;
+            pointer-events: none; animation: fadeOutHint 4s forwards; text-align: center; width: 80%;
+            border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px);
+        }
+        @keyframes fadeOutHint { 0% { opacity: 0; transform: translate(-50%, -40%); } 20% { opacity: 1; transform: translate(-50%, -50%); } 80% { opacity: 1; } 100% { opacity: 0; } }
+
+        /* --- NEW STYLES: Visual Amenities Icons --- */
+        .amenities-list { margin: 15px 0 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+        .amenity-chip { 
+            background: var(--bg-body); 
+            padding: 10px 14px; 
+            border-radius: 16px; 
+            border: 1px solid var(--border-color); 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            font-size: 0.85rem; 
+            font-weight: 500;
+            color: var(--text-main);
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .amenity-chip:hover { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.05); }
+        .amenity-icon { font-size: 1.1rem; }
+
         /* Existing Styles */
         #toast-box { visibility: hidden; min-width: 280px; background-color: #333; color: #fff; text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 10000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 0.95rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; gap: 10px; opacity: 0; transition: opacity 0.5s, bottom 0.5s; }
         #toast-box.show { visibility: visible; opacity: 1; bottom: 50px; }
@@ -116,9 +172,8 @@
         .card-title-row h3 { font-size: 1.2rem; color: var(--text-main); display: flex; align-items: center; gap: 6px; }
         .verified-badge { color: #1da1f2; font-size: 1rem; }
 
-        .location-text { font-size: 0.9rem; color: var(--text-sec); margin-bottom: 15px; display: flex; align-items: center; gap: 5px; margin-top: 10px; }
-        .amenities-list { margin: 10px 0 20px; font-size: 0.85rem; color: var(--text-sec); display: flex; flex-wrap: wrap; gap: 8px; }
-        .amenity-item { background: var(--badge-bg); padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 5px; color: var(--text-main); }
+        .location-text { font-size: 0.9rem; color: var(--text-sec); margin-bottom: 10px; display: flex; align-items: center; gap: 5px; margin-top: 10px; }
+        
         .price-wrapper { margin-top: auto; padding-top: 15px; border-top: 1px dashed var(--border-color); display: flex; justify-content: space-between; align-items: center; }
         .price-val { font-size: 1.3rem; font-weight: 800; color: var(--primary-gold); }
         .book-btn { background: var(--primary-dark); color: white; border: none; padding: 12px 28px; border-radius: 14px; cursor: pointer; font-weight: 700; transition: 0.3s; box-shadow: 0 4px 15px rgba(15, 46, 32, 0.2); }
@@ -172,6 +227,25 @@
     <div id="toast-box"><i class="fas fa-check-circle"></i> تم نسخ الرابط بنجاح</div>
     <div id="loader"><i class="fas fa-gem loader-icon"></i></div>
 
+    <div id="story-overlay" class="story-overlay">
+        <div class="close-story" onclick="closeStoryMode()"><i class="fas fa-times"></i></div>
+        <div class="story-content" id="story-content-box">
+            <img src="" id="story-img" class="story-bg-img">
+            
+            <div class="story-hint">
+                <i class="fas fa-camera" style="font-size:2rem; margin-bottom:10px; display:block;"></i>
+                خذ لقطة شاشة (Screenshot)<br>وشاركها في ستوري إنستغرام
+            </div>
+
+            <div class="story-details">
+                <div class="story-logo-badge">Dream Farm 👑</div>
+                <h2 class="story-title" id="story-title"></h2>
+                <div class="story-price" id="story-price"></div>
+                <div style="font-size:1.1rem; opacity:0.9"><i class="fas fa-map-marker-alt"></i> <span id="story-loc"></span></div>
+                <div style="margin-top:20px; font-size:0.9rem; opacity:0.7">احجزها الآن عبر التطبيق</div>
+            </div>
+        </div>
+    </div>
     <div id="lightbox" class="lightbox-overlay">
         <span class="lb-close" onclick="closeLightbox()">&times;</span>
         <div class="lb-nav lb-prev" onclick="changeImage(-1)"><i class="fas fa-chevron-right"></i></div>
@@ -386,39 +460,41 @@
             }
         ];
 
-        // --- SMART VIEWERS LOGIC (Updated: 1 to 20) ---
+        // --- NEW: Helper for Feature Icons & Colors ---
+        function getFeatureStyle(text) {
+            let icon = 'fa-check';
+            let color = '#555';
+            
+            if(text.includes('مسبح')) { icon = 'fa-swimming-pool'; color = '#0288d1'; }
+            else if(text.includes('سينما') || text.includes('تلفاز')) { icon = 'fa-film'; color = '#e53935'; }
+            else if(text.includes('مولدة') || text.includes('كهرباء')) { icon = 'fa-bolt'; color = '#fbc02d'; }
+            else if(text.includes('شواء') || text.includes('منقل')) { icon = 'fa-fire'; color = '#d84315'; }
+            else if(text.includes('موقد')) { icon = 'fa-fire-alt'; color = '#ff7043'; }
+            else if(text.includes('خشبي') || text.includes('حديقة')) { icon = 'fa-tree'; color = '#2e7d32'; }
+            else if(text.includes('نهر') || text.includes('مياه')) { icon = 'fa-water'; color = '#0277bd'; }
+            else if(text.includes('جبل') || text.includes('إطلالة')) { icon = 'fa-mountain'; color = '#5d4037'; }
+            else if(text.includes('واي') || text.includes('نت')) { icon = 'fa-wifi'; color = '#1976d2'; }
+            else if(text.includes('خصوصية')) { icon = 'fa-user-shield'; color = '#4527a0'; }
+            
+            return { icon, color };
+        }
+
+        // --- SMART VIEWERS LOGIC ---
         function getSmartViewers(id) {
             const now = Date.now();
             const storageKey = `viewers_smart_${id}`;
             const stored = JSON.parse(localStorage.getItem(storageKey));
-
-            // If stored data exists and hasn't expired, use it
-            if (stored && now < stored.expiry) {
-                return stored.count;
-            }
-
-            // Generate new random count (between 1 and 20)
+            if (stored && now < stored.expiry) return stored.count;
             let newCount = Math.floor(Math.random() * 20) + 1;
-            
-            // If previous count exists, drift it slightly (+/- 3) to look natural
             if (stored) {
-                const change = Math.floor(Math.random() * 7) - 3; // -3 to +3
+                const change = Math.floor(Math.random() * 7) - 3; 
                 newCount = stored.count + change;
-                if (newCount < 1) newCount = 1; 
-                if (newCount > 20) newCount = 20;
+                if (newCount < 1) newCount = 1; if (newCount > 20) newCount = 20;
             }
-
-            // Set expiry time: Randomly between 15 and 45 seconds from now
             const duration = (Math.floor(Math.random() * 30) + 15) * 1000; 
-            
-            localStorage.setItem(storageKey, JSON.stringify({ 
-                count: newCount, 
-                expiry: now + duration 
-            }));
-
+            localStorage.setItem(storageKey, JSON.stringify({ count: newCount, expiry: now + duration }));
             return newCount;
         }
-        // -----------------------------------------------------------
 
         const container = document.getElementById('farm-list-container');
         let currentCategory = 'all';
@@ -475,8 +551,6 @@
                 const verifiedIcon = farm.isVerified ? '<i class="fas fa-check-circle verified-badge" title="تم التحقق"></i>' : '';
                 const isFav = favorites.includes(farm.id) ? 'is-fav' : '';
                 const heartIcon = favorites.includes(farm.id) ? 'fas fa-heart' : 'far fa-heart';
-
-                // Get Viewer Count (Smart Logic)
                 const viewers = getSmartViewers(farm.id); 
 
                 const slides = farm.images.map((img, index) => 
@@ -486,11 +560,20 @@
                     </div>`
                 ).join('');
 
+                // --- Generate Dynamic Feature Icons ---
+                const amenitiesHTML = farm.features.map(f => {
+                    const style = getFeatureStyle(f);
+                    return `<div class="amenity-chip">
+                                <i class="fas ${style.icon} amenity-icon" style="color:${style.color}"></i> ${f}
+                            </div>`;
+                }).join('');
+
                 container.innerHTML += `
                 <div class="farm-card" id="farm-${farm.id}">
                     <div class="img-actions">
                         <div class="action-icon ${isFav}" onclick="toggleFav(${farm.id}, this)"><i class="${heartIcon}"></i></div>
                         <div class="action-icon" onclick="shareFarm(${farm.id})"><i class="fas fa-share-alt"></i></div>
+                        <div class="action-icon" style="color:#C13584" onclick="openStoryMode(${farm.id})"><i class="fas fa-camera"></i></div>
                     </div>
                     <div class="swiper mySwiper-${farm.id}"><div class="swiper-wrapper">${slides}</div><div class="swiper-pagination"></div></div>
                     <div class="card-content">
@@ -504,7 +587,9 @@
                         </div>
 
                         <div class="location-text"><i class="fas fa-map-marker-alt" style="color:var(--primary-gold)"></i> ${farm.location}</div>
-                        <div class="amenities-list">${farm.features.map(f => `<div class="amenity-item"><i class="fas fa-check" style="color:#25D366;font-size:0.7rem"></i> ${f}</div>`).join('')}</div>
+                        
+                        <div class="amenities-list">${amenitiesHTML}</div>
+                        
                         <div class="price-wrapper">
                             <div><div class="price-val">${farm.pricing.default} <small style="font-size:0.8rem;font-weight:400">د.ع</small></div></div>
                             <button class="book-btn" onclick="openModal(${farm.id})">احجز الآن</button>
@@ -522,6 +607,19 @@
             });
         }
 
+        // --- NEW: Story Mode Functions ---
+        window.openStoryMode = (id) => {
+            const farm = farmsData.find(f => f.id === id);
+            if(!farm) return;
+            document.getElementById('story-img').src = farm.images[0];
+            document.getElementById('story-title').innerText = farm.name;
+            document.getElementById('story-price').innerHTML = `${farm.pricing.default} <small>د.ع</small>`;
+            document.getElementById('story-loc').innerText = farm.location;
+            document.getElementById('story-overlay').style.display = 'flex';
+        }
+        window.closeStoryMode = () => { document.getElementById('story-overlay').style.display = 'none'; }
+
+        // --- Standard Functions (Existing) ---
         window.toggleTheme = () => {
             const html = document.documentElement;
             const icon = document.getElementById('theme-icon');
@@ -723,4 +821,3 @@
     </script>
 </body>
 </html>
-
