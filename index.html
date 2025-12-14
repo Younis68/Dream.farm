@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f2e20">
+    <link rel="manifest" href="manifest.json">
+    
     <title>Dream Farm | باشترین مزارع بۆ بەکرێگرتن</title>
     <link rel="icon" href="https://img.icons8.com/emoji/48/crown-emoji.png" type="image/png">
     
@@ -13,7 +16,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_green.css">
 
     <style>
-        /* CSS Variables for Theme Handling */
+        /* CSS Variables */
         :root { 
             --primary-gold: #D4AF37; 
             --primary-dark: #0f2e20; 
@@ -29,7 +32,6 @@
             --font-main: 'Tajawal', sans-serif; 
         }
 
-        /* Dark Mode Override */
         [data-theme="dark"] {
             --bg-body: #121212;
             --bg-card: #1e1e1e;
@@ -44,25 +46,39 @@
         * { box-sizing: border-box; outline: none; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { font-family: var(--font-main); background-color: var(--bg-body); color: var(--text-main); overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; transition: background-color 0.3s, color 0.3s; }
         
-        /* Toast & Loader */
+        /* Urgency Animation */
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(211, 47, 47, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); }
+        }
+        .urgency-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(255, 235, 238, 0.9); color: #c62828;
+            padding: 6px 12px; border-radius: 20px; font-size: 0.8rem;
+            font-weight: 700; margin-top: 8px; margin-bottom: 5px; width: fit-content;
+            animation: pulse-red 2s infinite; border: 1px solid rgba(211, 47, 47, 0.2);
+        }
+        [data-theme="dark"] .urgency-badge {
+            background: rgba(60, 20, 20, 0.8); color: #ff8a80; border-color: rgba(255, 138, 128, 0.2);
+        }
+
+        /* Existing Styles */
         #toast-box { visibility: hidden; min-width: 280px; background-color: #333; color: #fff; text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 10000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 0.95rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; gap: 10px; opacity: 0; transition: opacity 0.5s, bottom 0.5s; }
         #toast-box.show { visibility: visible; opacity: 1; bottom: 50px; }
         #loader { position: fixed; inset: 0; background: var(--primary-dark); z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: opacity 0.5s ease; pointer-events: none; }
         .loader-icon { font-size: 3rem; color: var(--primary-gold); animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
         
-        /* Header */
         header { background: linear-gradient(135deg, var(--primary-dark), #1a3c30); min-height: 380px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; padding: 20px 20px 80px 20px; position: relative; }
         header h1 { font-size: 2.8rem; color: white; margin: 10px 0; font-weight: 800; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .brand-badge { background: rgba(255,255,255,0.15); padding: 8px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.3); color: var(--primary-gold); font-size: 0.9rem; font-weight: 700; backdrop-filter: blur(5px); }
         
-        /* Buttons in Header */
         .header-btns { position: absolute; top: 25px; right: 25px; display: flex; gap: 10px; z-index: 100; }
         .icon-btn { background: rgba(255, 255, 255, 0.15); color: white; width: 45px; height: 45px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; border: 1px solid rgba(255,255,255,0.2); }
         .icon-btn:hover { background: rgba(255, 255, 255, 0.3); }
         .settings-btn:hover { transform: rotate(90deg); }
 
-        /* Search & Filter */
         .search-container { margin-top: -60px; padding: 0 20px; position: relative; z-index: 50; display: flex; flex-direction: column; align-items: center; gap: 15px; }
         .search-box-wrapper { background: var(--bg-card); width: 100%; max-width: 700px; padding: 5px; border-radius: 50px; display: flex; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid var(--border-color); }
         
@@ -81,7 +97,6 @@
         [data-theme="dark"] .filter-btn { background: #2c2c2c; color: #e0e0e0; border: 1px solid #444; }
         .filter-btn.active { background: var(--primary-gold) !important; color: white !important; border-color: var(--primary-gold) !important; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); }
 
-        /* Cards */
         .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; max-width: 1200px; margin: 40px auto; padding: 0 20px; flex: 1; width: 100%; }
         .farm-card { background: var(--bg-card); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 15px 40px var(--shadow-color); position: relative; display: flex; flex-direction: column; transition: transform 0.3s ease; border: 1px solid var(--border-color); animation: fadeInUp 0.5s ease forwards; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -97,13 +112,11 @@
         .expand-btn { position: absolute; bottom: 15px; right: 15px; width: 38px; height: 38px; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.3); z-index: 20; transition: 0.2s; }
         
         .card-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
-        .card-title-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+        .card-title-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px; }
         .card-title-row h3 { font-size: 1.2rem; color: var(--text-main); display: flex; align-items: center; gap: 6px; }
-        
-        /* Verified Badge Style */
         .verified-badge { color: #1da1f2; font-size: 1rem; }
 
-        .location-text { font-size: 0.9rem; color: var(--text-sec); margin-bottom: 15px; display: flex; align-items: center; gap: 5px; }
+        .location-text { font-size: 0.9rem; color: var(--text-sec); margin-bottom: 15px; display: flex; align-items: center; gap: 5px; margin-top: 10px; }
         .amenities-list { margin: 10px 0 20px; font-size: 0.85rem; color: var(--text-sec); display: flex; flex-wrap: wrap; gap: 8px; }
         .amenity-item { background: var(--badge-bg); padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 5px; color: var(--text-main); }
         .price-wrapper { margin-top: auto; padding-top: 15px; border-top: 1px dashed var(--border-color); display: flex; justify-content: space-between; align-items: center; }
@@ -111,7 +124,6 @@
         .book-btn { background: var(--primary-dark); color: white; border: none; padding: 12px 28px; border-radius: 14px; cursor: pointer; font-weight: 700; transition: 0.3s; box-shadow: 0 4px 15px rgba(15, 46, 32, 0.2); }
         [data-theme="dark"] .book-btn { background: var(--primary-gold); color: black; }
 
-        /* Modals & Lightbox */
         .lightbox-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; display: none; justify-content: center; align-items: center; flex-direction: column; opacity: 0; transition: opacity 0.3s ease; }
         .lightbox-active { display: flex; opacity: 1; pointer-events: all; }
         .lightbox-img-container { position: relative; max-width: 90%; max-height: 80vh; }
@@ -130,20 +142,14 @@
         .form-group input, .form-group select { width: 100%; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: 12px; font-family: inherit; font-size: 1rem; transition: 0.2s; background: var(--input-bg); color: var(--text-main); }
         .submit-wa { width: 100%; padding: 16px; border: none; border-radius: 12px; background: linear-gradient(135deg, #25D366, #128C7E); color: white; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 1rem; margin-top: 10px; }
         
-        /* Social Dock */
         .social-dock { position: fixed; bottom: 30px; left: 25px; display: flex; flex-direction: column-reverse; gap: 15px; z-index: 90; }
         .social-bubble { width: 48px; height: 48px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; box-shadow: 0 5px 20px rgba(0,0,0,0.25); text-decoration: none; transition: 0.3s transform; }
         .social-bubble:hover { transform: scale(1.1); }
-        .wa { background: #25D366; } 
-        .tk { background: #000; } 
-        [data-theme="dark"] .tk { background: #fff; color: black; }
-        .fb { background: #1877F2; } 
-        .in { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+        .wa { background: #25D366; } .tk { background: #000; } [data-theme="dark"] .tk { background: #fff; color: black; } .fb { background: #1877F2; } .in { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
         
         #scrollTopBtn { position: fixed; bottom: 95px; left: 25px; width: 48px; height: 48px; background: var(--primary-dark); color: var(--primary-gold); border: 2px solid var(--primary-gold); border-radius: 50%; display: none; align-items: center; justify-content: center; cursor: pointer; z-index: 89; }
         [data-theme="dark"] #scrollTopBtn { background: var(--primary-gold); color: black; border-color: black; }
 
-        /* Footer */
         footer { background-color: var(--primary-dark); color: white; padding: 50px 20px 30px; text-align: center; margin-top: 50px; border-top-left-radius: 40px; border-top-right-radius: 40px; position: relative; }
         [data-theme="dark"] footer { background-color: #000; }
         .footer-logo { font-size: 1.8rem; font-weight: 800; color: var(--primary-gold); display: block; margin-bottom: 10px; }
@@ -334,15 +340,20 @@
     <script src="https://npmcdn.com/flatpickr/dist/l10n/ar.js"></script>
 
     <script>
-        // --- 1. Data ---
-        // Added 'isVerified' property to farms
+        // PWA Setup
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(err => console.log('SW Error', err));
+            });
+        }
+
         const farmsData = [
             { 
                 id: 1, 
                 name: "مزرعة القصر الذهبي", 
                 location: "دوكان، قرب السد", 
-                isVerified: true, // This farm will have the blue tick
-                images: ["https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800", "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800"], 
+                isVerified: true, 
+                images: ["https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=80", "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80"], 
                 features: ["مسبح مدفأ", "سينما خارجية", "مولدة 24h"], 
                 bookedDates: ["2025-06-25", "2025-06-28"], 
                 allowedType: "family", 
@@ -353,8 +364,8 @@
                 id: 2, 
                 name: "فيلا الجبل", 
                 location: "جبل ازمر", 
-                isVerified: false, // No tick
-                images: ["https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=800"], 
+                isVerified: false, 
+                images: ["https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=600&q=80"], 
                 features: ["إطلالة بانوراما", "ساحة شواء", "موقد حطب"], 
                 bookedDates: ["2025-06-20"], 
                 allowedType: "all", 
@@ -365,8 +376,8 @@
                 id: 3, 
                 name: "كوخ الغابة", 
                 location: "شارباژير", 
-                isVerified: true, // This farm will have the blue tick
-                images: ["https://images.unsplash.com/photo-1542718610-a1d656d1884c?w=800"], 
+                isVerified: true, 
+                images: ["https://images.unsplash.com/photo-1542718610-a1d656d1884c?w=600&q=80"], 
                 features: ["تصميم خشبي", "خصوصية تامة", "نهر قريب"], 
                 bookedDates: [], 
                 allowedType: "youth", 
@@ -375,7 +386,40 @@
             }
         ];
 
-        // --- 2. Variables & Init ---
+        // --- SMART VIEWERS LOGIC (Updated: 1 to 20) ---
+        function getSmartViewers(id) {
+            const now = Date.now();
+            const storageKey = `viewers_smart_${id}`;
+            const stored = JSON.parse(localStorage.getItem(storageKey));
+
+            // If stored data exists and hasn't expired, use it
+            if (stored && now < stored.expiry) {
+                return stored.count;
+            }
+
+            // Generate new random count (between 1 and 20)
+            let newCount = Math.floor(Math.random() * 20) + 1;
+            
+            // If previous count exists, drift it slightly (+/- 3) to look natural
+            if (stored) {
+                const change = Math.floor(Math.random() * 7) - 3; // -3 to +3
+                newCount = stored.count + change;
+                if (newCount < 1) newCount = 1; 
+                if (newCount > 20) newCount = 20;
+            }
+
+            // Set expiry time: Randomly between 15 and 45 seconds from now
+            const duration = (Math.floor(Math.random() * 30) + 15) * 1000; 
+            
+            localStorage.setItem(storageKey, JSON.stringify({ 
+                count: newCount, 
+                expiry: now + duration 
+            }));
+
+            return newCount;
+        }
+        // -----------------------------------------------------------
+
         const container = document.getElementById('farm-list-container');
         let currentCategory = 'all';
         let currentSearch = '';
@@ -383,7 +427,6 @@
         let swiperInstances = [];
         let favorites = JSON.parse(localStorage.getItem('dreamFarm_favs')) || []; 
 
-        // Theme Initialization
         const storedTheme = localStorage.getItem('dreamFarm_theme') || 'light';
         if(storedTheme === 'dark') {
             document.documentElement.setAttribute('data-theme', 'dark');
@@ -412,7 +455,6 @@
             });
         });
 
-        // --- 3. Render ---
         function renderFarms(list) {
             if(swiperInstances.length > 0) {
                 swiperInstances.forEach(s => s.destroy(true, true));
@@ -430,11 +472,12 @@
                 let badgeText = farm.allowedType === 'family' ? 'عائلات' : (farm.allowedType === 'youth' ? 'شباب' : 'مختلط');
                 let badge = `<span style="background:${badgeClass};color:white;padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:bold; margin-right:auto;">${badgeText}</span>`;
                 
-                // Verified Badge Logic
                 const verifiedIcon = farm.isVerified ? '<i class="fas fa-check-circle verified-badge" title="تم التحقق"></i>' : '';
-
                 const isFav = favorites.includes(farm.id) ? 'is-fav' : '';
                 const heartIcon = favorites.includes(farm.id) ? 'fas fa-heart' : 'far fa-heart';
+
+                // Get Viewer Count (Smart Logic)
+                const viewers = getSmartViewers(farm.id); 
 
                 const slides = farm.images.map((img, index) => 
                     `<div class="swiper-slide">
@@ -455,6 +498,11 @@
                             <h3>${farm.name} ${verifiedIcon}</h3>
                             ${badge}
                         </div>
+                        
+                        <div class="urgency-badge">
+                            <i class="fas fa-eye"></i> ${viewers} أشخاص يشاهدون الآن
+                        </div>
+
                         <div class="location-text"><i class="fas fa-map-marker-alt" style="color:var(--primary-gold)"></i> ${farm.location}</div>
                         <div class="amenities-list">${farm.features.map(f => `<div class="amenity-item"><i class="fas fa-check" style="color:#25D366;font-size:0.7rem"></i> ${f}</div>`).join('')}</div>
                         <div class="price-wrapper">
@@ -474,9 +522,6 @@
             });
         }
 
-        // --- 4. Logic Functions ---
-        
-        // Theme Toggle Function
         window.toggleTheme = () => {
             const html = document.documentElement;
             const icon = document.getElementById('theme-icon');
@@ -535,13 +580,11 @@
                 if(currentSearchDate) {
                     matchesDate = !farm.bookedDates.includes(currentSearchDate);
                 }
-
                 return matchesSearch && matchesCategory && matchesDate;
             });
             renderFarms(filtered);
         }
 
-        // --- 5. Favorites & Share ---
         window.toggleFav = (id, btn) => {
             if(favorites.includes(id)) {
                 favorites = favorites.filter(fid => fid !== id);
@@ -575,7 +618,6 @@
             }
         }
 
-        // --- 6. Booking Logic ---
         const modal = document.getElementById('booking-modal');
         const dateInput = document.getElementById('date');
         const priceArea = document.getElementById('price-calc-area');
@@ -649,7 +691,6 @@
             closeModal();
         });
 
-        // --- 7. Utility ---
         window.acceptTerms = () => { document.getElementById('welcome-modal').style.opacity = '0'; document.getElementById('welcome-modal').style.pointerEvents = 'none'; }
         window.openSettingsModal = () => { document.getElementById('settings-modal').classList.add('modal-active'); }
         window.closeSettingsModal = () => { document.getElementById('settings-modal').classList.remove('modal-active'); }
