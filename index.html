@@ -7,13 +7,13 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <style>
-        /* --- هەمان ستایلێ دیزاینێ بەرێ (Premium Design) --- */
+        /* --- Styles --- */
         :root {
             --primary-gold: #D4AF37;
             --primary-dark: #0f2e20; 
-            --primary-light: #e8f5e9;
             --text-dark: #1a1a1a;
             --bg-body: #f4f7f6;
             --white-glass: rgba(255, 255, 255, 0.95);
@@ -22,7 +22,7 @@
             --font-main: 'Tajawal', sans-serif;
         }
 
-        * { box-sizing: border-box; outline: none; margin: 0; padding: 0; }
+        * { box-sizing: border-box; outline: none; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { font-family: var(--font-main); background-color: var(--bg-body); color: var(--text-dark); overflow-x: hidden; }
 
         /* Loader */
@@ -32,9 +32,7 @@
 
         /* Header */
         header { background: linear-gradient(135deg, var(--primary-dark), #1a3c30); height: 320px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; padding: 20px; position: relative; }
-        header h1 { font-size: 3rem; color: white; margin: 0; font-weight: 800; text-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        header p { color: rgba(255,255,255,0.8); font-size: 1.1rem; margin-top: 10px; }
-        
+        header h1 { font-size: 3rem; color: white; margin: 0; font-weight: 800; }
         .brand-badge { background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2); color: var(--primary-gold); font-size: 0.9rem; margin-bottom: 15px; font-weight: 700; }
 
         /* Search */
@@ -43,84 +41,84 @@
         .search-box i { padding: 0 20px; color: var(--primary-gold); }
         .search-box input { width: 100%; border: none; font-size: 1rem; padding: 12px 0; font-family: inherit; }
 
-        /* Settings & Menu */
+        /* Settings Menu */
         .settings-btn { position: absolute; top: 25px; right: 25px; background: rgba(255, 255, 255, 0.1); color: white; width: 50px; height: 50px; border-radius: 50%; font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 100; }
         .settings-dropdown { display: none; position: absolute; top: 85px; right: 25px; background: var(--white-glass); backdrop-filter: blur(10px); width: 280px; border-radius: var(--radius-lg); box-shadow: 0 20px 50px rgba(0,0,0,0.15); z-index: 101; padding: 10px; }
         .settings-dropdown a, .notes-toggle-btn { display: flex; align-items: center; gap: 12px; padding: 14px; color: var(--primary-dark); text-decoration: none; width: 100%; border: none; background: transparent; cursor: pointer; font-family: inherit; font-weight: 600; font-size: 1rem; text-align: right; }
         .settings-dropdown a:hover, .notes-toggle-btn:hover { background: rgba(212, 175, 55, 0.1); color: var(--primary-gold); border-radius: 10px; }
 
-        /* Cards */
+        /* Cards & Swiper Fix */
         .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 35px; max-width: 1200px; margin: 40px auto 100px; padding: 0 20px; }
-        .farm-card { background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-soft); transition: all 0.4s; position: relative; display: flex; flex-direction: column; }
-        .farm-card:hover { transform: translateY(-10px); }
-
-        .card-media-wrapper { position: relative; height: 240px; overflow: hidden; }
-        .card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
-        .farm-card:hover .card-img { transform: scale(1.05); }
-        .slider-nav { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; }
-        .nav-dot { width: 8px; height: 8px; background: rgba(255,255,255,0.5); border-radius: 50%; cursor: pointer; }
-        .nav-dot.active { background: white; width: 20px; border-radius: 10px; }
+        .farm-card { background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-soft); position: relative; display: flex; flex-direction: column; }
+        
+        /* Swiper Styles */
+        .swiper { width: 100%; height: 250px; /* Fixed Height بۆ وێنەیان */ background: #eee; }
+        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
+        .swiper-pagination-bullet-active { background: var(--primary-gold) !important; }
+        .swiper-button-next, .swiper-button-prev { color: white !important; transform: scale(0.6); text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
 
         .card-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
-        .card-title-row { display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px; }
-        .card-title-row h3 { font-size: 1.4rem; font-weight: 800; color: var(--text-dark); margin: 0; }
-        
+        .card-title-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
         .amenities-list { margin: 15px 0; font-size: 0.9rem; color: #5a5a5a; display: flex; flex-wrap: wrap; gap: 10px; }
-        .amenity-item { background: #f8f9fa; padding: 5px 10px; border-radius: 8px; display: flex; align-items: center; gap: 6px; }
-
+        .amenity-item { background: #f8f9fa; padding: 5px 10px; border-radius: 8px; }
         .price-wrapper { margin-top: auto; padding-top: 15px; border-top: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; }
-        .price-val { font-size: 1.3rem; font-weight: 800; color: var(--primary-dark); }
-        .book-btn { background: var(--primary-dark); color: white; border: none; padding: 12px 25px; border-radius: 12px; cursor: pointer; font-weight: 700; transition: 0.3s; }
-        .book-btn:hover { background: var(--primary-gold); }
+        .book-btn { background: var(--primary-dark); color: white; border: none; padding: 12px 25px; border-radius: 12px; cursor: pointer; font-weight: 700; }
 
         /* Socials */
         .social-dock { position: fixed; bottom: 30px; left: 30px; display: flex; flex-direction: column-reverse; gap: 15px; z-index: 90; }
-        .social-bubble { width: 50px; height: 50px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.3s; text-decoration: none; }
-        .social-bubble:hover { transform: scale(1.15); }
+        .social-bubble { width: 50px; height: 50px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-decoration: none; }
         .wa { background: #25D366; } .tk { background: #000; } .fb { background: #1877F2; } .in { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
 
-        /* General Modal Styles */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 46, 32, 0.6); backdrop-filter: blur(8px); z-index: 2000; justify-content: center; align-items: center; }
+        /* Modal Styles */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15, 46, 32, 0.6); backdrop-filter: blur(8px); z-index: 2000; justify-content: center; align-items: center; }
         .modal-box { background: white; width: 90%; max-width: 480px; border-radius: 24px; padding: 30px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.3); }
         .modal-active { display: flex; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
-        
         .close-modal { position: absolute; left: 20px; top: 20px; font-size: 1.5rem; color: #ccc; cursor: pointer; }
-        .form-group input, .form-group select { width: 100%; padding: 14px; border: 2px solid #eee; border-radius: 12px; margin-bottom: 20px; font-family: inherit; }
-        .submit-wa { width: 100%; padding: 16px; border: none; border-radius: 12px; background: linear-gradient(135deg, #25D366, #128C7E); color: white; font-size: 1.1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        
-        /* Terms List Style (New) */
-        .terms-list { list-style: none; margin-top: 15px; padding: 0; }
-        .terms-list li {
-            background: #fdfbf7; border-right: 3px solid var(--primary-gold);
-            margin-bottom: 12px; padding: 12px; border-radius: 6px; font-size: 0.95rem; color: #444; line-height: 1.6;
-            display: flex; gap: 10px; align-items: center; text-align: right;
-        }
-        .terms-list li i { color: var(--primary-gold); flex-shrink: 0; }
 
-        /* Mobile */
-        @media (max-width: 768px) { header h1 { font-size: 2.2rem; } .container { grid-template-columns: 1fr; padding: 0 15px; } }
+        /* Welcome Modal */
+        #welcome-modal { position: fixed; inset: 0; background: rgba(15, 46, 32, 0.98); backdrop-filter: blur(10px); z-index: 9500; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.5s; }
+        #welcome-modal.active { opacity: 1; pointer-events: all; }
+        .welcome-box { background: white; width: 90%; max-width: 500px; padding: 30px; border-radius: 20px; text-align: center; border: 2px solid var(--primary-gold); transform: scale(0.8); transition: 0.4s; }
+        #welcome-modal.active .welcome-box { transform: scale(1); }
+        .welcome-list { text-align: right; list-style: none; padding: 0; margin: 20px 0; background: #f9f9f9; padding: 15px; border-radius: 12px; }
+        .welcome-list li { margin-bottom: 10px; font-size: 0.95rem; color: #555; display: flex; gap: 8px; align-items: center; }
+        .welcome-btn { background: linear-gradient(135deg, var(--primary-dark), #1a3c30); color: white; width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
+
+        .form-group input, .form-group select { width: 100%; padding: 14px; border: 2px solid #eee; border-radius: 12px; margin-bottom: 20px; font-family: inherit; }
+        .submit-wa { width: 100%; padding: 16px; border: none; border-radius: 12px; background: linear-gradient(135deg, #25D366, #128C7E); color: white; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        
+        /* Terms Modal List */
+        .terms-list { list-style: none; margin-top: 15px; padding: 0; }
+        .terms-list li { background: #fdfbf7; border-right: 3px solid var(--primary-gold); margin-bottom: 12px; padding: 12px; border-radius: 6px; font-size: 0.95rem; color: #444; line-height: 1.6; display: flex; gap: 10px; align-items: center; text-align: right; }
+        .terms-list li i { color: var(--primary-gold); flex-shrink: 0; }
     </style>
 </head>
 <body>
 
     <div id="loader"><i class="fas fa-gem loader-icon"></i></div>
 
+    <div id="welcome-modal">
+        <div class="welcome-box">
+            <i class="fas fa-file-contract" style="font-size:3rem; color:var(--primary-gold); margin-bottom:15px;"></i>
+            <h2 style="color:var(--primary-dark); margin-bottom:10px;">أهلاً بك في Dream Farm</h2>
+            <p style="color:#666;">يرجى الموافقة على الشروط قبل التصفح:</p>
+            <ul class="welcome-list">
+                <li><i class="fas fa-check-circle" style="color:var(--primary-gold)"></i> الحجز يثبت فقط بدفع العربون.</li>
+                <li><i class="fas fa-check-circle" style="color:var(--primary-gold)"></i> الأسعار تختلف في أيام العطل.</li>
+                <li><i class="fas fa-check-circle" style="color:var(--primary-gold)"></i> يرجى الحفاظ على نظافة المكان.</li>
+            </ul>
+            <button class="welcome-btn" onclick="acceptTerms()">موافق، ابدأ التصفح</button>
+        </div>
+    </div>
+
     <header>
         <span class="brand-badge">Premium Rentals</span>
-        
         <div class="settings-btn" onclick="toggleSettings()"><i class="fas fa-bars"></i></div>
-        
         <div class="settings-dropdown" id="settingsDropdown">
-            <a href="https://wa.me/9647502679528?text=السلام عليكم، أريد إضافة مزرعتي" target="_blank" style="color:#25D366;">
-                <i class="fas fa-plus-circle"></i> أضف مزرعتك معنا
-            </a>
-            
-            <button class="notes-toggle-btn" onclick="openTermsModal()">
-                <i class="fas fa-file-contract"></i> الشروط والتعليمات
-            </button>
+            <a href="https://wa.me/9647502679528?text=السلام عليكم، أريد إضافة مزرعتي" target="_blank" style="color:#25D366;"><i class="fas fa-plus-circle"></i> أضف مزرعتك معنا</a>
+            <button class="notes-toggle-btn" onclick="openDetailedTerms()"><i class="fas fa-file-contract"></i> الشروط والتعليمات</button>
         </div>
-
         <h1>Dream Farm</h1>
         <p>تجربة استثنائية لأجمل المزارع في العراق</p>
     </header>
@@ -140,13 +138,27 @@
         <a href="https://www.tiktok.com/@dream.farm68" class="social-bubble tk"><i class="fab fa-tiktok"></i></a>
     </div>
 
+    <div id="terms-modal" class="modal-overlay">
+        <div class="modal-box">
+            <span class="close-modal" onclick="closeTermsModal()">&times;</span>
+            <h2 style="text-align:center; color:var(--primary-dark); margin-bottom:20px;">📜 الشروط والتعليمات</h2>
+            <ul class="terms-list">
+                <li><i class="fas fa-money-bill-wave"></i> الحجز لا يعتبر مؤكداً إلا بعد دفع العربون (Qi Card).</li>
+                <li><i class="fas fa-clock"></i> وقت الدخول الساعة 2:00 ظهراً، ووقت الخروج 11:00 صباحاً.</li>
+                <li><i class="fas fa-users"></i> يمنع دخول عدد أشخاص أكثر من العدد المتفق عليه.</li>
+                <li><i class="fas fa-broom"></i> يرجى المحافظة على نظافة المكان والأثاث، أي ضرر يتحمله المستأجر.</li>
+            </ul>
+            <button onclick="closeTermsModal()" class="book-btn" style="width:100%; margin-top:20px; background:#ddd; color:#333;">حسناً، فهمت</button>
+        </div>
+    </div>
+
     <div id="booking-modal" class="modal-overlay">
         <div class="modal-box">
             <span class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></span>
             <h3 style="text-align:center; margin-bottom:20px;">حجز <span id="modal-farm-name" style="color:var(--primary-gold)"></span></h3>
             <form id="booking-form">
                 <input type="hidden" id="farm-id-modal">
-                <div class="form-group"><label>الاسم</label><input type="text" id="name" required></div>
+                <div class="form-group"><label>الاسم</label><input type="text" id="name" required placeholder="ناڤێ سیانی"></div>
                 <div class="form-group"><label>تاريخ الحجز</label><input type="date" id="date" required onchange="checkPrice()"></div>
                 <div id="price-calc-area" style="text-align:center; padding:10px; background:#f9f9f9; border-radius:10px; margin-bottom:15px; display:none;"></div>
                 <div class="form-group" style="display:flex; gap:10px;">
@@ -158,99 +170,65 @@
         </div>
     </div>
 
-    <div id="terms-modal" class="modal-overlay">
-        <div class="modal-box">
-            <span class="close-modal" onclick="closeTermsModal()">&times;</span>
-            <h2 style="text-align:center; color:var(--primary-dark); margin-bottom:20px;">📜 الشروط والتعليمات</h2>
-            
-            <ul class="terms-list">
-                <li><i class="fas fa-money-bill-wave"></i> الحجز لا يعتبر مؤكداً إلا بعد دفع العربون (Qi Card).</li>
-                <li><i class="fas fa-clock"></i> وقت الدخول الساعة 2:00 ظهراً، ووقت الخروج 11:00 صباحاً.</li>
-                <li><i class="fas fa-users"></i> يمنع دخول عدد أشخاص أكثر من العدد المتفق عليه.</li>
-                <li><i class="fas fa-broom"></i> يرجى المحافظة على نظافة المكان والأثاث، أي ضرر يتحمله المستأجر.</li>
-                <li><i class="fas fa-volume-up"></i> يرجى مراعاة الجيران وعدم رفع الصوت في أوقات متأخرة.</li>
-                <li><i class="fas fa-ban"></i> يمنع منعاً باتاً التصرفات غير الأخلاقية أو المخالفة للقانون.</li>
-            </ul>
-
-            <button onclick="closeTermsModal()" class="book-btn" style="width:100%; margin-top:20px; background:#ddd; color:#333;">حسناً، فهمت</button>
-        </div>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
-        // ============================================
-        // 🛠️ داتایێن مەزرەعەیان
-        // ============================================
+        // Data
         const farmsData = [
-            {
-                id: 1, 
-                name: "مزرعة القصر الذهبي",
-                location: "دۆکان، قرب السد",
-                images: ["https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800", "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800"], 
-                features: ["مسبح مدفأ", "سينما خارجية", "مولدة 24h"],
-                bookedDates: ["2025-12-24"], 
-                allowedType: "family", 
-                pricing: { default: "150,000", weekDays: { 5: "200,000" }, special: {} }
-            },
-            {
-                id: 2,
-                name: "فيلا الجبل",
-                location: "جبل ازمر",
-                images: ["https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=800", "https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=800"], 
-                features: ["إطلالة بانوراما", "ساحة شواء", "موقد حطب"],
-                bookedDates: [], 
-                allowedType: "all", 
-                pricing: { default: "75,000", weekDays: { 5: "100,000" }, special: {} }
-            },
-            {
-                id: 3,
-                name: "كوخ الغابة",
-                location: "شاربێژێر",
-                images: ["https://images.unsplash.com/photo-1542718610-a1d656d1884c?w=800"], 
-                features: ["تصميم خشبي", "خصوصية تامة", "نهر قريب"],
-                bookedDates: [],
-                allowedType: "youth", 
-                pricing: { default: "50,000", weekDays: { 5: "75,000" }, special: {} }
-            },
-            {
-                id: 4,
-                name: "مزرعة النخيل VIP",
-                location: "بغداد، الدورة",
-                images: ["https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800"], 
-                features: ["قاعة مناسبات", "مسبح أولمبي", "ملعب كرة"],
-                bookedDates: [],
-                allowedType: "family", 
-                pricing: { default: "200,000", weekDays: { 5: "250,000" }, special: {} }
-            }
+            { id: 1, name: "مزرعة القصر الذهبي", location: "دۆکان، قرب السد", images: ["https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800", "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800"], features: ["مسبح مدفأ", "سينما خارجية", "مولدة 24h"], bookedDates: ["2025-12-24"], allowedType: "family", pricing: { default: "150,000", weekDays: { 5: "200,000" } } },
+            { id: 2, name: "فيلا الجبل", location: "جبل ازمر", images: ["https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=800", "https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=800"], features: ["إطلالة بانوراما", "ساحة شواء", "موقد حطب"], bookedDates: [], allowedType: "all", pricing: { default: "75,000", weekDays: { 5: "100,000" } } },
+            { id: 3, name: "كوخ الغابة", location: "شاربێژێر", images: ["https://images.unsplash.com/photo-1542718610-a1d656d1884c?w=800"], features: ["تصميم خشبي", "خصوصية تامة", "نهر قريب"], bookedDates: [], allowedType: "youth", pricing: { default: "50,000", weekDays: { 5: "75,000" } } },
+            { id: 4, name: "مزرعة النخيل VIP", location: "بغداد، الدورة", images: ["https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800"], features: ["قاعة مناسبات", "مسبح أولمبي", "ملعب كرة"], bookedDates: [], allowedType: "family", pricing: { default: "200,000", weekDays: { 5: "250,000" } } }
         ];
 
-        // --- Logic ---
         const container = document.getElementById('farm-list-container');
-        let slideState = {};
 
-        window.addEventListener('load', () => { setTimeout(() => { document.getElementById('loader').style.opacity = '0'; setTimeout(() => document.getElementById('loader').style.display = 'none', 500); }, 1500); });
+        // 1. Startup Logic
+        window.addEventListener('load', () => { 
+            setTimeout(() => { 
+                document.getElementById('loader').style.opacity = '0'; 
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('welcome-modal').classList.add('active');
+                }, 500); 
+            }, 1500); 
+        });
 
+        window.acceptTerms = function() { document.getElementById('welcome-modal').classList.remove('active'); }
+        window.toggleSettings = function() { const m = document.getElementById('settingsDropdown'); m.style.display = (m.style.display === 'block') ? 'none' : 'block'; }
+        window.openDetailedTerms = function() { document.getElementById('settingsDropdown').style.display = 'none'; document.getElementById('terms-modal').classList.add('modal-active'); }
+        window.closeTermsModal = function() { document.getElementById('terms-modal').classList.remove('modal-active'); }
+
+        // 2. Render Farms with Swiper (Fixed Logic)
         function renderFarms(list) {
             container.innerHTML = "";
             if (list.length === 0) { container.innerHTML = `<div style="text-align:center;grid-column:1/-1;padding:50px;color:#999;"><h3>لا توجد نتائج! 🧐</h3></div>`; return; }
 
             list.forEach(farm => {
-                slideState[farm.id] = 0;
                 let badge = farm.allowedType === 'family' ? '<span style="background:#e91e63;color:white;padding:5px 10px;border-radius:20px;font-size:0.7rem">عائلات</span>' : 
                             farm.allowedType === 'youth' ? '<span style="background:#9c27b0;color:white;padding:5px 10px;border-radius:20px;font-size:0.7rem">شباب</span>' : 
                             '<span style="background:#009688;color:white;padding:5px 10px;border-radius:20px;font-size:0.7rem">مختلط</span>';
 
-                let dots = '';
-                if(farm.images.length > 1) {
-                    dots = farm.images.map((_, i) => `<div class="nav-dot ${i===0?'active':''}" id="dot-${farm.id}-${i}" onclick="setSlide(${farm.id}, ${i})"></div>`).join('');
-                }
+                // Swiper Slides HTML
+                const slides = farm.images.map(img => `
+                    <div class="swiper-slide">
+                        <img src="${img}" alt="${farm.name}" loading="lazy">
+                    </div>
+                `).join('');
 
                 container.innerHTML += `
                 <div class="farm-card">
-                    <button class="share-btn" onclick="shareFarm('${farm.name}')" style="position:absolute;top:15px;left:15px;z-index:20;background:white;border:none;width:35px;height:35px;border-radius:50%;cursor:pointer;"><i class="fas fa-share-alt"></i></button>
-                    <div class="card-media-wrapper">
-                        <img src="${farm.images[0]}" class="card-img" id="img-${farm.id}">
-                        <div class="slider-nav">${dots}</div>
+                    <button class="share-btn" onclick="shareFarm('${farm.name}')" style="position:absolute;top:15px;left:15px;z-index:20;background:white;border:none;width:35px;height:35px;border-radius:50%;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.2)"><i class="fas fa-share-alt"></i></button>
+                    
+                    <div class="swiper mySwiper-${farm.id}">
+                        <div class="swiper-wrapper">
+                            ${slides}
+                        </div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
                     </div>
+
                     <div class="card-content">
                         <div class="card-title-row"><h3>${farm.name}</h3>${badge}</div>
                         <div style="font-size:0.9rem; color:#666; margin-bottom:10px;"><i class="fas fa-map-marker-alt" style="color:var(--primary-gold)"></i> ${farm.location}</div>
@@ -262,26 +240,16 @@
                     </div>
                 </div>`;
             });
-        }
 
-        window.setSlide = function(id, idx) {
-            const farm = farmsData.find(f => f.id === id);
-            const img = document.getElementById(`img-${id}`);
-            document.querySelectorAll(`[id^='dot-${id}-']`).forEach(d => d.classList.remove('active'));
-            document.getElementById(`dot-${id}-${idx}`).classList.add('active');
-            img.style.opacity = 0.5; setTimeout(() => { img.src = farm.images[idx]; img.style.opacity = 1; }, 200);
-        }
-
-        // Settings & Terms Logic
-        window.toggleSettings = function() { const m = document.getElementById('settingsDropdown'); m.style.display = (m.style.display === 'block') ? 'none' : 'block'; }
-        
-        // --- NEW TERMS LOGIC ---
-        window.openTermsModal = function() {
-            document.getElementById('settingsDropdown').style.display = 'none'; // Close menu
-            document.getElementById('terms-modal').classList.add('modal-active'); // Open modal
-        }
-        window.closeTermsModal = function() {
-            document.getElementById('terms-modal').classList.remove('modal-active');
+            // Initialize Swiper for each card
+            list.forEach(farm => {
+                new Swiper(`.mySwiper-${farm.id}`, {
+                    pagination: { el: ".swiper-pagination", dynamicBullets: true },
+                    navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+                    loop: true,
+                    grabCursor: true
+                });
+            });
         }
 
         document.getElementById('searchInput').addEventListener('keyup', (e) => {
@@ -301,7 +269,6 @@
             document.getElementById('farm-id-modal').value = id;
             dateInput.min = new Date().toISOString().split('T')[0];
             dateInput.value = ''; priceArea.style.display = 'none'; submitBtn.disabled = true;
-            
             const typeSel = document.getElementById('type'); typeSel.innerHTML = '';
             if(currentFarm.allowedType === 'family') typeSel.innerHTML = '<option>عائلات (Family)</option>';
             else if(currentFarm.allowedType === 'youth') typeSel.innerHTML = '<option>شباب (Youth)</option>';
@@ -310,14 +277,32 @@
         }
         window.closeModal = function() { modal.classList.remove('modal-active'); }
 
+        // 3. Fixed Date & Price Logic
         window.checkPrice = function() {
             if(!dateInput.value || !currentFarm) return;
-            const dStr = dateInput.value; const dObj = new Date(dStr); const day = dObj.getDay();
-            if(currentFarm.bookedDates.includes(dStr)) { priceArea.innerHTML = `<span style="color:red;font-weight:bold;">⛔ محجوز</span>`; priceArea.style.display='block'; submitBtn.disabled=true; return; }
             
+            // چارەسەریا بەرواری: زێدەکرنا کاتێ T00:00:00 بۆ ڕاستکردنەوەی ڕۆژی
+            const dStr = dateInput.value; 
+            const dObj = new Date(dStr + 'T00:00:00'); 
+            const day = dObj.getDay(); // 5 = Friday
+
+            if(currentFarm.bookedDates.includes(dStr)) { 
+                priceArea.innerHTML = `<span style="color:red;font-weight:bold;">⛔ محجوز</span>`; 
+                priceArea.style.display='block'; 
+                submitBtn.disabled=true; 
+                return; 
+            }
+
             let p = currentFarm.pricing.default; let n = "سعر عادي";
-            if(currentFarm.pricing.weekDays[day]) { p = currentFarm.pricing.weekDays[day]; n = "سعر عطلة 🔥"; }
-            priceArea.style.display = 'block'; priceArea.innerHTML = `<div style="color:green;font-weight:bold;">${p} د.ع</div><small>${n}</small>`; submitBtn.disabled = false;
+            // Check for Friday (Day 5)
+            if(currentFarm.pricing.weekDays[day]) { 
+                p = currentFarm.pricing.weekDays[day]; 
+                n = "سعر عطلة (الجمعة) 🔥"; 
+            }
+            
+            priceArea.style.display = 'block'; 
+            priceArea.innerHTML = `<div style="color:green;font-weight:bold;">${p} د.ع</div><small>${n}</small>`; 
+            submitBtn.disabled = false;
         }
 
         document.getElementById('booking-form').addEventListener('submit', (e) => {
@@ -328,13 +313,7 @@
         });
 
         window.shareFarm = function(name) { if(navigator.share) navigator.share({title:'Dream Farm', text:name, url:window.location.href}); else alert("تم نسخ الرابط"); }
-
-        // Close modals on outside click
-        window.onclick = function(e) {
-            if(e.target.classList.contains('modal-overlay')) {
-                e.target.classList.remove('modal-active');
-            }
-        }
+        window.onclick = function(e) { if(e.target.classList.contains('modal-overlay')) e.target.classList.remove('modal-active'); }
 
         renderFarms(farmsData);
     </script>
