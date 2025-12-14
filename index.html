@@ -250,15 +250,21 @@
                     <input type="date" id="date" required onchange="checkPrice()">
                 </div>
                 <div id="price-calc-area" style="text-align:center; padding:15px; background:#f4f9f6; border:1px solid #d1e7dd; border-radius:12px; margin-bottom:20px; display:none;"></div>
+                
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
                     <div class="form-group">
-                        <label>العدد التقريبي</label>
+                        <label>العدد الكلي (أشخاص)</label>
                         <input type="number" id="guests" placeholder="مثال: 10" required min="1" oninput="this.value = !!this.value && Math.abs(this.value) >= 1 ? Math.abs(this.value) : null">
                     </div>
                     <div class="form-group">
-                        <label>نوع الكروب</label>
-                        <select id="type" required></select>
+                        <label>عدد العوائل</label>
+                        <input type="number" id="families" placeholder="مثال: 2" min="1">
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label>نوع الكروب</label>
+                    <select id="type" required></select>
                 </div>
                 <button type="submit" id="submit-btn" class="submit-wa"><i class="fab fa-whatsapp" style="font-size:1.2rem;"></i> إرسال الطلب واتساب</button>
             </form>
@@ -549,6 +555,10 @@
             dateInput.min = new Date().toISOString().split('T')[0];
             dateInput.value = ''; priceArea.style.display = 'none'; submitBtn.disabled = true; submitBtn.style.opacity = '0.6';
 
+            // Reset inputs
+            document.getElementById('guests').value = '';
+            document.getElementById('families').value = '';
+
             const typeSel = document.getElementById('type'); typeSel.innerHTML = '';
             const opts = { family: '<option>عائلات فقط (Family Only)</option>', youth: '<option>شباب (Youth)</option>', all: '<option>عائلات (Family)</option><option>شباب (Youth)</option>' };
             typeSel.innerHTML = opts[currentFarm.allowedType] || opts.all;
@@ -588,6 +598,7 @@
             const n = document.getElementById('name').value;
             const d = dateInput.value;
             const g = document.getElementById('guests').value;
+            const f = document.getElementById('families').value; // Number of families
             const t = document.getElementById('type').value;
             
             const dObj = new Date(d + 'T00:00:00');
@@ -595,6 +606,7 @@
             let finalPrice = securedFarm.pricing.default;
             if(securedFarm.pricing.special && securedFarm.pricing.special[day]) finalPrice = securedFarm.pricing.special[day];
             
+            // Added Family count to WhatsApp Message
             const msg = `
 *🔔 طلب حجز جديد (New Booking)*
 -----------------------------
@@ -605,7 +617,8 @@
 💰 *السعر المتوقع:* ${finalPrice} د.ع
 
 👤 *الاسم:* ${n}
-👥 *العدد:* ${g} ضيوف
+👥 *العدد الكلي:* ${g}
+👨‍👩‍👧‍👦 *عدد العوائل:* ${f ? f : '-'}
 📋 *النوع:* ${t}
 -----------------------------
 يرجى تأكيد الحجز وإرسال تفاصيل الدفع.
