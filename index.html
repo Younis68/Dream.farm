@@ -158,7 +158,7 @@
             <h3 style="text-align:center; margin-bottom:20px;">حجز <span id="modal-farm-name" style="color:var(--primary-gold)"></span></h3>
             <form id="booking-form">
                 <input type="hidden" id="farm-id-modal">
-                <div class="form-group"><label>الاسم</label><input type="text" id="name" required placeholder="ناڤێ سیانی"></div>
+                <div class="form-group"><label>الاسم</label><input type="text" id="name" required placeholder="الاسم الثلاثي"></div>
                 <div class="form-group"><label>تاريخ الحجز</label><input type="date" id="date" required onchange="checkPrice()"></div>
                 <div id="price-calc-area" style="text-align:center; padding:10px; background:#f9f9f9; border-radius:10px; margin-bottom:15px; display:none;"></div>
                 <div class="form-group" style="display:flex; gap:10px;">
@@ -175,9 +175,9 @@
     <script>
         // Data
         const farmsData = [
-            { id: 1, name: "مزرعة القصر الذهبي", location: "دۆکان، قرب السد", images: ["https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800", "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800"], features: ["مسبح مدفأ", "سينما خارجية", "مولدة 24h"], bookedDates: ["2025-12-24"], allowedType: "family", pricing: { default: "150,000", weekDays: { 5: "200,000" } } },
+            { id: 1, name: "مزرعة القصر الذهبي", location: "دوكان، قرب السد", images: ["https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800", "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800"], features: ["مسبح مدفأ", "سينما خارجية", "مولدة 24h"], bookedDates: ["2025-12-24"], allowedType: "family", pricing: { default: "150,000", weekDays: { 5: "200,000" } } },
             { id: 2, name: "فيلا الجبل", location: "جبل ازمر", images: ["https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=800", "https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=800"], features: ["إطلالة بانوراما", "ساحة شواء", "موقد حطب"], bookedDates: [], allowedType: "all", pricing: { default: "75,000", weekDays: { 5: "100,000" } } },
-            { id: 3, name: "كوخ الغابة", location: "شاربێژێر", images: ["https://images.unsplash.com/photo-1542718610-a1d656d1884c?w=800"], features: ["تصميم خشبي", "خصوصية تامة", "نهر قريب"], bookedDates: [], allowedType: "youth", pricing: { default: "50,000", weekDays: { 5: "75,000" } } },
+            { id: 3, name: "كوخ الغابة", location: "شارباژير", images: ["https://images.unsplash.com/photo-1542718610-a1d656d1884c?w=800"], features: ["تصميم خشبي", "خصوصية تامة", "نهر قريب"], bookedDates: [], allowedType: "youth", pricing: { default: "50,000", weekDays: { 5: "75,000" } } },
             { id: 4, name: "مزرعة النخيل VIP", location: "بغداد، الدورة", images: ["https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800"], features: ["قاعة مناسبات", "مسبح أولمبي", "ملعب كرة"], bookedDates: [], allowedType: "family", pricing: { default: "200,000", weekDays: { 5: "250,000" } } }
         ];
 
