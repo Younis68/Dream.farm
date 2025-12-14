@@ -6,15 +6,14 @@
     
     <title>Dream Farm | باشترین مزارع بۆ بەکرێگرتن</title>
     
-    <meta id="meta-desc" name="description" content="احجز أجمل المزارع والفلل في العراق. مزارع VIP، مسابح، وأماكن عائلية بأسعار مناسبة.">
-    <meta id="og-title" property="og:title" content="Dream Farm | 💎 مزارع VIP للإيجار">
+    <meta name="description" content="احجز أجمل المزارع والفلل في العراق. مزارع VIP، مسابح، وأماكن عائلية بأسعار مناسبة.">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <style>
-        :root { --primary-gold: #D4AF37; --primary-dark: #0f2e20; --text-dark: #1a1a1a; --bg-body: #f4f7f6; --white-glass: rgba(255, 255, 255, 0.95); --shadow-soft: 0 15px 40px rgba(0,0,0,0.08); --radius-lg: 24px; --font-main: 'Tajawal', sans-serif; }
+        :root { --primary-gold: #D4AF37; --primary-dark: #0f2e20; --text-dark: #1a1a1a; --bg-body: #f4f7f6; --radius-lg: 24px; --font-main: 'Tajawal', sans-serif; }
         * { box-sizing: border-box; outline: none; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { font-family: var(--font-main); background-color: var(--bg-body); color: var(--text-dark); overflow-x: hidden; padding-bottom: 80px; }
         
@@ -28,6 +27,10 @@
         header h1 { font-size: 2.8rem; color: white; margin: 10px 0; font-weight: 800; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .brand-badge { background: rgba(255,255,255,0.15); padding: 8px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.3); color: var(--primary-gold); font-size: 0.9rem; font-weight: 700; backdrop-filter: blur(5px); }
         
+        /* Settings Button (Top Right) */
+        .settings-btn { position: absolute; top: 25px; right: 25px; background: rgba(255, 255, 255, 0.15); color: white; width: 45px; height: 45px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 100; transition: 0.3s; border: 1px solid rgba(255,255,255,0.2); }
+        .settings-btn:hover { background: rgba(255, 255, 255, 0.3); transform: rotate(90deg); }
+
         /* Search & Filter */
         .search-container { margin-top: -60px; padding: 0 20px; position: relative; z-index: 50; display: flex; flex-direction: column; align-items: center; gap: 15px; }
         .search-box { background: white; width: 100%; max-width: 700px; padding: 8px 15px; border-radius: 50px; display: flex; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.05); }
@@ -38,16 +41,9 @@
         .filter-btn { white-space: nowrap; padding: 10px 20px; border-radius: 30px; border: 1px solid white; background: rgba(255,255,255,0.9); color: var(--primary-dark); font-family: inherit; font-weight: 600; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
         .filter-btn.active { background: var(--primary-gold); color: white; border-color: var(--primary-gold); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); }
 
-        /* Settings & Admin */
-        .settings-btn { position: absolute; top: 25px; right: 25px; background: rgba(255, 255, 255, 0.15); color: white; width: 45px; height: 45px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 100; transition: 0.3s; }
-        .settings-btn:hover { background: rgba(255, 255, 255, 0.3); transform: rotate(90deg); }
-        .settings-dropdown { display: none; position: absolute; top: 80px; right: 25px; background: var(--white-glass); backdrop-filter: blur(15px); width: 260px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); z-index: 101; padding: 10px; border: 1px solid rgba(255,255,255,0.5); }
-        .settings-dropdown button, .settings-dropdown a { display: flex; align-items: center; gap: 12px; padding: 12px 15px; color: var(--primary-dark); text-decoration: none; width: 100%; border: none; background: transparent; cursor: pointer; font-family: inherit; font-weight: 600; font-size: 0.95rem; text-align: right; border-radius: 12px; transition: 0.2s; }
-        .settings-dropdown button:hover, .settings-dropdown a:hover { background: rgba(212, 175, 55, 0.15); color: #b48f1f; }
-
         /* Cards */
         .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-        .farm-card { background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-soft); position: relative; display: flex; flex-direction: column; transition: transform 0.3s ease; border: 1px solid rgba(0,0,0,0.03); }
+        .farm-card { background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.08); position: relative; display: flex; flex-direction: column; transition: transform 0.3s ease; border: 1px solid rgba(0,0,0,0.03); }
         .farm-card:hover { transform: translateY(-5px); }
         .swiper { width: 100%; height: 260px; background: #eee; }
         .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
@@ -62,18 +58,14 @@
         .book-btn { background: var(--primary-dark); color: white; border: none; padding: 12px 28px; border-radius: 14px; cursor: pointer; font-weight: 700; transition: 0.3s; box-shadow: 0 4px 15px rgba(15, 46, 32, 0.2); }
         .book-btn:active { transform: scale(0.95); }
 
-        /* Admin Badge */
-        .admin-controls { position: absolute; top: 10px; right: 10px; z-index: 20; display:flex; gap:5px; }
-        .delete-btn { background: #ff4444; color: white; border:none; padding: 8px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-
-        /* Modals & Welcome Box */
+        /* Modals */
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15, 46, 32, 0.7); backdrop-filter: blur(8px); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
         .modal-box { background: white; width: 100%; max-width: 450px; border-radius: 24px; padding: 30px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.3); animation: slideUp 0.3s ease; }
         @keyframes slideUp { from{opacity:0; transform: translateY(20px);} to{opacity:1; transform: translateY(0);} }
         .modal-active { display: flex; }
         .close-modal { position: absolute; left: 20px; top: 20px; font-size: 1.2rem; background: #f0f0f0; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #555; cursor: pointer; transition: 0.2s; }
         
-        /* Welcome Modal Specifics */
+        /* Welcome Modal */
         #welcome-modal { position: fixed; inset: 0; background: rgba(15, 46, 32, 0.95); z-index: 9500; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.5s; padding: 20px; }
         #welcome-modal.active { opacity: 1; pointer-events: all; }
         .welcome-box { background: white; width: 100%; max-width: 480px; padding: 35px 25px; border-radius: 24px; text-align: center; border: 2px solid var(--primary-gold); transform: scale(0.9); transition: 0.4s; box-shadow: 0 0 50px rgba(212, 175, 55, 0.2); }
@@ -82,9 +74,20 @@
         .welcome-list li { margin-bottom: 12px; font-size: 0.95rem; color: #444; display: flex; gap: 10px; align-items: center; }
         .welcome-btn { background: linear-gradient(135deg, var(--primary-dark), #15382b); color: white; width: 100%; padding: 16px; border: none; border-radius: 14px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 25px rgba(15, 46, 32, 0.2); }
 
-        /* Terms List Style */
-        .terms-list { list-style: none; margin-top: 10px; padding: 0; }
-        .terms-list li { background: #fff; border: 1px solid #eee; border-right: 4px solid var(--primary-gold); margin-bottom: 10px; padding: 15px; border-radius: 8px; font-size: 0.9rem; color: #555; line-height: 1.6; display: flex; gap: 12px; align-items: flex-start; text-align: right; }
+        /* --- Settings Specific Styles --- */
+        .settings-section-title { font-size: 1rem; color: var(--primary-dark); font-weight: 800; margin-bottom: 12px; text-align: right; border-bottom: 2px solid #eee; padding-bottom: 8px; }
+        
+        /* 1. Add Farm Section */
+        .add-farm-box { background: #f0fdf4; border: 1px dashed #25D366; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 25px; }
+        .add-farm-box h4 { color: #1a1a1a; margin-bottom: 5px; font-size: 1.1rem; }
+        .add-farm-box p { color: #666; font-size: 0.85rem; margin-bottom: 15px; }
+        .admin-wa-btn { background: #25D366; color: white; text-decoration: none; padding: 12px 20px; border-radius: 50px; display: inline-flex; align-items: center; gap: 8px; font-weight: bold; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); transition: 0.3s; }
+        .admin-wa-btn:hover { transform: scale(1.05); }
+
+        /* 2. Terms Section */
+        .settings-list { list-style: none; padding: 0; }
+        .settings-list li { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; font-size: 0.9rem; color: #555; text-align: right; line-height: 1.5; }
+        .settings-list li i { color: var(--primary-gold); margin-top: 4px; }
 
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 0.9rem; }
@@ -119,13 +122,11 @@
 
     <header>
         <span class="brand-badge">Premium Rentals</span>
-        <div class="settings-btn" onclick="toggleSettings(event)"><i class="fas fa-cog"></i></div>
-        <div class="settings-dropdown" id="settingsDropdown">
-            <button onclick="promptAdminLogin()"><i class="fas fa-user-shield"></i> دخول الأدمن</button>
-            <button id="addFarmBtn" style="display:none; color:var(--primary-gold);" onclick="openAddFarmModal()"><i class="fas fa-plus"></i> إضافة مزرعة جديدة</button>
-            <button class="notes-toggle-btn" onclick="openDetailedTerms()"><i class="fas fa-file-contract"></i> الشروط والتعليمات</button>
-            <a href="https://wa.me/9647502679528" target="_blank" style="color:#25D366;"><i class="fab fa-whatsapp"></i> تواصل معنا</a>
+        
+        <div class="settings-btn" onclick="openSettingsModal()">
+            <i class="fas fa-cog"></i>
         </div>
+
         <h1>Dream Farm</h1>
         <p style="color:rgba(255,255,255,0.8);">تجربة استثنائية لأجمل المزارع السياحية</p>
     </header>
@@ -153,17 +154,29 @@
         <a href="https://www.tiktok.com/@dream.farm68" class="social-bubble tk"><i class="fab fa-tiktok"></i></a>
     </div>
 
-    <div id="terms-modal" class="modal-overlay">
+    <div id="settings-modal" class="modal-overlay">
         <div class="modal-box">
-            <span class="close-modal" onclick="closeTermsModal()">&times;</span>
-            <h3 style="text-align:center; color:var(--primary-dark); margin-bottom:20px;">📜 الشروط والتعليمات</h3>
-            <ul class="terms-list">
-                <li><i class="fas fa-money-bill-wave" style="color:var(--primary-gold); margin-top:3px;"></i> <div>الحجز لا يعتبر مؤكداً إلا بعد دفع العربون (Qi Card / FastPay).</div></li>
-                <li><i class="fas fa-clock" style="color:var(--primary-gold); margin-top:3px;"></i> <div>وقت الدخول الساعة 2:00 ظهراً، ووقت الخروج 11:00 صباحاً من اليوم التالي.</div></li>
-                <li><i class="fas fa-users" style="color:var(--primary-gold); margin-top:3px;"></i> <div>يمنع دخول عدد أشخاص أكثر من العدد المتفق عليه أثناء الحجز.</div></li>
-                <li><i class="fas fa-broom" style="color:var(--primary-gold); margin-top:3px;"></i> <div>يرجى المحافظة على نظافة المكان والأثاث، أي ضرر أو كسر يتحمله المستأجر.</div></li>
+            <span class="close-modal" onclick="closeSettingsModal()">&times;</span>
+            <h3 style="text-align:center; color:var(--primary-dark); margin-bottom:25px;">الإعدادات والمساعدة</h3>
+            
+            <div class="add-farm-box">
+                <i class="fas fa-home" style="font-size:1.8rem; color:#25D366; margin-bottom:10px;"></i>
+                <h4>هل تملك مزرعة؟</h4>
+                <p>تواصل معنا لإضافة مزرعتك في الموقع</p>
+                <a href="https://wa.me/9647502679528?text=السلام%20عليكم%20اريد%20اضافة%20مزرعتي" target="_blank" class="admin-wa-btn">
+                    <i class="fab fa-whatsapp"></i> تواصل مع الإدارة
+                </a>
+            </div>
+
+            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+
+            <div class="settings-section-title">📜 الشروط والتعليمات</div>
+            <ul class="settings-list">
+                <li><i class="fas fa-money-bill-wave"></i> <div>الحجز لا يعتبر مؤكداً إلا بعد دفع العربون.</div></li>
+                <li><i class="fas fa-clock"></i> <div>وقت الدخول الساعة 2:00 ظهراً، والخروج 11:00 صباحاً.</div></li>
+                <li><i class="fas fa-users"></i> <div>يمنع دخول عدد أشخاص أكثر من المتفق عليه.</div></li>
+                <li><i class="fas fa-broom"></i> <div>يرجى المحافظة على نظافة المكان والأثاث.</div></li>
             </ul>
-            <button onclick="closeTermsModal()" class="book-btn" style="width:100%; margin-top:20px; background:#f0f0f0; color:#333;">إغلاق</button>
         </div>
     </div>
 
@@ -199,33 +212,11 @@
         </div>
     </div>
 
-    <div id="admin-modal" class="modal-overlay">
-        <div class="modal-box">
-            <span class="close-modal" onclick="document.getElementById('admin-modal').classList.remove('modal-active')">&times;</span>
-            <h3 style="text-align:center; margin-bottom:15px;">إضافة مزرعة جديدة</h3>
-            <form id="add-farm-form">
-                <div class="form-group"><label>اسم المزرعة</label><input type="text" id="new-name" required></div>
-                <div class="form-group"><label>الموقع</label><input type="text" id="new-location" required></div>
-                <div class="form-group"><label>السعر (عادي)</label><input type="number" id="new-price" required></div>
-                <div class="form-group"><label>رابط الصورة</label><input type="text" id="new-image" placeholder="https://..." required></div>
-                <div class="form-group">
-                    <label>النوع</label>
-                    <select id="new-type">
-                        <option value="family">عائلات</option>
-                        <option value="youth">شباب</option>
-                        <option value="all">مختلط</option>
-                    </select>
-                </div>
-                <button type="submit" class="submit-wa" style="background:var(--primary-dark);">حفظ المزرعة</button>
-            </form>
-        </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
-        // --- Data Initialization ---
-        const defaultFarms = [
+        // --- DATA SECTION: EDIT YOUR FARMS HERE ---
+        const farmsData = [
             { 
                 id: 1, 
                 name: "مزرعة القصر الذهبي", 
@@ -261,9 +252,6 @@
             }
         ];
 
-        let farmsData = JSON.parse(localStorage.getItem('farmsData')) || defaultFarms;
-        let isAdmin = localStorage.getItem('isAdmin') === 'true';
-
         const container = document.getElementById('farm-list-container');
         let currentCategory = 'all';
         let currentSearch = '';
@@ -281,7 +269,6 @@
                 
                 checkURLParams(); 
             }, 800);
-            if(isAdmin) document.getElementById('addFarmBtn').style.display = 'flex';
         });
 
         // --- Deep Linking ---
@@ -291,7 +278,7 @@
             if (farmId) {
                 const farm = farmsData.find(f => f.id == farmId);
                 if (farm) {
-                    document.getElementById('welcome-modal').classList.remove('active'); // Close welcome if deep linking
+                    document.getElementById('welcome-modal').classList.remove('active'); 
                     document.getElementById('searchInput').value = farm.name;
                     currentSearch = farm.name;
                     applyFilters();
@@ -346,13 +333,10 @@
                 let badgeText = farm.allowedType === 'family' ? 'عائلات' : (farm.allowedType === 'youth' ? 'شباب' : 'مختلط');
                 let badge = `<span style="background:${badgeClass};color:white;padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:bold">${badgeText}</span>`;
                 
-                let adminControls = isAdmin ? `<div class="admin-controls"><button class="delete-btn" onclick="deleteFarm(${farm.id})"><i class="fas fa-trash"></i></button></div>` : '';
-
                 const slides = farm.images.map(img => `<div class="swiper-slide"><img src="${img}" loading="lazy"></div>`).join('');
 
                 container.innerHTML += `
                 <div class="farm-card" id="farm-${farm.id}">
-                    ${adminControls}
                     <button onclick="shareFarm(${farm.id}, '${farm.name}')" style="position:absolute;top:15px;left:15px;z-index:10;background:rgba(255,255,255,0.9);border:none;width:35px;height:35px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;"><i class="fas fa-share-alt" style="color:var(--primary-dark)"></i></button>
                     <div class="swiper mySwiper-${farm.id}"><div class="swiper-wrapper">${slides}</div><div class="swiper-pagination"></div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div></div>
                     <div class="card-content">
@@ -378,64 +362,12 @@
             });
         }
 
-        // --- Admin Functions ---
-        window.promptAdminLogin = () => {
-            const pass = prompt("الرجاء إدخال كلمة مرور الأدمن:");
-            if(pass === "1234") {
-                localStorage.setItem('isAdmin', 'true');
-                isAdmin = true;
-                alert("تم تسجيل الدخول بنجاح! ✅");
-                location.reload();
-            } else if(pass) {
-                alert("كلمة المرور خاطئة ❌");
-            }
-        };
-
-        window.openAddFarmModal = () => {
-            document.getElementById('settingsDropdown').style.display = 'none';
-            document.getElementById('admin-modal').classList.add('modal-active');
-        };
-
-        document.getElementById('add-farm-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const newId = Date.now();
-            const name = document.getElementById('new-name').value;
-            const price = document.getElementById('new-price').value;
-            const newFarm = {
-                id: newId,
-                name: name,
-                location: document.getElementById('new-location').value,
-                images: [document.getElementById('new-image').value],
-                features: ["جديد", "VIP"],
-                bookedDates: [],
-                allowedType: document.getElementById('new-type').value,
-                rawPrice: parseInt(price),
-                pricing: { default: parseInt(price).toLocaleString() }
-            };
-            farmsData.unshift(newFarm);
-            localStorage.setItem('farmsData', JSON.stringify(farmsData));
-            document.getElementById('admin-modal').classList.remove('modal-active');
-            renderFarms(farmsData);
-        });
-
-        window.deleteFarm = (id) => {
-            if(confirm("هل أنت متأكد من حذف هذه المزرعة؟")) {
-                farmsData = farmsData.filter(f => f.id !== id);
-                localStorage.setItem('farmsData', JSON.stringify(farmsData));
-                renderFarms(farmsData);
-            }
-        };
-
         // --- Helper & Modal Functions ---
         window.acceptTerms = () => { document.getElementById('welcome-modal').classList.remove('active'); }
-        window.toggleSettings = (e) => { e.stopPropagation(); const m = document.getElementById('settingsDropdown'); m.style.display = (m.style.display === 'block') ? 'none' : 'block'; }
         
-        // **Restored Terms Logic**
-        window.openDetailedTerms = () => { 
-            document.getElementById('settingsDropdown').style.display = 'none'; 
-            document.getElementById('terms-modal').classList.add('modal-active'); 
-        }
-        window.closeTermsModal = () => { document.getElementById('terms-modal').classList.remove('modal-active'); }
+        // Settings Modal Logic
+        window.openSettingsModal = () => { document.getElementById('settings-modal').classList.add('modal-active'); }
+        window.closeSettingsModal = () => { document.getElementById('settings-modal').classList.remove('modal-active'); }
 
         window.shareFarm = (id, name) => { 
             const url = `${window.location.origin}${window.location.pathname}?id=${id}`;
@@ -514,7 +446,7 @@
             closeModal();
         });
 
-        window.onclick = (e) => { if(e.target.classList.contains('modal-overlay')) e.target.classList.remove('modal-active'); if(!e.target.closest('.settings-btn') && !e.target.closest('.settings-dropdown')) document.getElementById('settingsDropdown').style.display = 'none'; }
+        window.onclick = (e) => { if(e.target.classList.contains('modal-overlay')) e.target.classList.remove('modal-active'); }
 
         renderFarms(farmsData);
     </script>
