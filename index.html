@@ -63,43 +63,6 @@
             background: rgba(60, 20, 20, 0.8); color: #ff8a80; border-color: rgba(255, 138, 128, 0.2);
         }
 
-        /* --- NEW STYLES: Story Mode Overlay (Kept but disabled in JS) --- */
-        .story-overlay {
-            position: fixed; inset: 0; z-index: 12000; background: #000; 
-            display: none; justify-content: center; align-items: center;
-        }
-        .story-content {
-            width: 100%; height: 100%; max-width: 450px; 
-            position: relative; overflow: hidden; background: #fff;
-            display: flex; flex-direction: column;
-        }
-        .story-bg-img {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; opacity: 0.9;
-        }
-        .story-details {
-            position: absolute; bottom: 0; left: 0; width: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0.6) 50%, transparent 100%);
-            padding: 60px 25px 80px; color: white; text-align: center;
-            display: flex; flex-direction: column; align-items: center;
-        }
-        .story-logo-badge { 
-            background: rgba(255,255,255,0.2); backdrop-filter: blur(8px);
-            padding: 8px 20px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.4);
-            display: inline-block; font-weight: bold; margin-bottom: 15px; letter-spacing: 1px;
-            font-size: 0.9rem; text-transform: uppercase;
-        }
-        .story-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; color: var(--primary-gold); text-shadow: 0 4px 8px rgba(0,0,0,0.6); }
-        .story-price { font-size: 2rem; font-weight: 700; margin-bottom: 15px; display: inline-block; background: var(--primary-gold); color: #000; padding: 5px 20px; border-radius: 12px; transform: rotate(-2deg); }
-        .close-story { position: absolute; top: 25px; left: 25px; color: white; font-size: 2rem; z-index: 12001; cursor: pointer; text-shadow: 0 2px 5px rgba(0,0,0,0.5); width: 40px; height: 40px; background: rgba(0,0,0,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
-        .story-hint {
-            position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.7); color: white; padding: 20px 30px; border-radius: 20px;
-            pointer-events: none; animation: fadeOutHint 4s forwards; text-align: center; width: 80%;
-            border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px);
-        }
-        @keyframes fadeOutHint { 0% { opacity: 0; transform: translate(-50%, -40%); } 20% { opacity: 1; transform: translate(-50%, -50%); } 80% { opacity: 1; } 100% { opacity: 0; } }
-
         /* --- NEW STYLES: Visual Amenities Icons --- */
         .amenities-list { margin: 15px 0 20px; display: flex; flex-wrap: wrap; gap: 10px; }
         .amenity-chip { 
@@ -268,25 +231,6 @@
     <div id="toast-box"><i class="fas fa-check-circle"></i> تم نسخ الرابط بنجاح</div>
     <div id="loader"><i class="fas fa-gem loader-icon"></i></div>
 
-    <div id="story-overlay" class="story-overlay">
-        <div class="close-story" onclick="closeStoryMode()"><i class="fas fa-times"></i></div>
-        <div class="story-content" id="story-content-box">
-            <img src="" id="story-img" class="story-bg-img">
-            
-            <div class="story-hint">
-                <i class="fas fa-camera" style="font-size:2rem; margin-bottom:10px; display:block;"></i>
-                خذ لقطة شاشة (Screenshot)<br>وشاركها في ستوري إنستغرام
-            </div>
-
-            <div class="story-details">
-                <div class="story-logo-badge">Dream Farm 👑</div>
-                <h2 class="story-title" id="story-title"></h2>
-                <div class="story-price" id="story-price"></div>
-                <div style="font-size:1.1rem; opacity:0.9"><i class="fas fa-map-marker-alt"></i> <span id="story-loc"></span></div>
-                <div style="margin-top:20px; font-size:0.9rem; opacity:0.7">احجزها الآن عبر التطبيق</div>
-            </div>
-        </div>
-    </div>
     <div id="lightbox" class="lightbox-overlay">
         <span class="lb-close" onclick="closeLightbox()">&times;</span>
         <div class="lb-nav lb-prev" onclick="changeImage(-1)"><i class="fas fa-chevron-right"></i></div>
@@ -493,9 +437,7 @@
                 isVerified: true, 
                 images: ["https://images.unsplash.com/photo-1542718610-a1d656d1884c?w=600&q=80"], 
                 features: ["تصميم خشبي", "خصوصية تامة", "نهر قريب"], 
-                // ********** گۆڕانکاری لێرەدا دەکرێت: زیادکردنی ڕێکەوتی حەوزکراو بۆ مەزرەعەی 3 **********
                 bookedDates: ["2025-12-19", "2025-12-24", "2026-01-05"], 
-                // ***********************************************************************************
                 allowedType: "youth", 
                 rawPrice: 50000,
                 pricing: { default: "50,000", special: { 4: "65,000", 5: "80,000", 6: "60,000" } } 
@@ -647,18 +589,6 @@
                 swiperInstances.push(sw);
             });
         }
-
-        // --- NEW: Story Mode Functions (Kept for external calls, but icon removed) ---
-        window.openStoryMode = (id) => {
-            const farm = farmsData.find(f => f.id === id);
-            if(!farm) return;
-            document.getElementById('story-img').src = farm.images[0];
-            document.getElementById('story-title').innerText = farm.name;
-            document.getElementById('story-price').innerHTML = `${farm.pricing.default} <small>د.ع</small>`;
-            document.getElementById('story-loc').innerText = farm.location;
-            document.getElementById('story-overlay').style.display = 'flex';
-        }
-        window.closeStoryMode = () => { document.getElementById('story-overlay').style.display = 'none'; }
 
         // --- Standard Functions (Existing) ---
         window.toggleTheme = () => {
@@ -865,4 +795,3 @@
     </script>
 </body>
 </html>
-
