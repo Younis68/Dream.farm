@@ -89,7 +89,39 @@
         .loader-icon { font-size: 3rem; color: var(--primary-gold); animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
         
-        header { background: linear-gradient(135deg, var(--primary-dark), #1a3c30); min-height: 380px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; padding: 20px 20px 80px 20px; position: relative; }
+        /* 👑 --- التعديل الذي طلبه المستخدم: إضافة صورة خلفية للـ Header --- 👑 */
+        header { 
+            /* *** تم تغيير رابط الصورة إلى dream.jpg *** */
+            background-image: 
+                linear-gradient(rgba(15, 46, 32, 0.6), rgba(26, 60, 48, 0.8)), 
+                url('dream.jpg'); /* تم التغيير هنا */
+            
+            background-size: cover; 
+            background-position: center;
+            background-color: var(--primary-dark); /* احتياطي في حال فشل تحميل الصورة */
+
+            min-height: 380px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            border-bottom-left-radius: 40px; 
+            border-bottom-right-radius: 40px; 
+            padding: 20px 20px 80px 20px; 
+            position: relative; 
+        }
+
+        /* تحديث الوضع الداكن (Dark Mode) ليستخدم نفس الصورة مع تعتيم أسود */
+        [data-theme="dark"] header {
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), 
+                url('dream.jpg'); /* تم التغيير هنا */
+            background-size: cover;
+            background-position: center;
+        }
+        /* 👑 ----------------------------------------------------------------- 👑 */
+
         header h1 { font-size: 2.8rem; color: white; margin: 10px 0; font-weight: 800; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .brand-badge { background: rgba(255,255,255,0.15); padding: 8px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.3); color: var(--primary-gold); font-size: 0.9rem; font-weight: 700; backdrop-filter: blur(5px); }
         
