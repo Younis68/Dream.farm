@@ -9,7 +9,7 @@
     <link rel="icon" href="https://img.icons8.com/emoji/48/crown-emoji.png" type="image/png">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_green.css">
@@ -28,7 +28,8 @@
             --badge-bg: #f4f7f6;
             --shadow-color: rgba(0,0,0,0.08);
             --radius-lg: 24px; 
-            --font-ar: 'Tajawal', sans-serif;
+            /* Changed font to Noto Sans Arabic for better Kurdish support */
+            --font-ar: 'Noto Sans Arabic', sans-serif;
             --font-en: 'Poppins', sans-serif;
             --font-main: var(--font-ar);
         }
@@ -51,11 +52,20 @@
         html[dir="ltr"] .date-input-group .clear-date { left: auto; right: 5px; }
         html[dir="ltr"] .card-title-row h3 { flex-direction: row-reverse; justify-content: flex-end; }
         
-        * { box-sizing: border-box; outline: none; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; outline: none; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; letter-spacing: normal !important; }
         body { font-family: var(--font-main); background-color: var(--bg-body); color: var(--text-main); overflow-x: hidden; display: flex; flex-direction: column; min-height: 10vh; transition: background-color 0.3s, color 0.3s; }
         
-        /* --- Custom Styles --- */
-        .flag-img { width: 28px; height: 20px; border-radius: 4px; object-fit: cover; border: 1px solid #ddd; vertical-align: middle; margin-inline-end: 8px; }
+        /* --- Flag Images Style --- */
+        .flag-img { 
+            width: 32px; 
+            height: 22px; 
+            border-radius: 4px; 
+            object-fit: cover; 
+            border: 1px solid #ddd; 
+            vertical-align: middle; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .lang-label { display: flex; align-items: center; gap: 12px; font-size: 1.1rem; }
 
         @keyframes pulse-red {
             0% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.7); }
@@ -191,7 +201,7 @@
         /* Language Modal */
         .lang-option { width: 100%; padding: 15px; border-radius: 12px; background: var(--bg-body); border: 1px solid var(--border-color); margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-weight: bold; transition: 0.2s; }
         .lang-option:hover, .lang-option.selected { border-color: var(--primary-gold); background: rgba(212, 175, 55, 0.1); }
-        .lang-label { display: flex; align-items: center; gap: 10px; }
+        
 
         @media (max-width: 600px) { header { min-height: 320px; padding-bottom: 60px; } header h1 { font-size: 2.2rem; } .swiper { height: 220px; } .search-container { margin-top: -50px; } }
     </style>
@@ -215,7 +225,9 @@
             <h3 style="text-align:center; margin-bottom:20px;" data-i18n="selectLang">اختر اللغة</h3>
             
             <div class="lang-option" onclick="setLanguage('ar')">
-                <span class="lang-label"><span style="font-size:1.5rem">🇮🇶</span> العربية</span>
+                <span class="lang-label">
+                    <img src="https://flagcdn.com/w40/iq.png" class="flag-img" alt="Iraq"> العربية
+                </span>
                 <i class="fas fa-check-circle" style="color:var(--primary-gold); display:none;" id="check-ar"></i>
             </div>
             
@@ -228,7 +240,9 @@
             </div>
             
             <div class="lang-option" onclick="setLanguage('en')">
-                <span class="lang-label"><span style="font-size:1.5rem">🇺🇸</span> English</span>
+                <span class="lang-label">
+                    <img src="https://flagcdn.com/w40/us.png" class="flag-img" alt="USA"> English
+                </span>
                 <i class="fas fa-check-circle" style="color:var(--primary-gold); display:none;" id="check-en"></i>
             </div>
         </div>
