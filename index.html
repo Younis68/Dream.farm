@@ -29,8 +29,6 @@
             --font-ar: 'Noto Sans Arabic', sans-serif;
             --font-en: 'Poppins', sans-serif;
             --font-main: var(--font-ar);
-            --success-color: #2e7d32;
-            --error-color: #c62828;
         }
 
         [data-theme="dark"] {
@@ -42,8 +40,6 @@
             --input-bg: #2c2c2c;
             --badge-bg: #2c2c2c;
             --shadow-color: rgba(0,0,0,0.5);
-            --success-color: #66bb6a;
-            --error-color: #ef5350;
         }
 
         /* --- Calendar Colors --- */
@@ -71,14 +67,10 @@
             border-color: #2e7d32;
         }
 
-        .flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, 
-        .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, 
-        .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, 
-        .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover {
+        .flatpickr-day.selected {
             background: var(--primary-gold) !important;
             border-color: var(--primary-gold) !important;
             color: white !important;
-            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4);
         }
 
         /* General Styles */
@@ -142,12 +134,7 @@
 
         .swiper { width: 100%; height: 240px; background: #eee; }
         .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
-        .img-actions { position: absolute; top: 12px; left: 12px; z-index: 20; display: flex; flex-direction: column; gap: 8px; }
-        html[dir="ltr"] .img-actions { left: auto; right: 12px; }
-        .action-icon { width: 34px; height: 34px; background: rgba(255,255,255,0.9); backdrop-filter: blur(4px); color: var(--primary-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 3px 8px rgba(0,0,0,0.1); transition: 0.2s; font-size: 0.9rem; }
-        .action-icon.is-fav { color: #e91e63; background: white; }
-        .info-icon { color: var(--primary-dark); border: 1px solid var(--primary-gold); }
-
+        
         .expand-btn { position: absolute; bottom: 12px; right: 12px; width: 34px; height: 34px; background: rgba(0,0,0,0.6); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 20; font-size: 0.9rem; }
         html[dir="ltr"] .expand-btn { right: auto; left: 12px; }
 
@@ -155,7 +142,18 @@
         .card-title-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px; }
         .verified-badge { color: #1da1f2; font-size: 0.9rem; }
         .location-text { font-size: 0.85rem; color: var(--text-sec); margin-bottom: 12px; display: flex; align-items: center; gap: 5px; margin-top: 8px; }
-        .price-wrapper { margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        
+        /* Card Toolbar */
+        .card-toolbar { display: flex; gap: 12px; padding-top: 15px; margin-top: auto; margin-bottom: 15px; border-top: 1px dashed var(--border-color); }
+        .action-btn-new { width: 40px; height: 40px; border-radius: 50%; background: var(--bg-body); color: var(--text-sec); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; border: 1px solid var(--border-color); font-size: 1rem; }
+        .action-btn-new:hover { background: var(--primary-gold); color: white; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); }
+        .action-btn-new.is-fav { color: #e91e63; background: #fce4ec; border-color: #f8bbd0; }
+        
+        /* Video Button */
+        .video-btn { background: #ffebee; color: #c62828; border-color: #ffcdd2; position: relative; overflow: hidden; }
+        .video-btn:hover { background: #c62828; color: white; border-color: #c62828; box-shadow: 0 5px 15px rgba(198, 40, 40, 0.3); }
+
+        .price-wrapper { margin-top: 0; padding-top: 0; display: flex; justify-content: space-between; align-items: center; }
         .price-val { font-size: 1.2rem; font-weight: 800; color: var(--primary-gold); }
         .book-btn { background: var(--primary-dark); color: white; border: none; padding: 10px 24px; border-radius: 12px; cursor: pointer; font-weight: 700; transition: 0.3s; box-shadow: 0 4px 15px rgba(15, 46, 32, 0.2); font-size: 0.9rem; }
         [data-theme="dark"] .book-btn { background: var(--primary-gold); color: black; }
@@ -512,63 +510,52 @@
             }
         };
 
+        // --- ئەڤە لێرە کۆدێ مەزرەعانە ---
+        // ژبۆ زێدەکرنا مەزرەعەکا نوی، کۆپیا ڤێ { ... } بکە و دانە خوارێ
         const farmsData = [
+            
+            // --- COPY FROM HERE (دەستپێکا کارتێ) ---
             { 
-                id: 1, 
-                name: { ar: "(1)", ku: "(1)", en: "(1)" }, 
+                id: 1, // هەر مەزرەعەکێ ژمارەکێ بدێ (1, 2, 3...)
+                name: { ar: "مزرعة أشوا", ku: "مەزرەعا ئاشەوا", en: "Ashawa Farm" }, 
                 location: { ar: "أشوا - سرسنك", ku: "ئاشەوا - سەرسنک", en: "Ashawa - Sarsink" }, 
-                isVerified: true, 
-                images: ["dream.jpg", "jjj.jpg"], 
-                featureKeys: ["pool", "cinema", "gen"],
-                bookedDates: ["2026-1-26", "2025-1-28"], 
-                allowedType: "family", 
+                isVerified: true, // true بۆ نیشاندانا نیشانا شین
+                images: ["dream.jpg", "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80"], // لینکی وێنان
+                videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // لینکێ ڤیدیۆ
+                featureKeys: ["pool", "cinema", "gen"], // تایبەتمەندی
+                bookedDates: ["2026-1-26", "2025-1-28"], // بەروارێن گیرايی
+                allowedType: "family", // family, youth, or all
                 rawPrice: 150000, 
-                pricing: { default: "150,000", special: { 4: "200,000", 5: "250,000", 6: "175,000" } },
+                pricing: { default: "150,000", special: { 4: "200,000", 5: "250,000", 6: "175,000" } }, // 4=پێنجشەم، 5=هەینی
                 description: {
                     ar: "مزرعة جميلة جداً تحتوي على مسبح وسينما...",
                     ku: "مەزرەعەکا گەلەک جوانە، مەسبەح تێدایە دگەل سینەما...",
                     en: "A beautiful farm with pool and cinema..."
                 }
             },
-            { 
-                id: 2, 
-                name: { ar: "فيلا الجبل", ku: "ڤێلا چیا", en: "Mountain Villa" }, 
-                location: { ar: "جبل ازمر", ku: "چیایێ ئەزمەر", en: "Azmar Mountain" }, 
-                isVerified: false, 
-                images: ["https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=600&q=80"], 
-                featureKeys: ["view", "bbq", "fire"], 
-                bookedDates: ["2025-06-20"], 
-                allowedType: "all", 
-                rawPrice: 75000, 
-                pricing: { default: "75,000", special: { 4: "100,000", 5: "125,000", 6: "90,000" } },
-                description: { ar: "", ku: "", en: "" }
-            },
-            { 
-                id: 3, 
-                name: { ar: "كوخ الغابة", ku: "کوخێ دارستانێ", en: "Forest Cabin" }, 
-                location: { ar: "شارباژير", ku: "شارباژێڕ", en: "Sharbazher" }, 
-                isVerified: true, 
-                images: ["https://images.unsplash.com/photo-1542718610-a1d656d1884c?w=600&q=80"], 
-                featureKeys: ["wood", "priv", "river"], 
-                bookedDates: ["2025-12-19", "2026-01-05"], 
-                allowedType: "youth", 
-                rawPrice: 50000, 
-                pricing: { default: "50,000", special: { 4: "65,000", 5: "80,000", 6: "60,000" } },
-                description: { ar: "", ku: "", en: "" }
-            },
-            { 
-                id: 4, 
-                name: { ar: "مزرعة القصر الذهبي", ku: "مەزرەعا قەسرا زێڕین", en: "Golden Palace Farm" }, 
-                location: { ar: "دوكان، قرب السد", ku: "دوکان، نێزیک بەنداڤێ", en: "Dukan, Near Dam" }, 
-                isVerified: true, 
-                images: ["dream.jpg", "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80"], 
-                featureKeys: ["pool", "cinema", "gen"], 
-                bookedDates: ["2025-12-25"], 
-                allowedType: "family", 
+            {
+                id: 2, // هەر مەزرەعەکێ ژمارەکێ بدێ (1, 2, 3...)
+                name: { ar: "مزرعة أشوا", ku: "مەزرەعا ئاشەوا", en: "Ashawa Farm" }, 
+                location: { ar: "أشوا - سرسنك", ku: "ئاشەوا - سەرسنک", en: "Ashawa - Sarsink" }, 
+                isVerified: true, // true بۆ نیشاندانا نیشانا شین
+                images: ["dream.jpg", "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80"], // لینکی وێنان
+                videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // لینکێ ڤیدیۆ
+                featureKeys: ["pool", "cinema", "gen"], // تایبەتمەندی
+                bookedDates: ["2026-1-26", "2025-1-28"], // بەروارێن گیرايی
+                allowedType: "family", // family, youth, or all
                 rawPrice: 150000, 
-                pricing: { default: "150,000", special: { 4: "200,000", 5: "250,000", 6: "175,000" } },
-                description: { ar: "", ku: "", en: "" }
-            }
+                pricing: { default: "150,000", special: { 4: "200,000", 5: "250,000", 6: "175,000" } }, // 4=پێنجشەم، 5=هەینی
+                description: {
+                    ar: "مزرعة جميلة جداً تحتوي على مسبح وسينما...",
+                    ku: "مەزرەعەکا گەلەک جوانە، مەسبەح تێدایە دگەل سینەما...",
+                    en: "A beautiful farm with pool and cinema..."
+                }
+            },
+                    // --- END COPY (دوماهیا کارتێ) ---
+
+            // ئەگەر تە ڤیا کارتەکا نوی زێدە بکەی، ژ { هەتا }, کوپی بکە و لێرە دانە
+            // و ژمارا id بگوهۆڕە بکە 2, 3, 4 ...
+
         ];
 
         let currentLang = localStorage.getItem('dreamFarm_lang') || 'ar';
@@ -668,6 +655,9 @@
                 const heartIcon = favorites.includes(farm.id) ? 'fas fa-heart' : 'far fa-heart';
                 const viewers = getSmartViewers(farm.id); 
 
+                // FIX: Removed ternary operator to show video button always
+                const videoBtnHtml = `<div class="action-btn-new video-btn" onclick="openVideo('${farm.videoUrl || ''}')" title="Watch Video"><i class="fas fa-play"></i></div>`;
+
                 const slides = farm.images.map((img, idx) => 
                     `<div class="swiper-slide">
                         <img src="${img}" loading="lazy">
@@ -677,15 +667,9 @@
 
                 const fName = farm.name[currentLang] || farm.name.ar;
                 const fLoc = farm.location[currentLang] || farm.location.ar;
-                const infoBtnHtml = `<div class="action-icon info-icon" onclick="openFeaturesModal(${farm.id})"><i class="fas fa-exclamation" style="font-weight:bold;"></i></div>`;
 
                 container.innerHTML += `
                 <div class="farm-card is-visible" id="farm-${farm.id}">
-                    <div class="img-actions">
-                        <div class="action-icon ${isFav}" onclick="toggleFav(${farm.id}, this)"><i class="${heartIcon}"></i></div>
-                        <div class="action-icon" onclick="shareFarm(${farm.id})"><i class="fas fa-share-alt"></i></div>
-                        ${infoBtnHtml}
-                    </div>
                     <div class="swiper mySwiper-${farm.id}"><div class="swiper-wrapper">${slides}</div><div class="swiper-pagination"></div></div>
                     <div class="card-content">
                         <div class="card-title-row">
@@ -694,6 +678,14 @@
                         </div>
                         <div class="urgency-badge"><i class="fas fa-eye"></i> ${viewers} ${T.viewers}</div>
                         <div class="location-text"><i class="fas fa-map-marker-alt" style="color:var(--primary-gold)"></i> ${fLoc}</div>
+                        
+                        <div class="card-toolbar">
+                            <div class="action-btn-new ${isFav}" onclick="toggleFav(${farm.id}, this)"><i class="${heartIcon}"></i></div>
+                            <div class="action-btn-new" onclick="shareFarm(${farm.id})"><i class="fas fa-share-alt"></i></div>
+                            <div class="action-btn-new" onclick="openFeaturesModal(${farm.id})"><i class="fas fa-info"></i></div>
+                            ${videoBtnHtml}
+                        </div>
+
                         <div class="price-wrapper">
                             <div><div class="price-val">${farm.pricing.default} <small style="font-size:0.8rem;font-weight:400">${T.curr}</small></div></div>
                             <button class="book-btn" onclick="openModal(${farm.id})">${T.bookNow}</button>
@@ -705,6 +697,22 @@
             list.forEach(farm => {
                 swiperInstances.push(new Swiper(`.mySwiper-${farm.id}`, { pagination: { el: ".swiper-pagination", dynamicBullets: true }, loop: true }));
             });
+        }
+
+        // FIX: Handle empty video URLs
+        window.openVideo = (url) => {
+            if(url && url !== 'undefined' && url !== "") {
+                window.open(url, '_blank');
+            } else {
+                const t = document.getElementById('toast-box');
+                let msg = "لا يوجد فيديو حالياً";
+                if(currentLang === 'ku') msg = "هیچ ڤیدیۆ نینە بۆ ڤێ مەزرەعێ";
+                if(currentLang === 'en') msg = "No video available";
+                
+                t.innerHTML = `<i class="fas fa-video-slash"></i> ${msg}`;
+                t.classList.add('show');
+                setTimeout(() => t.classList.remove('show'), 3000);
+            }
         }
 
         window.openLangModal = () => document.getElementById('lang-modal').classList.add('modal-active');
