@@ -212,13 +212,14 @@
         .social-bubble:hover { transform: scale(1.1); }
         .wa { background: #25D366; } .tk { background: #000; } [data-theme="dark"] .tk { background: #fff; color: black; } .fb { background: #1877F2; } .in { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
         
+        /* --- Scroll Top Btn Edited --- */
         #scrollTopBtn { 
-            position: fixed; bottom: 85px; left: 20px; 
-            width: 42px; height: 42px; /* Resized */
+            position: fixed; bottom: 85px; right: 20px; /* Edited: right */
+            width: 42px; height: 42px; 
             background: var(--primary-dark); color: var(--primary-gold); 
             border: 2px solid var(--primary-gold); border-radius: 50%; display: none; align-items: center; justify-content: center; cursor: pointer; z-index: 89; font-size: 1rem;
         }
-        html[dir="ltr"] #scrollTopBtn { left: auto; right: 20px; }
+        html[dir="ltr"] #scrollTopBtn { right: auto; left: 20px; } /* Edited: left */
 
         footer { background-color: var(--primary-dark); color: white; padding: 40px 20px 25px; text-align: center; margin-top: 40px; border-top-left-radius: 30px; border-top-right-radius: 30px; position: relative; }
         [data-theme="dark"] footer { background-color: #000; }
@@ -936,4 +937,3 @@
     </script>
 </body>
 </html>
-
