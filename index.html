@@ -655,7 +655,6 @@
                 const heartIcon = favorites.includes(farm.id) ? 'fas fa-heart' : 'far fa-heart';
                 const viewers = getSmartViewers(farm.id); 
 
-                // FIX: Removed ternary operator to show video button always
                 const videoBtnHtml = `<div class="action-btn-new video-btn" onclick="openVideo('${farm.videoUrl || ''}')" title="Watch Video"><i class="fas fa-play"></i></div>`;
 
                 const slides = farm.images.map((img, idx) => 
@@ -680,10 +679,10 @@
                         <div class="location-text"><i class="fas fa-map-marker-alt" style="color:var(--primary-gold)"></i> ${fLoc}</div>
                         
                         <div class="card-toolbar">
-                            <div class="action-btn-new ${isFav}" onclick="toggleFav(${farm.id}, this)"><i class="${heartIcon}"></i></div>
-                            <div class="action-btn-new" onclick="shareFarm(${farm.id})"><i class="fas fa-share-alt"></i></div>
                             <div class="action-btn-new" onclick="openFeaturesModal(${farm.id})"><i class="fas fa-info"></i></div>
                             ${videoBtnHtml}
+                            <div class="action-btn-new ${isFav}" onclick="toggleFav(${farm.id}, this)"><i class="${heartIcon}"></i></div>
+                            <div class="action-btn-new" onclick="shareFarm(${farm.id})"><i class="fas fa-share-alt"></i></div>
                         </div>
 
                         <div class="price-wrapper">
@@ -906,4 +905,3 @@
     </script>
 </body>
 </html>
-
