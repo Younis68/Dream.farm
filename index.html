@@ -868,16 +868,23 @@
             submitBtn.disabled = false; submitBtn.style.opacity = '1';
         }
 
-        document.getElementById('booking-form').addEventListener('submit', (e) => {
+                document.getElementById('booking-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const securedFarm = farmsData.find(f => f.id === parseInt(document.getElementById('farm-id-modal').value)); 
-            const n = document.getElementById('name').value; const d = dateInput.value;
-            const g = document.getElementById('guests').value; const t = document.getElementById('type').value;
-            const msg = `*🔔 طلب حجز جديد (${currentLang.toUpperCase()})*\n🏡 ${securedFarm.name.ar}\n📅 ${d}\n👤 الاسم: ${n}\n👥 العدد: ${g}\n📋 النوع: ${t}`;
+            
+            // وەرگرتنی زانیارییەکان
+            const n = document.getElementById('name').value; 
+            const d = dateInput.value;
+            const g = document.getElementById('guests').value; 
+            const fam = document.getElementById('families').value; // <--- ئەمە بۆ ژمارەی خێزان زیادکرا
+            const t = document.getElementById('type').value;
+
+            // دروستکردنی نامەکە
+            const msg = `*🔔 طلب حجز جديد (${currentLang.toUpperCase()})*\n🏡 ${securedFarm.name.ar}\n📅 ${d}\n👤 الاسم: ${n}\n👥 العدد الكلي: ${g}\n👨‍👩‍👧‍👦 عدد العوائل: ${fam}\n📋 النوع: ${t}`;
+            
             window.open(`https://wa.me/9647502679528?text=${encodeURIComponent(msg)}`, '_blank');
             closeModal();
         });
-
         let currentLbImages = [], currentLbIndex = 0;
         window.openLightbox = (farmId, index) => {
             const farm = farmsData.find(f => f.id === farmId);
@@ -905,3 +912,4 @@
     </script>
 </body>
 </html>
+
