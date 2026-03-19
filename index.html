@@ -512,7 +512,6 @@
             }
         };
 
-        // دێ ببیتە گۆڕاو (let) دا کو ئەم مەزرەعەیێن فایەربەیس ژی لێ زێدە بکەین
         let farmsData = [
             { 
                 id: "1", 
@@ -565,26 +564,35 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // وەرگرتنا مەزرەعان ژ فایەربەیسێ
+        // وەرگرتنا مەزرەعان ژ فایەربەیسێ (نویکری بۆ وەرگرتنا ئەرەیەکا وێنان)
         async function loadFarmsFromFirebase() {
             try {
                 const snapshot = await db.collection("farms").orderBy("createdAt", "desc").get();
                 snapshot.forEach(doc => {
                     const data = doc.data();
-                    // ڕێکخستنا داتایێن نوی کو ب شێوازێ مالپەڕێ تە بگونجن
+                    
+                    let farmImages = [];
+                    if (data.images && Array.isArray(data.images)) {
+                        farmImages = data.images; 
+                    } else if (data.image) {
+                        farmImages = [data.image]; 
+                    } else {
+                        farmImages = ["dream.jpg"]; 
+                    }
+
                     farmsData.push({
                         id: doc.id,
-                        name: { ar: data.name, ku: data.name, en: data.name }, 
-                        location: { ar: "العراق", ku: "عێراق", en: "Iraq" }, // جهێ دەستپێکی
+                        name: { ar: data.name || "", ku: data.name || "", en: data.name || "" }, 
+                        location: { ar: "العراق", ku: "عێراق", en: "Iraq" }, 
                         isVerified: true,
-                        images: [data.image], 
-                        videoUrl: "",
-                        featureKeys: [],
-                        bookedDates: [],
-                        allowedType: "all",
-                        rawPrice: parseInt(data.price.replace(/\D/g,'')) || 100000,
-                        pricing: { default: data.price, special: {} },
-                        description: { ar: "", ku: "", en: "" }
+                        images: farmImages,
+                        videoUrl: data.videoUrl || "",
+                        featureKeys: data.featureKeys || [],
+                        bookedDates: data.bookedDates || [],
+                        allowedType: data.allowedType || "all",
+                        rawPrice: data.price ? parseInt(String(data.price).replace(/\D/g,'')) || 100000 : 100000,
+                        pricing: { default: data.price || "100,000", special: {} },
+                        description: { ar: data.description || "", ku: data.description || "", en: data.description || "" }
                     });
                 });
                 renderFarms(farmsData);
@@ -648,7 +656,6 @@
         window.addEventListener('load', () => { 
             setLanguage(currentLang);
             
-            // لێرە چاڤەڕێی فایەربەیسێ دکەین پاشان شاشەیا لۆدینگی لاددەین
             loadFarmsFromFirebase().then(() => {
                 setTimeout(() => { 
                     document.getElementById('loader').style.display = 'none';
@@ -697,7 +704,6 @@
 
                 const videoBtnHtml = `<div class="action-btn-new video-btn" onclick="openVideo('${farm.videoUrl || ''}')" title="Watch Video"><i class="fas fa-play"></i></div>`;
 
-                // تێبینی: من نیشانێن کۆتەیشن '' بکارئینان دا کو ID یێن فایەربەیس کێشەیێ دروست نەکەن
                 const slides = farm.images.map((img, idx) => 
                     `<div class="swiper-slide">
                         <img src="${img}" loading="lazy">
@@ -863,7 +869,6 @@
         };
         window.closeFeaturesModal = () => document.getElementById('features-modal').classList.remove('modal-active');
 
-        // --- Booking Modal Logic ---
         const modal = document.getElementById('booking-modal');
         const dateInput = document.getElementById('date');
         const priceArea = document.getElementById('price-calc-area');
