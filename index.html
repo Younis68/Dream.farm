@@ -342,6 +342,8 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/ar.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <script>
         // --- DATA & CONFIG ---
@@ -510,23 +512,20 @@
             }
         };
 
-        // --- ئەڤە لێرە کۆدێ مەزرەعانە ---
-        // ژبۆ زێدەکرنا مەزرەعەکا نوی، کۆپیا ڤێ { ... } بکە و دانە خوارێ
-        const farmsData = [
-            
-            // --- COPY FROM HERE (دەستپێکا کارتێ) ---
+        // دێ ببیتە گۆڕاو (let) دا کو ئەم مەزرەعەیێن فایەربەیس ژی لێ زێدە بکەین
+        let farmsData = [
             { 
-                id: 1, // هەر مەزرەعەکێ ژمارەکێ بدێ (1, 2, 3...)
+                id: "1", 
                 name: { ar: "مزرعة أشوا", ku: "مەزرەعا ئاشەوا", en: "Ashawa Farm" }, 
                 location: { ar: "أشوا - سرسنك", ku: "ئاشەوا - سەرسنک", en: "Ashawa - Sarsink" }, 
-                isVerified: true, // true بۆ نیشاندانا نیشانا شین
-                images: ["dream.jpg", "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80"], // لینکی وێنان
-                videoUrl: "https://vt.tiktok.com/ZSaPKGpwj/", // لینکێ ڤیدیۆ
-                featureKeys: ["pool", "cinema", "gen"], // تایبەتمەندی
-                bookedDates: ["2026-1-26", "2025-1-28"], // بەروارێن گیرايی
-                allowedType: "family", // family, youth, or all
+                isVerified: true, 
+                images: ["dream.jpg", "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80"],
+                videoUrl: "https://vt.tiktok.com/ZSaPKGpwj/", 
+                featureKeys: ["pool", "cinema", "gen"],
+                bookedDates: ["2026-1-26", "2025-1-28"], 
+                allowedType: "family", 
                 rawPrice: 150000, 
-                pricing: { default: "150,000", special: { 4: "200,000", 5: "250,000", 6: "175,000" } }, // 4=پێنجشەم، 5=هەینی
+                pricing: { default: "150,000", special: { 4: "200,000", 5: "250,000", 6: "175,000" } },
                 description: {
                     ar: "مزرعة جميلة جداً تحتوي على مسبح وسينما...",
                     ku: "مەزرەعەکا گەلەک جوانە، مەسبەح تێدایە دگەل سینەما...",
@@ -534,29 +533,66 @@
                 }
             },
             {
-                id: 2, // هەر مەزرەعەکێ ژمارەکێ بدێ (1, 2, 3...)
+                id: "2",
                 name: { ar: "مزرعة أشوا", ku: "مەزرەعا ئاشەوا", en: "Ashawa Farm" }, 
                 location: { ar: "أشوا - سرسنك", ku: "ئاشەوا - سەرسنک", en: "Ashawa - Sarsink" }, 
-                isVerified: true, // true بۆ نیشاندانا نیشانا شین
-                images: ["dream.jpg", "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80"], // لینکی وێنان
-                videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // لینکێ ڤیدیۆ
-                featureKeys: ["pool", "cinema", "gen"], // تایبەتمەندی
-                bookedDates: ["2026-1-26", "2025-1-28"], // بەروارێن گیرايی
-                allowedType: "family", // family, youth, or all
+                isVerified: true, 
+                images: ["dream.jpg", "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80"], 
+                videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", 
+                featureKeys: ["pool", "cinema", "gen"], 
+                bookedDates: ["2026-1-26", "2025-1-28"], 
+                allowedType: "family", 
                 rawPrice: 150000, 
-                pricing: { default: "150,000", special: { 4: "200,000", 5: "250,000", 6: "175,000" } }, // 4=پێنجشەم، 5=هەینی
+                pricing: { default: "150,000", special: { 4: "200,000", 5: "250,000", 6: "175,000" } }, 
                 description: {
                     ar: "مزرعة جميلة جداً تحتوي على مسبح وسينما...",
                     ku: "مەزرەعەکا گەلەک جوانە، مەسبەح تێدایە دگەل سینەما...",
                     en: "A beautiful farm with pool and cinema..."
                 }
-            },
-                    // --- END COPY (دوماهیا کارتێ) ---
-
-            // ئەگەر تە ڤیا کارتەکا نوی زێدە بکەی، ژ { هەتا }, کوپی بکە و لێرە دانە
-            // و ژمارا id بگوهۆڕە بکە 2, 3, 4 ...
-
+            }
         ];
+
+        // --- گرێدانا فایەربەیسێ ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyDpRMklUOE5gll6rxAx3gCUDoJ2w8Ge5V0",
+            authDomain: "dreamfarm-4d68e.firebaseapp.com",
+            projectId: "dreamfarm-4d68e",
+            storageBucket: "dreamfarm-4d68e.firebasestorage.app",
+            messagingSenderId: "512563841088",
+            appId: "1:512563841088:web:c071cc5a131b07da8877a5",
+            measurementId: "G-RHJLX7PP88"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // وەرگرتنا مەزرەعان ژ فایەربەیسێ
+        async function loadFarmsFromFirebase() {
+            try {
+                const snapshot = await db.collection("farms").orderBy("createdAt", "desc").get();
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    // ڕێکخستنا داتایێن نوی کو ب شێوازێ مالپەڕێ تە بگونجن
+                    farmsData.push({
+                        id: doc.id,
+                        name: { ar: data.name, ku: data.name, en: data.name }, 
+                        location: { ar: "العراق", ku: "عێراق", en: "Iraq" }, // جهێ دەستپێکی
+                        isVerified: true,
+                        images: [data.image], 
+                        videoUrl: "",
+                        featureKeys: [],
+                        bookedDates: [],
+                        allowedType: "all",
+                        rawPrice: parseInt(data.price.replace(/\D/g,'')) || 100000,
+                        pricing: { default: data.price, special: {} },
+                        description: { ar: "", ku: "", en: "" }
+                    });
+                });
+                renderFarms(farmsData);
+                applyFilters();
+            } catch (error) {
+                console.error("کێشە د ئینانا داتایان دا هەیە: ", error);
+            }
+        }
 
         let currentLang = localStorage.getItem('dreamFarm_lang') || 'ar';
         let currentCategory = 'all';
@@ -611,11 +647,15 @@
 
         window.addEventListener('load', () => { 
             setLanguage(currentLang);
-            setTimeout(() => { 
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('welcome-modal').style.opacity = '1';
-                document.getElementById('welcome-modal').style.pointerEvents = 'all';
-            }, 1000);
+            
+            // لێرە چاڤەڕێی فایەربەیسێ دکەین پاشان شاشەیا لۆدینگی لاددەین
+            loadFarmsFromFirebase().then(() => {
+                setTimeout(() => { 
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('welcome-modal').style.opacity = '1';
+                    document.getElementById('welcome-modal').style.pointerEvents = 'all';
+                }, 800);
+            });
             
             checkURLParams(); 
             
@@ -657,10 +697,11 @@
 
                 const videoBtnHtml = `<div class="action-btn-new video-btn" onclick="openVideo('${farm.videoUrl || ''}')" title="Watch Video"><i class="fas fa-play"></i></div>`;
 
+                // تێبینی: من نیشانێن کۆتەیشن '' بکارئینان دا کو ID یێن فایەربەیس کێشەیێ دروست نەکەن
                 const slides = farm.images.map((img, idx) => 
                     `<div class="swiper-slide">
                         <img src="${img}" loading="lazy">
-                        <div class="expand-btn" onclick="openLightbox(${farm.id}, ${idx})"><i class="fas fa-expand"></i></div>
+                        <div class="expand-btn" onclick="openLightbox('${farm.id}', ${idx})"><i class="fas fa-expand"></i></div>
                     </div>`
                 ).join('');
 
@@ -679,15 +720,15 @@
                         <div class="location-text"><i class="fas fa-map-marker-alt" style="color:var(--primary-gold)"></i> ${fLoc}</div>
                         
                         <div class="card-toolbar">
-                            <div class="action-btn-new" onclick="openFeaturesModal(${farm.id})"><i class="fas fa-info"></i></div>
+                            <div class="action-btn-new" onclick="openFeaturesModal('${farm.id}')"><i class="fas fa-info"></i></div>
                             ${videoBtnHtml}
-                            <div class="action-btn-new ${isFav}" onclick="toggleFav(${farm.id}, this)"><i class="${heartIcon}"></i></div>
-                            <div class="action-btn-new" onclick="shareFarm(${farm.id})"><i class="fas fa-share-alt"></i></div>
+                            <div class="action-btn-new ${isFav}" onclick="toggleFav('${farm.id}', this)"><i class="${heartIcon}"></i></div>
+                            <div class="action-btn-new" onclick="shareFarm('${farm.id}')"><i class="fas fa-share-alt"></i></div>
                         </div>
 
                         <div class="price-wrapper">
                             <div><div class="price-val">${farm.pricing.default} <small style="font-size:0.8rem;font-weight:400">${T.curr}</small></div></div>
-                            <button class="book-btn" onclick="openModal(${farm.id})">${T.bookNow}</button>
+                            <button class="book-btn" onclick="openModal('${farm.id}')">${T.bookNow}</button>
                         </div>
                     </div>
                 </div>`;
@@ -698,7 +739,6 @@
             });
         }
 
-        // FIX: Handle empty video URLs
         window.openVideo = (url) => {
             if(url && url !== 'undefined' && url !== "") {
                 window.open(url, '_blank');
@@ -792,7 +832,7 @@
         }
 
         window.shareFarm = async (id) => {
-            const farm = farmsData.find(f => f.id === id);
+            const farm = farmsData.find(f => f.id == id);
             const T = translations[currentLang];
             const name = farm.name[currentLang] || farm.name.ar;
             const shareData = { title: name, text: `${name} - ${T.headerDesc}`, url: window.location.origin + window.location.pathname + '?id=' + id };
@@ -806,7 +846,7 @@
         }
 
         window.openFeaturesModal = (id) => {
-            const farm = farmsData.find(f => f.id === id);
+            const farm = farmsData.find(f => f.id == id);
             const descBox = document.getElementById('feat-farm-desc');
             const T = translations[currentLang];
             
@@ -832,7 +872,7 @@
 
         window.openModal = (id) => {
             const T = translations[currentLang];
-            currentFarm = farmsData.find(f => f.id === id);
+            currentFarm = farmsData.find(f => f.id == id);
             document.getElementById('modal-farm-name').textContent = currentFarm.name[currentLang] || currentFarm.name.ar;
             document.getElementById('farm-id-modal').value = id;
             
@@ -868,26 +908,25 @@
             submitBtn.disabled = false; submitBtn.style.opacity = '1';
         }
 
-                document.getElementById('booking-form').addEventListener('submit', (e) => {
+        document.getElementById('booking-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            const securedFarm = farmsData.find(f => f.id === parseInt(document.getElementById('farm-id-modal').value)); 
+            const securedFarm = farmsData.find(f => f.id == document.getElementById('farm-id-modal').value); 
             
-            // وەرگرتنی زانیارییەکان
             const n = document.getElementById('name').value; 
             const d = dateInput.value;
             const g = document.getElementById('guests').value; 
-            const fam = document.getElementById('families').value; // <--- ئەمە بۆ ژمارەی خێزان زیادکرا
+            const fam = document.getElementById('families').value; 
             const t = document.getElementById('type').value;
 
-            // دروستکردنی نامەکە
             const msg = `*🔔 طلب حجز جديد (${currentLang.toUpperCase()})*\n🏡 ${securedFarm.name.ar}\n📅 ${d}\n👤 الاسم: ${n}\n👥 العدد الكلي: ${g}\n👨‍👩‍👧‍👦 عدد العوائل: ${fam}\n📋 النوع: ${t}`;
             
             window.open(`https://wa.me/9647502679528?text=${encodeURIComponent(msg)}`, '_blank');
             closeModal();
         });
+        
         let currentLbImages = [], currentLbIndex = 0;
         window.openLightbox = (farmId, index) => {
-            const farm = farmsData.find(f => f.id === farmId);
+            const farm = farmsData.find(f => f.id == farmId);
             currentLbImages = farm.images; currentLbIndex = index;
             updateLb(); document.getElementById('lightbox').classList.add('lightbox-active');
         }
@@ -912,4 +951,3 @@
     </script>
 </body>
 </html>
-
