@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0f2e20">
     
-    <title data-i18n="pageTitle">Dream Farm | باشترین مزارع بۆ بەکرێگرتن</title>
+    <title data-i18n="pageTitle">Dream Farm | أفضل المزارع للإيجار</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -46,31 +46,17 @@
         .flatpickr-day.flatpickr-disabled, 
         .flatpickr-day.flatpickr-disabled:hover {
             background: rgba(198, 40, 40, 0.15) !important;
-            color: #c62828 !important;
-            border: 1px solid #ef9a9a !important;
-            text-decoration: line-through;
-            font-weight: bold;
-            opacity: 0.9 !important;
-            cursor: not-allowed;
+            color: #c62828 !important; border: 1px solid #ef9a9a !important;
+            text-decoration: line-through; font-weight: bold; opacity: 0.9 !important; cursor: not-allowed;
         }
-
         .flatpickr-day:not(.flatpickr-disabled):not(.prevMonthDay):not(.nextMonthDay) {
-            background: rgba(46, 125, 50, 0.1);
-            color: #2e7d32;
-            border: 1px solid #a5d6a7;
-            font-weight: bold;
+            background: rgba(46, 125, 50, 0.1); color: #2e7d32; border: 1px solid #a5d6a7; font-weight: bold;
         }
-
         .flatpickr-day:not(.flatpickr-disabled):not(.prevMonthDay):not(.nextMonthDay):hover {
-            background: #2e7d32 !important;
-            color: white !important;
-            border-color: #2e7d32;
+            background: #2e7d32 !important; color: white !important; border-color: #2e7d32;
         }
-
         .flatpickr-day.selected {
-            background: var(--primary-gold) !important;
-            border-color: var(--primary-gold) !important;
-            color: white !important;
+            background: var(--primary-gold) !important; border-color: var(--primary-gold) !important; color: white !important;
         }
 
         /* General Styles */
@@ -85,8 +71,6 @@
         .flag-img { width: 28px; height: 20px; border-radius: 3px; border: 1px solid #ccc; vertical-align: middle; }
         .lang-label { display: flex; align-items: center; gap: 10px; font-size: 1rem; }
         
-        .urgency-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(255, 235, 238, 0.9); color: #c62828; padding: 4px 10px; border-radius: 15px; font-size: 0.75rem; font-weight: 700; margin-top: 6px; margin-bottom: 4px; width: fit-content; border: 1px solid rgba(211, 47, 47, 0.2); }
-
         /* Loader & Toast */
         #loader { position: fixed; inset: 0; background: var(--primary-dark); z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: opacity 0.5s ease; pointer-events: none; }
         .loader-icon { font-size: 2.5rem; color: var(--primary-gold); animation: pulse 1.5s infinite; }
@@ -126,40 +110,102 @@
         .filter-btn { white-space: nowrap; padding: 8px 16px; border-radius: 25px; border: 1px solid transparent; background: rgba(255,255,255,0.9); color: var(--primary-dark); font-family: inherit; font-weight: 600; cursor: pointer; transition: 0.3s; box-shadow: 0 3px 8px rgba(0,0,0,0.05); font-size: 0.85rem; display: flex; align-items: center; gap: 6px; }
         .filter-btn.active { background: var(--primary-gold) !important; color: white !important; }
 
-        /* Cards */
-        .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; max-width: 1200px; margin: 30px auto; padding: 0 20px; flex: 1; width: 100%; }
-        .farm-card { background: var(--bg-card); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 10px 30px var(--shadow-color); position: relative; display: flex; flex-direction: column; transition: transform 0.3s ease; border: 1px solid var(--border-color); opacity: 0; }
+        /* Cards Grid */
+        .container { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 25px; max-width: 1200px; margin: 30px auto; padding: 0 20px; flex: 1; width: 100%; }
+        .farm-card { background: var(--bg-card); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 10px 30px var(--shadow-color); position: relative; display: flex; flex-direction: column; transition: transform 0.3s ease; border: 1px solid var(--border-color); opacity: 0; cursor: pointer;}
         .farm-card.is-visible { animation: fadeInUp 0.5s ease forwards; }
+        .farm-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px var(--shadow-color); }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .swiper { width: 100%; height: 240px; background: #eee; }
+        .card-img-overlay { position: absolute; top: 12px; right: 12px; z-index: 10; pointer-events: none; }
+        html[dir="ltr"] .card-img-overlay { right: auto; left: 12px; }
+        .viewers-pill { background: rgba(220, 38, 38, 0.9); color: #fff; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; backdrop-filter: blur(4px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+
+        .swiper { width: 100%; height: 240px; background: #eee; position: relative;}
         .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .expand-btn { position: absolute; bottom: 12px; right: 12px; width: 34px; height: 34px; background: rgba(0,0,0,0.6); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 20; font-size: 0.9rem; }
-        html[dir="ltr"] .expand-btn { right: auto; left: 12px; }
 
         .card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-        .card-title-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px; }
-        .verified-badge { color: #1da1f2; font-size: 0.9rem; }
-        .location-text { font-size: 0.85rem; color: var(--text-sec); margin-bottom: 12px; display: flex; align-items: center; gap: 5px; margin-top: 8px; }
+        .card-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .card-title-row h3 { font-size: 1.15rem; margin: 0; display: flex; align-items: center; gap: 6px; color: var(--text-main); }
+        .verified-badge { color: #1da1f2; font-size: 0.95rem; }
         
-        /* Card Toolbar */
-        .card-toolbar { display: flex; gap: 12px; padding-top: 15px; margin-top: auto; margin-bottom: 15px; border-top: 1px dashed var(--border-color); }
-        .action-btn-new { width: 40px; height: 40px; border-radius: 50%; background: var(--bg-body); color: var(--text-sec); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; border: 1px solid var(--border-color); font-size: 1rem; }
+        .location-text { font-size: 0.85rem; color: var(--text-sec); display: flex; align-items: center; gap: 5px; margin-top: 5px; }
+
+        .card-price-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--border-color); display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-sec); }
+        .card-price-row .price-val { color: var(--text-main); font-size: 1.05rem; font-weight: bold; }
+
+        /* Full Screen Details View */
+        .details-screen { position: fixed; inset: 0; background: var(--bg-body); z-index: 9999; overflow-y: auto; display: none; flex-direction: column; opacity: 0; transition: opacity 0.3s ease; }
+        .details-screen.active { display: flex; opacity: 1; pointer-events: all; }
+
+        .ds-header { position: sticky; top: 0; background: var(--bg-card); z-index: 10000; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px var(--shadow-color); border-bottom: 1px solid var(--border-color); }
+        .ds-back { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--badge-bg); color: var(--text-main); cursor: pointer; font-size: 1.2rem; transition: 0.2s; }
+        .ds-back:hover { background: var(--border-color); }
+        
+        .ds-top-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
+        .action-btn-new { width: 38px; height: 38px; border-radius: 50%; background: var(--bg-body); color: var(--text-sec); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; border: 1px solid var(--border-color); font-size: 1rem; }
         .action-btn-new:hover { background: var(--primary-gold); color: white; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); }
         .action-btn-new.is-fav { color: #e91e63; background: #fce4ec; border-color: #f8bbd0; }
         
-        /* Video Button */
         .video-btn { background: #ffebee; color: #c62828; border-color: #ffcdd2; position: relative; overflow: hidden; }
         .video-btn:hover { background: #c62828; color: white; border-color: #c62828; box-shadow: 0 5px 15px rgba(198, 40, 40, 0.3); }
 
-        .price-wrapper { margin-top: 0; padding-top: 0; display: flex; justify-content: space-between; align-items: center; }
-        .price-val { font-size: 1.2rem; font-weight: 800; color: var(--primary-gold); }
         .book-btn { background: var(--primary-dark); color: white; border: none; padding: 10px 24px; border-radius: 12px; cursor: pointer; font-weight: 700; transition: 0.3s; box-shadow: 0 4px 15px rgba(15, 46, 32, 0.2); font-size: 0.9rem; }
+        .book-btn-large { width: 100%; padding: 16px; font-size: 1.15rem; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 15px; }
+        .book-btn-large:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(15, 46, 32, 0.3); }
         [data-theme="dark"] .book-btn { background: var(--primary-gold); color: black; }
+        [data-theme="dark"] .book-btn-large:hover { box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3); }
+
+        .ds-content { padding: 20px; max-width: 800px; margin: 0 auto; width: 100%; padding-bottom: 50px;}
+        .ds-title { font-size: 1.5rem; margin-top: 15px; margin-bottom: 5px; color: var(--text-main); }
+        .ds-location { color: var(--text-sec); font-size: 0.95rem; margin-bottom: 20px; display: flex; align-items: center; gap: 5px;}
+        .ds-desc { background: var(--bg-card); padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); line-height: 1.8; color: var(--text-sec); white-space: pre-line; font-size: 0.95rem; text-align: justify; margin-bottom: 20px;}
+
+        /* --- Pricing Section & Accordion Styles --- */
+        .min-price-alert {
+            background: rgba(244, 180, 0, 0.1); border: 1px solid rgba(244, 180, 0, 0.3);
+            border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 12px;
+            margin-bottom: 20px; color: var(--text-main);
+        }
+        .min-price-alert i { color: #F4B400; font-size: 1.4rem; }
+        .min-price-alert .val { font-size: 1.2rem; font-weight: bold; margin-left: 5px; color: var(--text-main); }
+        
+        .pricing-table-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg); margin-bottom: 20px;
+            box-shadow: 0 5px 15px var(--shadow-color); overflow: hidden;
+        }
+        
+        /* Accordion Header */
+        .accordion-header {
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; user-select: none; transition: background-color 0.3s;
+        }
+        .accordion-header:hover { background-color: var(--badge-bg); }
+        .pt-header { font-weight: 800; color: var(--primary-dark); font-size: 1rem; }
+        [data-theme="dark"] .pt-header { color: var(--primary-gold); }
+        
+        /* Accordion Icon & Content */
+        .accordion-icon { transition: transform 0.3s ease; font-size: 1.1rem; color: var(--text-sec); order: -1; }
+        .accordion-icon.active { transform: rotate(180deg); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, opacity 0.3s ease; opacity: 0; }
+        .accordion-content.open { max-height: 600px; opacity: 1; }
+
+        .pt-row {
+            display: grid; grid-template-columns: 1fr 1.5fr 1fr; align-items: center;
+            padding: 12px 0; border-bottom: 1px dashed var(--border-color); font-size: 0.9rem;
+            color: var(--text-sec); text-align: center;
+        }
+        .pt-row.pt-labels { font-weight: bold; color: var(--text-main); border-bottom: 2px solid var(--border-color); }
+        .pt-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .pt-type { text-align: right; font-weight: 700; color: var(--text-main); }
+        html[dir="ltr"] .pt-type { text-align: left; }
+        .pt-time { display: flex; justify-content: center; align-items: center; gap: 5px; direction: ltr; }
+        .pt-price { text-align: left; font-weight: bold; color: var(--text-main); direction: ltr; }
+        html[dir="ltr"] .pt-price { text-align: right; }
 
         /* Modals & Lightbox */
-        .lightbox-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; display: none; justify-content: center; align-items: center; flex-direction: column; opacity: 0; transition: opacity 0.3s ease; }
+        .lightbox-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 15000; display: none; justify-content: center; align-items: center; flex-direction: column; opacity: 0; transition: opacity 0.3s ease; }
         .lightbox-active { display: flex; opacity: 1; pointer-events: all; }
         .lightbox-img { max-width: 100%; max-height: 80vh; border-radius: 8px; object-fit: contain; }
         .lb-close { position: absolute; top: 20px; right: 20px; color: white; font-size: 2rem; cursor: pointer; z-index: 10001; }
@@ -167,17 +213,18 @@
         .lb-prev { right: 20px; } .lb-next { left: 20px; }
         html[dir="ltr"] .lb-prev { right: auto; left: 20px; } html[dir="ltr"] .lb-next { left: auto; right: 20px; }
 
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); z-index: 12000; justify-content: center; align-items: center; padding: 20px; }
         .modal-box { background: var(--bg-card); width: 100%; max-width: 420px; border-radius: 20px; padding: 25px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.3); animation: slideUp 0.3s ease; color: var(--text-main); }
         .modal-active { display: flex; }
         .close-modal { position: absolute; left: 20px; top: 20px; font-size: 1rem; background: var(--badge-bg); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-sec); cursor: pointer; }
         html[dir="ltr"] .close-modal { left: auto; right: 20px; }
 
-        .form-group { margin-bottom: 12px; }
+        .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--text-main); font-size: 0.85rem; }
-        .form-group input, .form-group select { width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: 10px; font-family: inherit; font-size: 0.95rem; transition: 0.2s; background: var(--input-bg); color: var(--text-main); }
-        .submit-wa { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #25D366, #128C7E); color: white; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.95rem; margin-top: 8px; }
-        
+        .form-group input, .form-group select { width: 100%; padding: 12px 14px; border: 1px solid var(--border-color); border-radius: 10px; font-family: inherit; font-size: 0.95rem; transition: 0.2s; background: var(--input-bg); color: var(--text-main); }
+        .submit-wa { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #25D366, #128C7E); color: white; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.95rem; margin-top: 8px; transition: 0.3s; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+        .submit-wa:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4); }
+
         .social-dock { position: fixed; bottom: 25px; left: 20px; display: flex; flex-direction: column-reverse; gap: 12px; z-index: 90; }
         html[dir="ltr"] .social-dock { left: auto; right: 20px; }
         .social-bubble { width: 42px; height: 42px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.2); text-decoration: none; transition: 0.3s transform; }
@@ -195,7 +242,7 @@
         .lang-option { width: 100%; padding: 12px; border-radius: 10px; background: var(--bg-body); border: 1px solid var(--border-color); margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-weight: bold; transition: 0.2s; }
         .lang-option:hover, .lang-option.selected { border-color: var(--primary-gold); background: rgba(212, 175, 55, 0.1); }
         
-        @media (max-width: 600px) { header { min-height: 280px; padding-bottom: 50px; } header h1 { font-size: 1.8rem; } .swiper { height: 200px; } .search-container { margin-top: -40px; } }
+        @media (max-width: 600px) { header { min-height: 280px; padding-bottom: 50px; } header h1 { font-size: 1.8rem; } .search-container { margin-top: -40px; } }
     </style>
 </head>
 <body>
@@ -211,12 +258,72 @@
         <div style="color:#ccc; margin-top:15px; font-family:sans-serif; font-size:0.9rem" id="lb-counter"></div>
     </div>
 
+    <div id="details-screen" class="details-screen">
+        <div class="ds-header">
+            <div class="ds-back" onclick="closeFarmDetails()"><i class="fas fa-arrow-right"></i></div>
+            <div class="ds-top-actions" id="ds-actions"></div>
+        </div>
+        <div class="ds-content">
+            <div class="swiper" id="ds-swiper" style="height: 300px; border-radius: 20px; overflow: hidden; margin-bottom: 20px;">
+                <div class="swiper-wrapper" id="ds-swiper-wrapper"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+            <h2 class="ds-title" id="ds-title"></h2>
+            <div class="ds-location" id="ds-location"></div>
+            <div class="ds-desc" id="ds-desc"></div>
+            
+            <div id="ds-pricing-section"></div>
+        </div>
+    </div>
+
+    <div id="booking-screen" class="details-screen" style="z-index: 10500;">
+        <div class="ds-header">
+            <div class="ds-back" onclick="closeBookingScreen()"><i class="fas fa-arrow-right"></i></div>
+            <div class="ds-top-actions">
+                <h3 style="margin: 0; color: var(--text-main);" data-i18n="bookingTitle">طلب حجز</h3>
+            </div>
+        </div>
+        <div class="ds-content" style="max-width: 600px;">
+            <p style="text-align:center;color:var(--text-sec);font-size:1rem;margin-bottom:25px;">
+                <span data-i18n="for">لـ</span> <span id="booking-farm-name" style="color:var(--primary-gold);font-weight:bold;font-size:1.2rem;"></span>
+            </p>
+            <form id="booking-form">
+                <input type="hidden" id="farm-id-booking">
+                <div class="form-group">
+                    <label data-i18n="labelName">الاسم الثلاثي</label>
+                    <input type="text" id="name" required placeholder="" data-i18n-placeholder="phName">
+                </div>
+                <div class="form-group">
+                    <label data-i18n="labelDate">تاريخ الحجز</label>
+                    <input type="date" id="date" required style="cursor:pointer;">
+                </div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                    <div class="form-group">
+                        <label data-i18n="labelGuests">العدد الكلي</label>
+                        <input type="number" id="guests" placeholder="10" required min="1">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="labelFamilies">عدد العوائل</label>
+                        <input type="number" id="families" placeholder="2" min="1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="labelType">نوع الكروب</label>
+                    <select id="type" required></select>
+                </div>
+                <button type="submit" class="submit-wa" style="margin-top: 20px; padding: 15px; font-size: 1.05rem;">
+                    <i class="fab fa-whatsapp" style="font-size:1.3rem;"></i> 
+                    <span data-i18n="btnWhatsapp">إرسال الطلب واتساب</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
     <div id="lang-modal" class="modal-overlay">
         <div class="modal-box">
             <span class="close-modal" onclick="closeLangModal()">&times;</span>
             <h3 style="text-align:center; margin-bottom:20px;" data-i18n="selectLang">اختر اللغة</h3>
             <div class="lang-option" onclick="setLanguage('ar')"><span class="lang-label"><img src="https://flagcdn.com/w40/iq.png" class="flag-img" alt="Iraq"> العربية</span><i class="fas fa-check-circle" style="color:var(--primary-gold); display:none;" id="check-ar"></i></div>
-            <div class="lang-option" onclick="setLanguage('ku')"><span class="lang-label"><img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Flag_of_Kurdistan.svg" class="flag-img" alt="Kurdistan"> کوردی (بادینی)</span><i class="fas fa-check-circle" style="color:var(--primary-gold); display:none;" id="check-ku"></i></div>
             <div class="lang-option" onclick="setLanguage('en')"><span class="lang-label"><img src="https://flagcdn.com/w40/us.png" class="flag-img" alt="USA"> English</span><i class="fas fa-check-circle" style="color:var(--primary-gold); display:none;" id="check-en"></i></div>
         </div>
     </div>
@@ -264,7 +371,6 @@
             <button class="filter-btn" onclick="filterFarms('family', this)"><i class="fas fa-users"></i> <span data-i18n="filterFam">عائلات</span></button>
             <button class="filter-btn" onclick="filterFarms('pool', this)"><i class="fas fa-swimming-pool"></i> <span data-i18n="filterPool">مسبح</span></button>
             <button class="filter-btn" onclick="filterFarms('youth', this)"><i class="fas fa-user-friends"></i> <span data-i18n="filterYouth">شباب</span></button>
-            <button class="filter-btn" onclick="filterFarms('economy', this)"><i class="fas fa-tag"></i> <span data-i18n="filterEco">اقتصادي</span></button>
         </div>
     </div>
 
@@ -308,37 +414,6 @@
         </div>
     </div>
 
-    <div id="booking-modal" class="modal-overlay">
-        <div class="modal-box">
-            <span class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></span>
-            <h3 style="text-align:center; margin-bottom:5px;" data-i18n="bookingTitle">طلب حجز</h3>
-            <p style="text-align:center;color:var(--text-sec);font-size:0.85rem;margin-bottom:15px;"><span data-i18n="for">لـ</span> <span id="modal-farm-name" style="color:var(--primary-gold);font-weight:bold;"></span></p>
-            <form id="booking-form">
-                <input type="hidden" id="farm-id-modal">
-                <div class="form-group"><label data-i18n="labelName">الاسم الثلاثي</label><input type="text" id="name" required placeholder="" data-i18n-placeholder="phName"></div>
-                <div class="form-group"><label data-i18n="labelDate">تاريخ الحجز</label><input type="text" id="date" required placeholder="" data-i18n-placeholder="phDate" style="cursor:pointer;"></div>
-                <div id="price-calc-area" style="text-align:center; padding:12px; background:var(--badge-bg); border:1px solid var(--border-color); border-radius:10px; margin-bottom:15px; display:none;"></div>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
-                    <div class="form-group"><label data-i18n="labelGuests">العدد الكلي</label><input type="number" id="guests" placeholder="10" required min="1"></div>
-                    <div class="form-group"><label data-i18n="labelFamilies">عدد العوائل</label><input type="number" id="families" placeholder="2" min="1"></div>
-                </div>
-                <div class="form-group"><label data-i18n="labelType">نوع الكروب</label><select id="type" required></select></div>
-                <button type="submit" id="submit-btn" class="submit-wa"><i class="fab fa-whatsapp" style="font-size:1.1rem;"></i> <span data-i18n="btnWhatsapp">إرسال الطلب واتساب</span></button>
-            </form>
-        </div>
-    </div>
-
-    <div id="features-modal" class="modal-overlay">
-        <div class="modal-box">
-            <span class="close-modal" onclick="closeFeaturesModal()"><i class="fas fa-times"></i></span>
-            <h3 style="text-align:center; margin-bottom:5px;" data-i18n="featuresTitle">تفاصيل المزرعة</h3>
-            <p style="text-align:center; color:var(--primary-gold); font-weight:bold; font-size:1rem; margin-bottom:10px;" id="feat-farm-name"></p>
-            
-            <p id="feat-farm-desc" style="text-align:justify; line-height:1.8; color:var(--text-sec); font-size:0.9rem; background:var(--bg-body); padding:15px; border-radius:10px; margin-bottom:15px; border:1px solid var(--border-color); white-space: pre-line; display:none;"></p>
-            
-            </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/ar.js"></script>
@@ -346,10 +421,9 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <script>
-        // --- DATA & CONFIG ---
         const translations = {
             ar: {
-                pageTitle: "Dream Farm | باشترین مزارع بۆ بەکرێگرتن",
+                pageTitle: "Dream Farm | أفضل المزارع للإيجار",
                 badgePremium: "Premium Rentals",
                 headerDesc: "تجربة استثنائية لأجمل المزارع السياحية",
                 searchPlaceholder: "ابحث عن مزرعة...",
@@ -359,7 +433,6 @@
                 filterFam: "عائلات",
                 filterPool: "مسبح",
                 filterYouth: "شباب",
-                filterEco: "اقتصادي",
                 footerDesc: "أفضل خيار لقضاء عطلة مميزة",
                 footerHome: "الرئيسية",
                 footerPolicy: "سياسة الحجز",
@@ -382,14 +455,11 @@
                 labelName: "الاسم الثلاثي",
                 phName: "مثال: أحمد محمد علي",
                 labelDate: "تاريخ الحجز",
-                phDate: "اختر التاريخ...",
                 labelGuests: "العدد الكلي",
                 labelFamilies: "عدد العوائل",
                 labelType: "نوع الكروب",
                 btnWhatsapp: "إرسال الطلب واتساب",
-                viewers: "أشخاص يشاهدون الآن",
                 bookNow: "احجز الآن",
-                curr: "د.ع",
                 selectLang: "اختر اللغة",
                 typeFam: "عائلات",
                 typeYouth: "شباب",
@@ -397,64 +467,20 @@
                 optFam: "عائلات فقط",
                 optYouth: "شباب",
                 optAll: "عائلات / شباب",
-                priceExpected: "السعر المتوقع",
-                priceBooked: "عذراً، محجوز",
-                featuresTitle: "وصف المزرعة",
-                noDesc: "لا يوجد وصف لهذه المزرعة حالياً"
-            },
-            ku: {
-                pageTitle: "Dream Farm | باشترین مەزرەعە بۆ کرێ",
-                badgePremium: "کرێکرنا راقی",
-                headerDesc: "خۆشترین مەزرەعە و ڤێلا ل دهۆکێ و دەوروبەر",
-                searchPlaceholder: "لێگەریان بۆ مەزرەعێ...",
-                datePlaceholder: "بەروار",
-                filterAll: "هەمی",
-                filterFav: "دڵخواز",
-                filterFam: "خێزان",
-                filterPool: "مەسبەح",
-                filterYouth: "گەنج",
-                filterEco: "ئابووری",
-                footerDesc: "باشترین هەڵبژاردن بۆ بێهنڤەدانەکا تایبەت",
-                footerHome: "سەرەکی",
-                footerPolicy: "رێنمایێن حجزکرنێ",
-                copySuccess: "<i class='fas fa-check-circle'></i> لینک هاتە کۆپیکرن",
-                welcomeTitle: "بخێرهاتی بۆ Dream Farm",
-                welcomeSub: "باشترین شوێن بۆ گەریانێ ل عیراقێ",
-                welcomeNote1: "<b>ئگەهداریا گرنگ:</b> حجزکرن بێ عەربون ناهێتە تەمامکرن.",
-                welcomeNote2: "<b>پارەدان:</b> عەربون تەنێ ب رێکا Qi Card (ماستەر).",
-                agreeBtn: "باشە، دەستپێ بکە",
-                settingsTitle: "رێکخستن و هاریکاری",
-                ownerTitle: "تۆ خودان مەزرەعەی؟",
-                ownerDesc: "مەزرەعا خۆ زێدە بکە و بدە کرێ",
-                contactAdmin: "پەیوەندی ب ئیدارێ بکە",
-                rulesTitle: "رێنمایێن گرنگ",
-                rule1: "مەزرەعە ناهێتە حجزکرن هەتا عەربون نەهێتە دان.",
-                rule2: "پارەدان ب رێکا Qi Card (ماستەر) یە.",
-                rule3: "دەمێ هاتنە ژوور: ١:٠٠ نیڤرۆ / دەرکەڤتن: ١١:٠٠ سپێدێ",
-                bookingTitle: "داخوازیا حجزکرنێ",
-                for: "بۆ",
-                labelName: "ناڤێ سیانی",
-                phName: "نموونە: ئەحمەد محەمەد عەلی",
-                labelDate: "بەروارێ حجزێ",
-                phDate: "بەرواری هەڵبژێرە...",
-                labelGuests: "هەژمارا گشتی",
-                labelFamilies: "هەژمارا خێزانا",
-                labelType: "جورێ گروپی",
-                btnWhatsapp: "داخوازیێ ب واتسئەپ فرێکە",
-                viewers: "کەس نوکە د سەحکەنێ",
-                bookNow: "نوکە حیجزکە",
-                curr: "د.ع",
-                selectLang: "زمانێ هەڵبژێرە",
-                typeFam: "خێزان",
-                typeYouth: "گەنج",
-                typeMix: "تێکەڵ",
-                optFam: "تەنێ خێزان",
-                optYouth: "گەنج",
-                optAll: "خێزان / گەنج",
-                priceExpected: "بهایێ پێشبینیکری",
-                priceBooked: "ببورە، یا گیرايە",
-                featuresTitle: "وەسفێ مەزرەعێ",
-                noDesc: "هیچ وەسفەک نینە بۆ ڤێ مەزرەعێ"
+                priceBooked: "لا يوجد نتائج",
+                noDesc: "لا يوجد وصف لهذه المزرعة حالياً",
+                priceShift: "أقل سعر للشفت",
+                currency: "ع.د",
+                minPriceLabel: "أقل سعر للشفت",
+                daysSatWed: "السبت - الأحد - الاثنين - الثلاثاء - الأربعاء",
+                daysThuFri: "الخميس - الجمعة",
+                daysOccasions: "المناسبات والأعياد",
+                colPrice: "السعر ع.د",
+                colArrival: "الوصول",
+                colDepart: "المغادرة",
+                tFullDay: "يوم كامل",
+                tShift1: "شفت أول",
+                tShift2: "شفت ثاني"
             },
             en: {
                 pageTitle: "Dream Farm | Best Farms for Rent",
@@ -467,7 +493,6 @@
                 filterFam: "Family",
                 filterPool: "Pool",
                 filterYouth: "Youth",
-                filterEco: "Economy",
                 footerDesc: "The best choice for a special holiday",
                 footerHome: "Home",
                 footerPolicy: "Booking Policy",
@@ -490,14 +515,11 @@
                 labelName: "Full Name",
                 phName: "Ex: Ahmed Mohammed Ali",
                 labelDate: "Booking Date",
-                phDate: "Select date...",
                 labelGuests: "Total Guests",
                 labelFamilies: "Number of Families",
                 labelType: "Group Type",
                 btnWhatsapp: "Send Request via WhatsApp",
-                viewers: "people viewing now",
                 bookNow: "Book Now",
-                curr: "IQD",
                 selectLang: "Select Language",
                 typeFam: "Families",
                 typeYouth: "Youth",
@@ -505,108 +527,82 @@
                 optFam: "Families Only",
                 optYouth: "Youth",
                 optAll: "Families / Youth",
-                priceExpected: "Expected Price",
-                priceBooked: "Sorry, Booked",
-                featuresTitle: "Farm Description",
-                noDesc: "No description available for this farm"
+                priceBooked: "No Results",
+                noDesc: "No description available for this farm",
+                priceShift: "Min price per shift",
+                currency: "IQD",
+                minPriceLabel: "Min price per shift",
+                daysSatWed: "Saturday to Wednesday",
+                daysThuFri: "Thursday - Friday",
+                daysOccasions: "Holidays and Occasions",
+                colPrice: "Price (IQD)",
+                colArrival: "Arrival",
+                colDepart: "Departure",
+                tFullDay: "Full Day",
+                tShift1: "1st Shift",
+                tShift2: "2nd Shift"
             }
         };
 
-        let farmsData = [
-            { 
-                id: "1", 
-                name: { ar: "مزرعة أشوا", ku: "مەزرەعا ئاشەوا", en: "Ashawa Farm" }, 
-                location: { ar: "أشوا - سرسنك", ku: "ئاشەوا - سەرسنک", en: "Ashawa - Sarsink" }, 
-                isVerified: true, 
-                images: ["dream.jpg", "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80"],
-                videoUrl: "https://vt.tiktok.com/ZSaPKGpwj/", 
-                featureKeys: ["pool", "cinema", "gen"],
-                bookedDates: ["2026-1-26", "2025-1-28"], 
-                allowedType: "family", 
-                rawPrice: 150000, 
-                pricing: { default: "150,000", special: { 4: "200,000", 5: "250,000", 6: "175,000" } },
-                description: {
-                    ar: "مزرعة جميلة جداً تحتوي على مسبح وسينما...",
-                    ku: "مەزرەعەکا گەلەک جوانە، مەسبەح تێدایە دگەل سینەما...",
-                    en: "A beautiful farm with pool and cinema..."
-                }
-            },
-            {
-                id: "2",
-                name: { ar: "مزرعة أشوا", ku: "مەزرەعا ئاشەوا", en: "Ashawa Farm" }, 
-                location: { ar: "أشوا - سرسنك", ku: "ئاشەوا - سەرسنک", en: "Ashawa - Sarsink" }, 
-                isVerified: true, 
-                images: ["dream.jpg", "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80"], 
-                videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", 
-                featureKeys: ["pool", "cinema", "gen"], 
-                bookedDates: ["2026-1-26", "2025-1-28"], 
-                allowedType: "family", 
-                rawPrice: 150000, 
-                pricing: { default: "150,000", special: { 4: "200,000", 5: "250,000", 6: "175,000" } }, 
-                description: {
-                    ar: "مزرعة جميلة جداً تحتوي على مسبح وسينما...",
-                    ku: "مەزرەعەکا گەلەک جوانە، مەسبەح تێدایە دگەل سینەما...",
-                    en: "A beautiful farm with pool and cinema..."
-                }
-            }
-        ];
+        let farmsData = [];
 
-        // --- گرێدانا فایەربەیسێ ---
         const firebaseConfig = {
             apiKey: "AIzaSyDpRMklUOE5gll6rxAx3gCUDoJ2w8Ge5V0",
             authDomain: "dreamfarm-4d68e.firebaseapp.com",
             projectId: "dreamfarm-4d68e",
             storageBucket: "dreamfarm-4d68e.firebasestorage.app",
             messagingSenderId: "512563841088",
-            appId: "1:512563841088:web:c071cc5a131b07da8877a5",
-            measurementId: "G-RHJLX7PP88"
+            appId: "1:512563841088:web:c071cc5a131b07da8877a5"
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // وەرگرتنا مەزرەعان ژ فایەربەیسێ (نویکری بۆ وەرگرتنا ئەرەیەکا وێنان)
         async function loadFarmsFromFirebase() {
             try {
                 const snapshot = await db.collection("farms").orderBy("createdAt", "desc").get();
+                farmsData = [];
                 snapshot.forEach(doc => {
                     const data = doc.data();
-                    
                     let farmImages = [];
-                    if (data.images && Array.isArray(data.images)) {
-                        farmImages = data.images; 
-                    } else if (data.image) {
-                        farmImages = [data.image]; 
-                    } else {
-                        farmImages = ["dream.jpg"]; 
-                    }
+                    if (data.images && Array.isArray(data.images)) { farmImages = data.images; } 
+                    else if (data.image) { farmImages = [data.image]; } 
+                    else { farmImages = ["dream.jpg"]; }
+
+                    let descAr = data.description?.ar || data.description || "لا يوجد وصف لهذه المزرعة حالياً.";
+                    let descEn = data.description?.en || data.description || "No description available for this farm currently.";
+                    let locAr = data.location?.ar || data.location || "العراق";
+                    let locEn = data.location?.en || "Iraq";
 
                     farmsData.push({
                         id: doc.id,
-                        name: { ar: data.name || "", ku: data.name || "", en: data.name || "" }, 
-                        location: { ar: "العراق", ku: "عێراق", en: "Iraq" }, 
+                        name: { ar: data.name?.ar || data.name || "", en: data.name?.en || data.name || "" }, 
+                        location: { ar: locAr, en: locEn }, 
                         isVerified: true,
                         images: farmImages,
                         videoUrl: data.videoUrl || "",
                         featureKeys: data.featureKeys || [],
                         bookedDates: data.bookedDates || [],
                         allowedType: data.allowedType || "all",
-                        rawPrice: data.price ? parseInt(String(data.price).replace(/\D/g,'')) || 100000 : 100000,
-                        pricing: { default: data.price || "100,000", special: {} },
-                        description: { ar: data.description || "", ku: data.description || "", en: data.description || "" }
+                        description: { ar: descAr, en: descEn },
+                        price: data.price || null,
+                        shifts: data.shifts || null
                     });
                 });
                 renderFarms(farmsData);
                 applyFilters();
             } catch (error) {
-                console.error("کێشە د ئینانا داتایان دا هەیە: ", error);
+                console.error("خطأ في جلب البيانات: ", error);
             }
         }
 
         let currentLang = localStorage.getItem('dreamFarm_lang') || 'ar';
+        if(currentLang === 'ku') currentLang = 'ar';
+        
         let currentCategory = 'all';
         let currentSearch = '';
         let currentSearchDate = '';
         let swiperInstances = [];
+        let dsSwiperInstance = null;
         let favorites = JSON.parse(localStorage.getItem('dreamFarm_favs')) || []; 
 
         const storedTheme = localStorage.getItem('dreamFarm_theme') || 'light';
@@ -655,7 +651,6 @@
 
         window.addEventListener('load', () => { 
             setLanguage(currentLang);
-            
             loadFarmsFromFirebase().then(() => {
                 setTimeout(() => { 
                     document.getElementById('loader').style.display = 'none';
@@ -663,7 +658,6 @@
                     document.getElementById('welcome-modal').style.pointerEvents = 'all';
                 }, 800);
             });
-            
             checkURLParams(); 
             
             flatpickr("#searchDate", {
@@ -686,7 +680,7 @@
             const T = translations[currentLang];
 
             if (list.length === 0) { 
-                container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:50px;"><h3>${T.priceBooked.replace('عذراً، محجوز', 'No Results')}</h3><button class="filter-btn active" style="margin-top:10px; display:inline-block" onclick="resetFilters()">${T.filterAll}</button></div>`; 
+                container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:50px;"><h3>${T.priceBooked}</h3><button class="filter-btn active" style="margin-top:10px; display:inline-block" onclick="resetFilters()">${T.filterAll}</button></div>`; 
                 return; 
             }
 
@@ -696,67 +690,210 @@
                 else if(farm.allowedType === 'youth') { badgeClass = '#9C27B0'; badgeText = T.typeYouth; }
                 else { badgeClass = '#009688'; badgeText = T.typeMix; }
 
-                const badge = `<span style="background:${badgeClass};color:white;padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:bold; margin-inline-end:auto;">${badgeText}</span>`;
+                const badge = `<span style="background:${badgeClass};color:white;padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:bold;">${badgeText}</span>`;
                 const verifiedIcon = farm.isVerified ? '<i class="fas fa-check-circle verified-badge"></i>' : '';
-                const isFav = favorites.includes(farm.id) ? 'is-fav' : '';
-                const heartIcon = favorites.includes(farm.id) ? 'fas fa-heart' : 'far fa-heart';
                 const viewers = getSmartViewers(farm.id); 
 
-                const videoBtnHtml = `<div class="action-btn-new video-btn" onclick="openVideo('${farm.videoUrl || ''}')" title="Watch Video"><i class="fas fa-play"></i></div>`;
-
-                const slides = farm.images.map((img, idx) => 
-                    `<div class="swiper-slide">
-                        <img src="${img}" loading="lazy">
-                        <div class="expand-btn" onclick="openLightbox('${farm.id}', ${idx})"><i class="fas fa-expand"></i></div>
-                    </div>`
-                ).join('');
+                const slides = farm.images.map((img) => `<div class="swiper-slide"><img src="${img}" loading="lazy"></div>`).join('');
 
                 const fName = farm.name[currentLang] || farm.name.ar;
                 const fLoc = farm.location[currentLang] || farm.location.ar;
-
+                
+                let displayPrice = '';
+                if (farm.price) {
+                    if (typeof farm.price === 'object') displayPrice = farm.price[currentLang] || farm.price.ar;
+                    else displayPrice = farm.price;
+                }
+                
+                const priceHtml = displayPrice ? `<div class="card-price-row"><i class="fas fa-exclamation-triangle" style="color: #F4B400;"></i><span><span class="price-val">${displayPrice}</span> ${T.currency} ${T.priceShift}</span></div>` : '';
+                
                 container.innerHTML += `
-                <div class="farm-card is-visible" id="farm-${farm.id}">
-                    <div class="swiper mySwiper-${farm.id}"><div class="swiper-wrapper">${slides}</div><div class="swiper-pagination"></div></div>
+                <div class="farm-card is-visible" id="farm-${farm.id}" onclick="openFarmDetails('${farm.id}')">
+                    <div class="swiper mySwiper-${farm.id}">
+                        <div class="card-img-overlay"><div class="viewers-pill">${viewers} <i class="fas fa-eye"></i></div></div>
+                        <div class="swiper-wrapper">${slides}</div>
+                        <div class="swiper-pagination"></div>
+                    </div>
                     <div class="card-content">
-                        <div class="card-title-row">
-                            <h3>${fName} ${verifiedIcon}</h3>
-                            ${badge}
-                        </div>
-                        <div class="urgency-badge"><i class="fas fa-eye"></i> ${viewers} ${T.viewers}</div>
+                        <div class="card-title-row"><h3>${fName} ${verifiedIcon}</h3>${badge}</div>
                         <div class="location-text"><i class="fas fa-map-marker-alt" style="color:var(--primary-gold)"></i> ${fLoc}</div>
-                        
-                        <div class="card-toolbar">
-                            <div class="action-btn-new" onclick="openFeaturesModal('${farm.id}')"><i class="fas fa-info"></i></div>
-                            ${videoBtnHtml}
-                            <div class="action-btn-new ${isFav}" onclick="toggleFav('${farm.id}', this)"><i class="${heartIcon}"></i></div>
-                            <div class="action-btn-new" onclick="shareFarm('${farm.id}')"><i class="fas fa-share-alt"></i></div>
-                        </div>
-
-                        <div class="price-wrapper">
-                            <div><div class="price-val">${farm.pricing.default} <small style="font-size:0.8rem;font-weight:400">${T.curr}</small></div></div>
-                            <button class="book-btn" onclick="openModal('${farm.id}')">${T.bookNow}</button>
-                        </div>
+                        ${priceHtml}
                     </div>
                 </div>`;
             });
 
-            list.forEach(farm => {
-                swiperInstances.push(new Swiper(`.mySwiper-${farm.id}`, { pagination: { el: ".swiper-pagination", dynamicBullets: true }, loop: true }));
-            });
+            list.forEach(farm => { swiperInstances.push(new Swiper(`.mySwiper-${farm.id}`, { pagination: { el: ".swiper-pagination", dynamicBullets: true }, loop: true })); });
         }
 
+        window.openFarmDetails = (id) => {
+            const farm = farmsData.find(f => f.id == id);
+            const T = translations[currentLang];
+            
+            document.getElementById('ds-title').innerHTML = `${farm.name[currentLang] || farm.name.ar} ${farm.isVerified ? '<i class="fas fa-check-circle verified-badge"></i>' : ''}`;
+            document.getElementById('ds-location').innerHTML = `<i class="fas fa-map-marker-alt" style="color:var(--primary-gold)"></i> ${farm.location[currentLang] || farm.location.ar}`;
+            document.getElementById('ds-desc').innerText = farm.description ? (farm.description[currentLang] || farm.description.ar || T.noDesc) : T.noDesc;
+            
+            let displayPrice = '200,000';
+            if (farm.price) {
+                if (typeof farm.price === 'object') displayPrice = farm.price[currentLang] || farm.price.ar;
+                else displayPrice = farm.price;
+            }
+
+            const shiftsData = farm.shifts || {
+                satWed: { fullDay: "450,000", shift1: "200,000", shift2: "250,000" },
+                thuFri: { fullDay: "500,000", shift1: "200,000", shift2: "250,000" }
+            };
+
+            let occasionsHtml = '';
+            if (shiftsData.occasions) {
+                occasionsHtml = `
+                <div class="pricing-table-card" style="padding:0;">
+                    <div class="accordion-header pt-header" style="padding:15px; margin-bottom:0; border-bottom:none;" onclick="toggleAccordion('acc-occ-${id}', 'icon-occ-${id}')">
+                        <div style="flex:1; text-align:center;">${T.daysOccasions}</div>
+                        <i class="fas fa-chevron-down accordion-icon" id="icon-occ-${id}"></i>
+                    </div>
+                    <div class="accordion-content" id="acc-occ-${id}" style="padding: 0 15px;">
+                        <div style="border-top: 1px solid var(--border-color); padding-top: 10px; padding-bottom: 15px;">
+                            <div class="pt-row pt-labels">
+                                <div class="pt-type"></div>
+                                <div class="pt-time">
+                                    <span style="flex:1;text-align:center">${T.colArrival}</span> : <span style="flex:1;text-align:center">${T.colDepart}</span>
+                                </div>
+                                <div class="pt-price">${T.colPrice}</div>
+                            </div>
+                            <div class="pt-row">
+                                <div class="pt-type">${T.tFullDay}</div>
+                                <div class="pt-time"><span style="flex:1">10:00 ص</span> : <span style="flex:1">8:00 ص</span></div>
+                                <div class="pt-price">${shiftsData.occasions.fullDay || "غير متوفر"}</div>
+                            </div>
+                            <div class="pt-row">
+                                <div class="pt-type">${T.tShift1}</div>
+                                <div class="pt-time"><span style="flex:1">10:00 ص</span> : <span style="flex:1">6:30 م</span></div>
+                                <div class="pt-price">${shiftsData.occasions.shift1 || "غير متوفر"}</div>
+                            </div>
+                            <div class="pt-row">
+                                <div class="pt-type">${T.tShift2}</div>
+                                <div class="pt-time"><span style="flex:1">8:00 م</span> : <span style="flex:1">6:30 ص</span></div>
+                                <div class="pt-price">${shiftsData.occasions.shift2 || "غير متوفر"}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }
+
+            const pricingHtml = `
+                <div class="min-price-alert">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <span class="val">${displayPrice}</span> ${T.currency} ${T.minPriceLabel}
+                    </div>
+                </div>
+
+                <div class="pricing-table-card" style="padding:0;">
+                    <div class="accordion-header pt-header" style="padding:15px; margin-bottom:0; border-bottom:none;" onclick="toggleAccordion('acc-sat-${id}', 'icon-sat-${id}')">
+                        <div style="flex:1; text-align:center;">${T.daysSatWed}</div>
+                        <i class="fas fa-chevron-down accordion-icon active" id="icon-sat-${id}"></i>
+                    </div>
+                    <div class="accordion-content open" id="acc-sat-${id}" style="padding: 0 15px;">
+                        <div style="border-top: 1px solid var(--border-color); padding-top: 10px; padding-bottom: 15px;">
+                            <div class="pt-row pt-labels">
+                                <div class="pt-type"></div>
+                                <div class="pt-time">
+                                    <span style="flex:1;text-align:center">${T.colArrival}</span> : <span style="flex:1;text-align:center">${T.colDepart}</span>
+                                </div>
+                                <div class="pt-price">${T.colPrice}</div>
+                            </div>
+                            <div class="pt-row">
+                                <div class="pt-type">${T.tFullDay}</div>
+                                <div class="pt-time"><span style="flex:1">10:00 ص</span> : <span style="flex:1">8:00 ص</span></div>
+                                <div class="pt-price">${shiftsData.satWed?.fullDay || "غير متوفر"}</div>
+                            </div>
+                            <div class="pt-row">
+                                <div class="pt-type">${T.tShift1}</div>
+                                <div class="pt-time"><span style="flex:1">10:00 ص</span> : <span style="flex:1">6:30 م</span></div>
+                                <div class="pt-price">${shiftsData.satWed?.shift1 || "غير متوفر"}</div>
+                            </div>
+                            <div class="pt-row">
+                                <div class="pt-type">${T.tShift2}</div>
+                                <div class="pt-time"><span style="flex:1">8:00 م</span> : <span style="flex:1">6:30 ص</span></div>
+                                <div class="pt-price">${shiftsData.satWed?.shift2 || "غير متوفر"}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pricing-table-card" style="padding:0;">
+                    <div class="accordion-header pt-header" style="padding:15px; margin-bottom:0; border-bottom:none;" onclick="toggleAccordion('acc-thu-${id}', 'icon-thu-${id}')">
+                        <div style="flex:1; text-align:center;">${T.daysThuFri}</div>
+                        <i class="fas fa-chevron-down accordion-icon" id="icon-thu-${id}"></i>
+                    </div>
+                    <div class="accordion-content" id="acc-thu-${id}" style="padding: 0 15px;">
+                        <div style="border-top: 1px solid var(--border-color); padding-top: 10px; padding-bottom: 15px;">
+                            <div class="pt-row pt-labels">
+                                <div class="pt-type"></div>
+                                <div class="pt-time">
+                                    <span style="flex:1;text-align:center">${T.colArrival}</span> : <span style="flex:1;text-align:center">${T.colDepart}</span>
+                                </div>
+                                <div class="pt-price">${T.colPrice}</div>
+                            </div>
+                            <div class="pt-row">
+                                <div class="pt-type">${T.tFullDay}</div>
+                                <div class="pt-time"><span style="flex:1">10:00 ص</span> : <span style="flex:1">8:00 ص</span></div>
+                                <div class="pt-price">${shiftsData.thuFri?.fullDay || "غير متوفر"}</div>
+                            </div>
+                            <div class="pt-row">
+                                <div class="pt-type">${T.tShift1}</div>
+                                <div class="pt-time"><span style="flex:1">10:00 ص</span> : <span style="flex:1">6:30 م</span></div>
+                                <div class="pt-price">${shiftsData.thuFri?.shift1 || "غير متوفر"}</div>
+                            </div>
+                            <div class="pt-row">
+                                <div class="pt-type">${T.tShift2}</div>
+                                <div class="pt-time"><span style="flex:1">8:00 م</span> : <span style="flex:1">6:30 ص</span></div>
+                                <div class="pt-price">${shiftsData.thuFri?.shift2 || "غير متوفر"}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                ${occasionsHtml}
+
+                <button class="book-btn book-btn-large" onclick="openBookingScreen('${farm.id}')">
+                    <i class="far fa-calendar-check"></i> ${T.bookNow}
+                </button>
+            `;
+            document.getElementById('ds-pricing-section').innerHTML = pricingHtml;
+
+            const slides = farm.images.map((img, idx) => `<div class="swiper-slide"><img src="${img}" style="width:100%; height:100%; object-fit:cover; border-radius: 20px;" onclick="openLightbox('${farm.id}', ${idx})"></div>`).join('');
+            document.getElementById('ds-swiper-wrapper').innerHTML = slides;
+            
+            if(dsSwiperInstance) dsSwiperInstance.destroy(true, true);
+            dsSwiperInstance = new Swiper("#ds-swiper", { pagination: { el: ".swiper-pagination", dynamicBullets: true }, loop: true });
+
+            const isFav = favorites.includes(farm.id) ? 'is-fav' : '';
+            const heartIcon = favorites.includes(farm.id) ? 'fas fa-heart' : 'far fa-heart';
+            
+            document.getElementById('ds-actions').innerHTML = `
+                <div class="action-btn-new video-btn" onclick="openVideo('${farm.videoUrl || ''}')"><i class="fas fa-play"></i></div>
+                <div class="action-btn-new ${isFav}" onclick="toggleFav('${farm.id}', this)"><i class="${heartIcon}"></i></div>
+                <div class="action-btn-new" onclick="shareFarm('${farm.id}')"><i class="fas fa-share-alt"></i></div>
+            `;
+
+            const backBtn = document.querySelector('.ds-back i');
+            backBtn.className = currentLang === 'en' ? 'fas fa-arrow-left' : 'fas fa-arrow-right';
+
+            document.getElementById('details-screen').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        window.closeFarmDetails = () => { document.getElementById('details-screen').classList.remove('active'); document.body.style.overflow = ''; }
+
         window.openVideo = (url) => {
-            if(url && url !== 'undefined' && url !== "") {
-                window.open(url, '_blank');
-            } else {
+            if(url && url !== 'undefined' && url !== "") { window.open(url, '_blank'); } 
+            else {
                 const t = document.getElementById('toast-box');
-                let msg = "لا يوجد فيديو حالياً";
-                if(currentLang === 'ku') msg = "هیچ ڤیدیۆ نینە بۆ ڤێ مەزرەعێ";
-                if(currentLang === 'en') msg = "No video available";
-                
-                t.innerHTML = `<i class="fas fa-video-slash"></i> ${msg}`;
-                t.classList.add('show');
-                setTimeout(() => t.classList.remove('show'), 3000);
+                t.innerHTML = `<i class="fas fa-video-slash"></i> ${currentLang === 'en' ? "No video available" : "لا يوجد فيديو حالياً"}`;
+                t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000);
             }
         }
 
@@ -768,189 +905,87 @@
 
         window.toggleTheme = () => {
             const html = document.documentElement;
-            if (html.getAttribute('data-theme') === 'dark') {
-                html.removeAttribute('data-theme'); localStorage.setItem('dreamFarm_theme', 'light');
-                document.getElementById('theme-icon').classList.replace('fa-sun', 'fa-moon');
-            } else {
-                html.setAttribute('data-theme', 'dark'); localStorage.setItem('dreamFarm_theme', 'dark');
-                document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun');
-            }
+            if (html.getAttribute('data-theme') === 'dark') { html.removeAttribute('data-theme'); localStorage.setItem('dreamFarm_theme', 'light'); document.getElementById('theme-icon').classList.replace('fa-sun', 'fa-moon'); } 
+            else { html.setAttribute('data-theme', 'dark'); localStorage.setItem('dreamFarm_theme', 'dark'); document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun'); }
         }
 
-        window.filterFarms = (category, btnElement) => {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btnElement.classList.add('active');
-            currentCategory = category;
-            applyFilters();
-        };
+        window.filterFarms = (category, btnElement) => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btnElement.classList.add('active'); currentCategory = category; applyFilters(); };
 
-        window.clearSearchDate = (e) => {
-            e.stopPropagation(); currentSearchDate = '';
-            document.getElementById('searchDate').value = ''; 
-            document.getElementById('clearDateBtn').style.display = 'none';
-            applyFilters();
-        }
+        window.clearSearchDate = (e) => { e.stopPropagation(); currentSearchDate = ''; document.getElementById('searchDate').value = ''; document.getElementById('clearDateBtn').style.display = 'none'; applyFilters(); }
 
-        window.resetFilters = () => {
-            document.getElementById('searchInput').value = ''; currentSearch = ''; currentCategory = 'all';
-            clearSearchDate({stopPropagation:()=>{}}); 
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            document.querySelector('.filter-btn').classList.add('active');
-            applyFilters();
-        }
+        window.resetFilters = () => { document.getElementById('searchInput').value = ''; currentSearch = ''; currentCategory = 'all'; clearSearchDate({stopPropagation:()=>{}}); document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); document.querySelector('.filter-btn').classList.add('active'); applyFilters(); }
 
-        document.getElementById('searchInput').addEventListener('keyup', (e) => {
-            currentSearch = e.target.value.toLowerCase();
-            applyFilters();
-        });
+        document.getElementById('searchInput').addEventListener('keyup', (e) => { currentSearch = e.target.value.toLowerCase(); applyFilters(); });
 
         function applyFilters() {
             const filtered = farmsData.filter(farm => {
-                const n = farm.name; const l = farm.location;
-                const searchTxt = currentSearch;
-                const matchesSearch = n.ar.includes(searchTxt) || n.ku.includes(searchTxt) || n.en.toLowerCase().includes(searchTxt) || l.ar.includes(searchTxt) || l.ku.includes(searchTxt) || l.en.toLowerCase().includes(searchTxt);
-                
+                const n = farm.name; const l = farm.location; const searchTxt = currentSearch;
+                const matchesSearch = n.ar.includes(searchTxt) || n.en.toLowerCase().includes(searchTxt) || l.ar.includes(searchTxt) || l.en.toLowerCase().includes(searchTxt);
                 let matchesCategory = true;
                 if (currentCategory === 'favorites') matchesCategory = favorites.includes(farm.id);
                 else if (currentCategory === 'family') matchesCategory = (farm.allowedType === 'family' || farm.allowedType === 'all');
                 else if (currentCategory === 'youth') matchesCategory = (farm.allowedType === 'youth' || farm.allowedType === 'all');
                 else if (currentCategory === 'pool') matchesCategory = farm.featureKeys.includes('pool');
-                else if (currentCategory === 'economy') matchesCategory = farm.rawPrice <= 100000;
-                
                 let matchesDate = true;
                 if(currentSearchDate) matchesDate = !farm.bookedDates.includes(currentSearchDate);
-                
                 return matchesSearch && matchesCategory && matchesDate;
             });
             renderFarms(filtered);
         }
 
         window.toggleFav = (id, btn) => {
-            if(favorites.includes(id)) {
-                favorites = favorites.filter(fid => fid !== id);
-                btn.classList.remove('is-fav'); btn.innerHTML = '<i class="far fa-heart"></i>';
-            } else {
-                favorites.push(id);
-                btn.classList.add('is-fav'); btn.innerHTML = '<i class="fas fa-heart"></i>';
-            }
+            if(favorites.includes(id)) { favorites = favorites.filter(fid => fid !== id); btn.classList.remove('is-fav'); btn.innerHTML = '<i class="far fa-heart"></i>'; } 
+            else { favorites.push(id); btn.classList.add('is-fav'); btn.innerHTML = '<i class="fas fa-heart"></i>'; }
             localStorage.setItem('dreamFarm_favs', JSON.stringify(favorites));
             if(currentCategory === 'favorites') applyFilters();
         }
 
         window.shareFarm = async (id) => {
-            const farm = farmsData.find(f => f.id == id);
-            const T = translations[currentLang];
-            const name = farm.name[currentLang] || farm.name.ar;
+            const farm = farmsData.find(f => f.id == id); const T = translations[currentLang]; const name = farm.name[currentLang] || farm.name.ar;
             const shareData = { title: name, text: `${name} - ${T.headerDesc}`, url: window.location.origin + window.location.pathname + '?id=' + id };
             if (navigator.share) { try { await navigator.share(shareData); } catch (err) {} } 
-            else {
-                navigator.clipboard.writeText(shareData.url).then(() => {
-                    const t = document.getElementById('toast-box'); t.classList.add('show');
-                    setTimeout(() => t.classList.remove('show'), 3000);
-                });
-            }
+            else { navigator.clipboard.writeText(shareData.url).then(() => { const t = document.getElementById('toast-box'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }); }
         }
 
-        window.openFeaturesModal = (id) => {
-            const farm = farmsData.find(f => f.id == id);
-            const descBox = document.getElementById('feat-farm-desc');
-            const T = translations[currentLang];
-            
-            document.getElementById('feat-farm-name').innerText = farm.name[currentLang] || farm.name.ar;
-            const descText = farm.description ? (farm.description[currentLang] || farm.description.ar || "") : "";
-            
-            descBox.style.display = "block";
-            if (descText && descText.trim() !== "") {
-                descBox.innerText = descText;
-            } else {
-                descBox.innerText = T.noDesc;
-            }
-            document.getElementById('features-modal').classList.add('modal-active');
-        };
-        window.closeFeaturesModal = () => document.getElementById('features-modal').classList.remove('modal-active');
-
-        const modal = document.getElementById('booking-modal');
         const dateInput = document.getElementById('date');
-        const priceArea = document.getElementById('price-calc-area');
-        const submitBtn = document.getElementById('submit-btn');
-        let currentFarm = null, fpInstance = null;
 
-        window.openModal = (id) => {
-            const T = translations[currentLang];
-            currentFarm = farmsData.find(f => f.id == id);
-            document.getElementById('modal-farm-name').textContent = currentFarm.name[currentLang] || currentFarm.name.ar;
-            document.getElementById('farm-id-modal').value = id;
-            
-            if(fpInstance) fpInstance.destroy();
-            
-            fpInstance = flatpickr("#date", {
-                locale: currentLang === 'en' ? "en" : "ar",
-                minDate: "today", 
-                dateFormat: "Y-m-d", 
-                disable: currentFarm.bookedDates, 
-                onChange: function(selectedDates, dateStr, instance) { checkPrice(); }
-            });
-
-            dateInput.value = ''; priceArea.style.display = 'none'; submitBtn.disabled = true; submitBtn.style.opacity = '0.6';
-            document.getElementById('guests').value = ''; document.getElementById('families').value = '';
-            
+        window.openBookingScreen = (id) => {
+            const T = translations[currentLang]; const currentFarm = farmsData.find(f => f.id == id);
+            document.getElementById('booking-farm-name').textContent = currentFarm.name[currentLang] || currentFarm.name.ar; document.getElementById('farm-id-booking').value = id;
+            dateInput.value = ''; document.getElementById('guests').value = ''; document.getElementById('families').value = '';
             const typeSel = document.getElementById('type'); typeSel.innerHTML = '';
             const opts = { family: `<option>${T.optFam}</option>`, youth: `<option>${T.optYouth}</option>`, all: `<option>${T.optAll}</option>` };
             typeSel.innerHTML = opts[currentFarm.allowedType] || opts.all;
-            modal.classList.add('modal-active');
+            const backBtnBooking = document.querySelector('#booking-screen .ds-back i');
+            if (backBtnBooking) backBtnBooking.className = currentLang === 'en' ? 'fas fa-arrow-left' : 'fas fa-arrow-right';
+            document.getElementById('booking-screen').classList.add('active');
         }
-        window.closeModal = () => { modal.classList.remove('modal-active'); }
 
-        window.checkPrice = () => {
-            const T = translations[currentLang];
-            if(!dateInput.value || !currentFarm) return;
-            const dStr = dateInput.value;
-            const day = new Date(dStr.split('-')[0], dStr.split('-')[1]-1, dStr.split('-')[2]).getDay();
-            let price = currentFarm.pricing.default; 
-            if(currentFarm.pricing.special && currentFarm.pricing.special[day]) price = currentFarm.pricing.special[day];
-            priceArea.style.display = 'block'; 
-            priceArea.innerHTML = `<div style="font-size:0.85rem;color:var(--text-sec);">${T.priceExpected}</div><div style="color:var(--primary-gold);font-weight:800;font-size:1.2rem;">${price} <small>${T.curr}</small></div>`; 
-            submitBtn.disabled = false; submitBtn.style.opacity = '1';
-        }
+        window.closeBookingScreen = () => { document.getElementById('booking-screen').classList.remove('active'); }
 
         document.getElementById('booking-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            const securedFarm = farmsData.find(f => f.id == document.getElementById('farm-id-modal').value); 
-            
-            const n = document.getElementById('name').value; 
-            const d = dateInput.value;
-            const g = document.getElementById('guests').value; 
-            const fam = document.getElementById('families').value; 
-            const t = document.getElementById('type').value;
-
+            const securedFarm = farmsData.find(f => f.id == document.getElementById('farm-id-booking').value); 
+            const n = document.getElementById('name').value; const d = dateInput.value; const g = document.getElementById('guests').value; const fam = document.getElementById('families').value; const t = document.getElementById('type').value;
             const msg = `*🔔 طلب حجز جديد (${currentLang.toUpperCase()})*\n🏡 ${securedFarm.name.ar}\n📅 ${d}\n👤 الاسم: ${n}\n👥 العدد الكلي: ${g}\n👨‍👩‍👧‍👦 عدد العوائل: ${fam}\n📋 النوع: ${t}`;
-            
-            window.open(`https://wa.me/9647502679528?text=${encodeURIComponent(msg)}`, '_blank');
-            closeModal();
+            const whatsappUrl = `https://wa.me/9647502679528?text=${encodeURIComponent(msg)}`;
+            window.location.href = whatsappUrl; closeBookingScreen();
         });
+
+        // کارپێکرنا بەشێ ڤەکرن و گرتنێ (Accordion) یێ خشتەیێن شێڤتان
+        window.toggleAccordion = (contentId, iconId) => {
+            const content = document.getElementById(contentId);
+            const icon = document.getElementById(iconId);
+            content.classList.toggle("open");
+            icon.classList.toggle("active");
+        };
         
         let currentLbImages = [], currentLbIndex = 0;
-        window.openLightbox = (farmId, index) => {
-            const farm = farmsData.find(f => f.id == farmId);
-            currentLbImages = farm.images; currentLbIndex = index;
-            updateLb(); document.getElementById('lightbox').classList.add('lightbox-active');
-        }
+        window.openLightbox = (farmId, index) => { const farm = farmsData.find(f => f.id == farmId); currentLbImages = farm.images; currentLbIndex = index; updateLb(); document.getElementById('lightbox').classList.add('lightbox-active'); }
         window.closeLightbox = () => { document.getElementById('lightbox').classList.remove('lightbox-active'); }
-        window.changeImage = (dir) => {
-            currentLbIndex = (currentLbIndex + dir + currentLbImages.length) % currentLbImages.length;
-            updateLb();
-        }
-        function updateLb() {
-            document.getElementById('lb-image').src = currentLbImages[currentLbIndex];
-            document.getElementById('lb-counter').innerText = `${currentLbIndex + 1} / ${currentLbImages.length}`;
-        }
-        
-        function checkURLParams() {
-            const params = new URLSearchParams(window.location.search);
-            const farmId = params.get('id');
-            if (farmId) { const farm = farmsData.find(f => f.id == farmId); if (farm) { acceptTerms(); openModal(farm.id); } }
-        }
-        
+        window.changeImage = (dir) => { currentLbIndex = (currentLbIndex + dir + currentLbImages.length) % currentLbImages.length; updateLb(); }
+        function updateLb() { document.getElementById('lb-image').src = currentLbImages[currentLbIndex]; document.getElementById('lb-counter').innerText = `${currentLbIndex + 1} / ${currentLbImages.length}`; }
+        function checkURLParams() { const params = new URLSearchParams(window.location.search); const farmId = params.get('id'); if (farmId) { const farm = farmsData.find(f => f.id == farmId); if (farm) { acceptTerms(); openFarmDetails(farm.id); } } }
         window.scrollToTop = () => { window.scrollTo({top: 0, behavior: 'smooth'}); };
         window.onscroll = () => { document.getElementById("scrollTopBtn").style.display = (window.scrollY > 300) ? "flex" : "none"; };
     </script>
