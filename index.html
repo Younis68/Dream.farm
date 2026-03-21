@@ -161,15 +161,6 @@
         .ds-location { color: var(--text-sec); font-size: 0.95rem; margin-bottom: 20px; display: flex; align-items: center; gap: 5px;}
         .ds-desc { background: var(--bg-card); padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); line-height: 1.8; color: var(--text-sec); white-space: pre-line; font-size: 0.95rem; text-align: justify; margin-bottom: 20px;}
 
-        /* Feature Badges */
-        .feature-badge {
-            background: var(--bg-card); border: 1px solid var(--border-color);
-            padding: 8px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;
-            color: var(--text-main); display: flex; align-items: center; gap: 8px;
-            box-shadow: 0 2px 5px var(--shadow-color);
-        }
-        .feature-badge i { color: var(--primary-gold); font-size: 1rem; }
-
         /* --- Pricing Section & Accordion Styles --- */
         .min-price-alert {
             background: rgba(244, 180, 0, 0.1); border: 1px solid rgba(244, 180, 0, 0.3);
@@ -231,7 +222,7 @@
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--text-main); font-size: 0.85rem; }
         .form-group input, .form-group select { width: 100%; padding: 12px 14px; border: 1px solid var(--border-color); border-radius: 10px; font-family: inherit; font-size: 0.95rem; transition: 0.2s; background: var(--input-bg); color: var(--text-main); }
-        .submit-wa { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #25D366, #128C7E); color: white; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.95rem; margin-top: 8px; transition: 0.3s; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+        .submit-wa { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #25D366, #128C7E); color: white; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: gap: 8px; font-size: 0.95rem; margin-top: 8px; transition: 0.3s; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
         .submit-wa:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4); }
 
         .social-dock { position: fixed; bottom: 25px; left: 20px; display: flex; flex-direction: column-reverse; gap: 12px; z-index: 90; }
@@ -280,9 +271,6 @@
             <h2 class="ds-title" id="ds-title"></h2>
             <div class="ds-location" id="ds-location"></div>
             <div class="ds-desc" id="ds-desc"></div>
-            
-            <h3 style="margin-top: 20px; margin-bottom: 12px; font-size: 1.15rem; color: var(--text-main);" data-i18n="featuresTitle">المرافق والمميزات</h3>
-            <div id="ds-features" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px;"></div>
             
             <div id="ds-pricing-section"></div>
         </div>
@@ -381,7 +369,6 @@
             <button class="filter-btn active" onclick="filterFarms('all', this)"><i class="fas fa-th"></i> <span data-i18n="filterAll">الكل</span></button>
             <button class="filter-btn" onclick="filterFarms('favorites', this)"><i class="fas fa-heart" style="color:#e91e63"></i> <span data-i18n="filterFav">المفضلة</span></button>
             <button class="filter-btn" onclick="filterFarms('family', this)"><i class="fas fa-users"></i> <span data-i18n="filterFam">عائلات</span></button>
-            <button class="filter-btn" onclick="filterFarms('pool', this)"><i class="fas fa-swimming-pool"></i> <span data-i18n="filterPool">مسبح</span></button>
             <button class="filter-btn" onclick="filterFarms('youth', this)"><i class="fas fa-user-friends"></i> <span data-i18n="filterYouth">شباب</span></button>
         </div>
     </div>
@@ -443,7 +430,6 @@
                 filterAll: "الكل",
                 filterFav: "المفضلة",
                 filterFam: "عائلات",
-                filterPool: "مسبح",
                 filterYouth: "شباب",
                 footerDesc: "أفضل خيار لقضاء عطلة مميزة",
                 footerHome: "الرئيسية",
@@ -492,8 +478,7 @@
                 colDepart: "المغادرة",
                 tFullDay: "يوم كامل",
                 tShift1: "شفت أول",
-                tShift2: "شفت ثاني",
-                featuresTitle: "المرافق والمميزات"
+                tShift2: "شفت ثاني"
             },
             en: {
                 pageTitle: "Dream Farm | Best Farms for Rent",
@@ -504,7 +489,6 @@
                 filterAll: "All",
                 filterFav: "Favorites",
                 filterFam: "Family",
-                filterPool: "Pool",
                 filterYouth: "Youth",
                 footerDesc: "The best choice for a special holiday",
                 footerHome: "Home",
@@ -553,34 +537,7 @@
                 colDepart: "Departure",
                 tFullDay: "Full Day",
                 tShift1: "1st Shift",
-                tShift2: "2nd Shift",
-                featuresTitle: "Amenities & Features"
-            }
-        };
-
-        // ناڤێن تایبەتمەندییان ب هەر دوو زمانان (بو فایەربەیسێ)
-        const featureTranslations = {
-            ar: {
-                pool: 'مسبح',
-                wifi: 'إنترنت (WiFi)',
-                electricity: 'كهرباء (وطنية ومولدة)',
-                bbq: 'مكان للشواء',
-                garden: 'حديقة',
-                billiards: 'بلياردو',
-                kids_area: 'ألعاب أطفال',
-                kitchen: 'مطبخ مجهز',
-                tv: 'شاشة تلفزيون'
-            },
-            en: {
-                pool: 'Swimming Pool',
-                wifi: 'Free WiFi',
-                electricity: '24/7 Electricity',
-                bbq: 'BBQ Area',
-                garden: 'Garden',
-                billiards: 'Billiards',
-                kids_area: 'Kids Area',
-                kitchen: 'Equipped Kitchen',
-                tv: 'Smart TV'
+                tShift2: "2nd Shift"
             }
         };
 
@@ -662,7 +619,6 @@
         }
 
         let currentLang = localStorage.getItem('dreamFarm_lang') || 'ar';
-        if(currentLang === 'ku') currentLang = 'ar';
         
         let currentCategory = 'all';
         let currentSearch = '';
@@ -794,7 +750,6 @@
         window.openFarmDetails = (id) => {
             const farm = farmsData.find(f => f.id == id);
             const T = translations[currentLang];
-            const fTrans = featureTranslations[currentLang];
             
             const shiftHours = {
                 ar: {
@@ -813,30 +768,6 @@
             document.getElementById('ds-title').innerHTML = `${farm.name[currentLang] || farm.name.ar} ${farm.isVerified ? '<i class="fas fa-check-circle verified-badge"></i>' : ''}`;
             document.getElementById('ds-location').innerHTML = `<i class="fas fa-map-marker-alt" style="color:var(--primary-gold)"></i> ${farm.location[currentLang] || farm.location.ar}`;
             document.getElementById('ds-desc').innerText = farm.description ? (farm.description[currentLang] || farm.description.ar || T.noDesc) : T.noDesc;
-            
-            // --- نیشاندانا تایبەتمەندییان (المرافق) ---
-            let featuresHtml = '';
-            if (farm.featureKeys && farm.featureKeys.length > 0) {
-                featuresHtml = farm.featureKeys.map(key => {
-                    let iconClass = 'fas fa-check'; // ئایکۆنا گشتی
-                    if(key === 'pool') iconClass = 'fas fa-swimming-pool';
-                    if(key === 'wifi') iconClass = 'fas fa-wifi';
-                    if(key === 'electricity') iconClass = 'fas fa-bolt';
-                    if(key === 'bbq') iconClass = 'fas fa-fire-alt';
-                    if(key === 'garden') iconClass = 'fab fa-pagelines';
-                    if(key === 'billiards') iconClass = 'fas fa-bowling-ball';
-                    if(key === 'kids_area') iconClass = 'fas fa-child';
-                    if(key === 'kitchen') iconClass = 'fas fa-utensils';
-                    if(key === 'tv') iconClass = 'fas fa-tv';
-
-                    const text = fTrans[key] || key;
-                    return `<div class="feature-badge"><i class="${iconClass}"></i> ${text}</div>`;
-                }).join('');
-            } else {
-                featuresHtml = `<p style="color:var(--text-sec); font-size: 0.9rem;">${currentLang === 'en' ? 'No extra features added yet.' : 'لا توجد مرافق مضافة حالياً.'}</p>`;
-            }
-            document.getElementById('ds-features').innerHTML = featuresHtml;
-            // ------------------------------------------
 
             let displayPrice = '200,000';
             if (farm.price) {
@@ -1031,7 +962,6 @@
                 if (currentCategory === 'favorites') matchesCategory = favorites.includes(farm.id);
                 else if (currentCategory === 'family') matchesCategory = (farm.allowedType === 'family' || farm.allowedType === 'all');
                 else if (currentCategory === 'youth') matchesCategory = (farm.allowedType === 'youth' || farm.allowedType === 'all');
-                else if (currentCategory === 'pool') matchesCategory = farm.featureKeys.includes('pool');
                 let matchesDate = true;
                 if(currentSearchDate) matchesDate = !farm.bookedDates.includes(currentSearchDate);
                 return matchesSearch && matchesCategory && matchesDate;
