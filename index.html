@@ -161,6 +161,15 @@
         .ds-location { color: var(--text-sec); font-size: 0.95rem; margin-bottom: 20px; display: flex; align-items: center; gap: 5px;}
         .ds-desc { background: var(--bg-card); padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); line-height: 1.8; color: var(--text-sec); white-space: pre-line; font-size: 0.95rem; text-align: justify; margin-bottom: 20px;}
 
+        /* Feature Badges */
+        .feature-badge {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            padding: 8px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;
+            color: var(--text-main); display: flex; align-items: center; gap: 8px;
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+        .feature-badge i { color: var(--primary-gold); font-size: 1rem; }
+
         /* --- Pricing Section & Accordion Styles --- */
         .min-price-alert {
             background: rgba(244, 180, 0, 0.1); border: 1px solid rgba(244, 180, 0, 0.3);
@@ -271,6 +280,9 @@
             <h2 class="ds-title" id="ds-title"></h2>
             <div class="ds-location" id="ds-location"></div>
             <div class="ds-desc" id="ds-desc"></div>
+            
+            <h3 style="margin-top: 20px; margin-bottom: 12px; font-size: 1.15rem; color: var(--text-main);" data-i18n="featuresTitle">المرافق والمميزات</h3>
+            <div id="ds-features" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px;"></div>
             
             <div id="ds-pricing-section"></div>
         </div>
@@ -480,7 +492,8 @@
                 colDepart: "المغادرة",
                 tFullDay: "يوم كامل",
                 tShift1: "شفت أول",
-                tShift2: "شفت ثاني"
+                tShift2: "شفت ثاني",
+                featuresTitle: "المرافق والمميزات"
             },
             en: {
                 pageTitle: "Dream Farm | Best Farms for Rent",
@@ -540,7 +553,34 @@
                 colDepart: "Departure",
                 tFullDay: "Full Day",
                 tShift1: "1st Shift",
-                tShift2: "2nd Shift"
+                tShift2: "2nd Shift",
+                featuresTitle: "Amenities & Features"
+            }
+        };
+
+        // ناڤێن تایبەتمەندییان ب هەر دوو زمانان (بو فایەربەیسێ)
+        const featureTranslations = {
+            ar: {
+                pool: 'مسبح',
+                wifi: 'إنترنت (WiFi)',
+                electricity: 'كهرباء (وطنية ومولدة)',
+                bbq: 'مكان للشواء',
+                garden: 'حديقة',
+                billiards: 'بلياردو',
+                kids_area: 'ألعاب أطفال',
+                kitchen: 'مطبخ مجهز',
+                tv: 'شاشة تلفزيون'
+            },
+            en: {
+                pool: 'Swimming Pool',
+                wifi: 'Free WiFi',
+                electricity: '24/7 Electricity',
+                bbq: 'BBQ Area',
+                garden: 'Garden',
+                billiards: 'Billiards',
+                kids_area: 'Kids Area',
+                kitchen: 'Equipped Kitchen',
+                tv: 'Smart TV'
             }
         };
 
@@ -573,7 +613,6 @@
                     let locAr = data.location?.ar || data.location || "العراق";
                     let locEn = data.location?.en || "Iraq";
 
-                    // --- بەشێ چارەسەرکرنا نرخان و شێفتان ---
                     let parsedShifts = null;
                     let minPrice = data.price || "0";
 
@@ -599,7 +638,6 @@
                     } else if (data.shifts) {
                         parsedShifts = data.shifts;
                     }
-                    // ----------------------------------------
 
                     farmsData.push({
                         id: doc.id,
@@ -756,10 +794,8 @@
         window.openFarmDetails = (id) => {
             const farm = farmsData.find(f => f.id == id);
             const T = translations[currentLang];
+            const fTrans = featureTranslations[currentLang];
             
-            // ==========================================
-            // لێرە دەمژمێرێن شێفتان ب دلی خۆ بگوهۆڕە
-            // ==========================================
             const shiftHours = {
                 ar: {
                     fullDay: { start: "10:00 ص", end: "8:00 ص" },
@@ -773,12 +809,35 @@
                 }
             };
             const times = shiftHours[currentLang];
-            // ==========================================
             
             document.getElementById('ds-title').innerHTML = `${farm.name[currentLang] || farm.name.ar} ${farm.isVerified ? '<i class="fas fa-check-circle verified-badge"></i>' : ''}`;
             document.getElementById('ds-location').innerHTML = `<i class="fas fa-map-marker-alt" style="color:var(--primary-gold)"></i> ${farm.location[currentLang] || farm.location.ar}`;
             document.getElementById('ds-desc').innerText = farm.description ? (farm.description[currentLang] || farm.description.ar || T.noDesc) : T.noDesc;
             
+            // --- نیشاندانا تایبەتمەندییان (المرافق) ---
+            let featuresHtml = '';
+            if (farm.featureKeys && farm.featureKeys.length > 0) {
+                featuresHtml = farm.featureKeys.map(key => {
+                    let iconClass = 'fas fa-check'; // ئایکۆنا گشتی
+                    if(key === 'pool') iconClass = 'fas fa-swimming-pool';
+                    if(key === 'wifi') iconClass = 'fas fa-wifi';
+                    if(key === 'electricity') iconClass = 'fas fa-bolt';
+                    if(key === 'bbq') iconClass = 'fas fa-fire-alt';
+                    if(key === 'garden') iconClass = 'fab fa-pagelines';
+                    if(key === 'billiards') iconClass = 'fas fa-bowling-ball';
+                    if(key === 'kids_area') iconClass = 'fas fa-child';
+                    if(key === 'kitchen') iconClass = 'fas fa-utensils';
+                    if(key === 'tv') iconClass = 'fas fa-tv';
+
+                    const text = fTrans[key] || key;
+                    return `<div class="feature-badge"><i class="${iconClass}"></i> ${text}</div>`;
+                }).join('');
+            } else {
+                featuresHtml = `<p style="color:var(--text-sec); font-size: 0.9rem;">${currentLang === 'en' ? 'No extra features added yet.' : 'لا توجد مرافق مضافة حالياً.'}</p>`;
+            }
+            document.getElementById('ds-features').innerHTML = featuresHtml;
+            // ------------------------------------------
+
             let displayPrice = '200,000';
             if (farm.price) {
                 if (typeof farm.price === 'object') displayPrice = farm.price[currentLang] || farm.price.ar;
@@ -1019,7 +1078,6 @@
             window.location.href = whatsappUrl; closeBookingScreen();
         });
 
-        // کارپێکرنا بەشێ ڤەکرن و گرتنێ (Accordion) یێ خشتەیێن شێڤتان
         window.toggleAccordion = (contentId, iconId) => {
             const content = document.getElementById(contentId);
             const icon = document.getElementById(iconId);
