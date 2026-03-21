@@ -573,6 +573,34 @@
                     let locAr = data.location?.ar || data.location || "العراق";
                     let locEn = data.location?.en || "Iraq";
 
+                    // --- بەشێ چارەسەرکرنا نرخان و شێفتان ---
+                    let parsedShifts = null;
+                    let minPrice = data.price || "0";
+
+                    if (data.prices) {
+                        parsedShifts = {
+                            satWed: {
+                                fullDay: data.prices.regular?.full || "غير متوفر",
+                                shift1: data.prices.regular?.day || "غير متوفر",
+                                shift2: data.prices.regular?.night || "غير متوفر"
+                            },
+                            thuFri: {
+                                fullDay: data.prices.weekend?.full || "غير متوفر",
+                                shift1: data.prices.weekend?.day || "غير متوفر",
+                                shift2: data.prices.weekend?.night || "غير متوفر"
+                            },
+                            occasions: {
+                                fullDay: data.prices.holiday?.full || "غير متوفر",
+                                shift1: data.prices.holiday?.day || "غير متوفر",
+                                shift2: data.prices.holiday?.night || "غير متوفر"
+                            }
+                        };
+                        minPrice = data.prices.regular?.day || "0";
+                    } else if (data.shifts) {
+                        parsedShifts = data.shifts;
+                    }
+                    // ----------------------------------------
+
                     farmsData.push({
                         id: doc.id,
                         name: { ar: data.name?.ar || data.name || "", en: data.name?.en || data.name || "" }, 
@@ -584,8 +612,8 @@
                         bookedDates: data.bookedDates || [],
                         allowedType: data.allowedType || "all",
                         description: { ar: descAr, en: descEn },
-                        price: data.price || null,
-                        shifts: data.shifts || null
+                        price: minPrice,
+                        shifts: parsedShifts
                     });
                 });
                 renderFarms(farmsData);
@@ -759,7 +787,8 @@
 
             const shiftsData = farm.shifts || {
                 satWed: { fullDay: "450,000", shift1: "200,000", shift2: "250,000" },
-                thuFri: { fullDay: "500,000", shift1: "200,000", shift2: "250,000" }
+                thuFri: { fullDay: "500,000", shift1: "200,000", shift2: "250,000" },
+                occasions: { fullDay: "غير متوفر", shift1: "غير متوفر", shift2: "غير متوفر" }
             };
 
             let occasionsHtml = '';
