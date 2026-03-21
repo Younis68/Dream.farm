@@ -729,6 +729,24 @@
             const farm = farmsData.find(f => f.id == id);
             const T = translations[currentLang];
             
+            // ==========================================
+            // لێرە دەمژمێرێن شێفتان ب دلی خۆ بگوهۆڕە
+            // ==========================================
+            const shiftHours = {
+                ar: {
+                    fullDay: { start: "10:00 ص", end: "8:00 ص" },
+                    shift1:  { start: "10:00 ص", end: "6:30 م" },
+                    shift2:  { start: "8:00 م",  end: "6:30 ص" }
+                },
+                en: {
+                    fullDay: { start: "10:00 AM", end: "8:00 AM" },
+                    shift1:  { start: "10:00 AM", end: "6:30 PM" },
+                    shift2:  { start: "8:00 PM",  end: "6:30 AM" }
+                }
+            };
+            const times = shiftHours[currentLang];
+            // ==========================================
+            
             document.getElementById('ds-title').innerHTML = `${farm.name[currentLang] || farm.name.ar} ${farm.isVerified ? '<i class="fas fa-check-circle verified-badge"></i>' : ''}`;
             document.getElementById('ds-location').innerHTML = `<i class="fas fa-map-marker-alt" style="color:var(--primary-gold)"></i> ${farm.location[currentLang] || farm.location.ar}`;
             document.getElementById('ds-desc').innerText = farm.description ? (farm.description[currentLang] || farm.description.ar || T.noDesc) : T.noDesc;
@@ -763,17 +781,17 @@
                             </div>
                             <div class="pt-row">
                                 <div class="pt-type">${T.tFullDay}</div>
-                                <div class="pt-time"><span style="flex:1">10:00 ص</span> : <span style="flex:1">8:00 ص</span></div>
+                                <div class="pt-time"><span style="flex:1">${times.fullDay.start}</span> : <span style="flex:1">${times.fullDay.end}</span></div>
                                 <div class="pt-price">${shiftsData.occasions.fullDay || "غير متوفر"}</div>
                             </div>
                             <div class="pt-row">
                                 <div class="pt-type">${T.tShift1}</div>
-                                <div class="pt-time"><span style="flex:1">10:00 ص</span> : <span style="flex:1">6:30 م</span></div>
+                                <div class="pt-time"><span style="flex:1">${times.shift1.start}</span> : <span style="flex:1">${times.shift1.end}</span></div>
                                 <div class="pt-price">${shiftsData.occasions.shift1 || "غير متوفر"}</div>
                             </div>
                             <div class="pt-row">
                                 <div class="pt-type">${T.tShift2}</div>
-                                <div class="pt-time"><span style="flex:1">8:00 م</span> : <span style="flex:1">6:30 ص</span></div>
+                                <div class="pt-time"><span style="flex:1">${times.shift2.start}</span> : <span style="flex:1">${times.shift2.end}</span></div>
                                 <div class="pt-price">${shiftsData.occasions.shift2 || "غير متوفر"}</div>
                             </div>
                         </div>
@@ -806,17 +824,17 @@
                             </div>
                             <div class="pt-row">
                                 <div class="pt-type">${T.tFullDay}</div>
-                                <div class="pt-time"><span style="flex:1">10:00 ص</span> : <span style="flex:1">8:00 ص</span></div>
+                                <div class="pt-time"><span style="flex:1">${times.fullDay.start}</span> : <span style="flex:1">${times.fullDay.end}</span></div>
                                 <div class="pt-price">${shiftsData.satWed?.fullDay || "غير متوفر"}</div>
                             </div>
                             <div class="pt-row">
                                 <div class="pt-type">${T.tShift1}</div>
-                                <div class="pt-time"><span style="flex:1">10:00 ص</span> : <span style="flex:1">6:30 م</span></div>
+                                <div class="pt-time"><span style="flex:1">${times.shift1.start}</span> : <span style="flex:1">${times.shift1.end}</span></div>
                                 <div class="pt-price">${shiftsData.satWed?.shift1 || "غير متوفر"}</div>
                             </div>
                             <div class="pt-row">
                                 <div class="pt-type">${T.tShift2}</div>
-                                <div class="pt-time"><span style="flex:1">8:00 م</span> : <span style="flex:1">6:30 ص</span></div>
+                                <div class="pt-time"><span style="flex:1">${times.shift2.start}</span> : <span style="flex:1">${times.shift2.end}</span></div>
                                 <div class="pt-price">${shiftsData.satWed?.shift2 || "غير متوفر"}</div>
                             </div>
                         </div>
@@ -839,17 +857,17 @@
                             </div>
                             <div class="pt-row">
                                 <div class="pt-type">${T.tFullDay}</div>
-                                <div class="pt-time"><span style="flex:1">10:00 ص</span> : <span style="flex:1">8:00 ص</span></div>
+                                <div class="pt-time"><span style="flex:1">${times.fullDay.start}</span> : <span style="flex:1">${times.fullDay.end}</span></div>
                                 <div class="pt-price">${shiftsData.thuFri?.fullDay || "غير متوفر"}</div>
                             </div>
                             <div class="pt-row">
                                 <div class="pt-type">${T.tShift1}</div>
-                                <div class="pt-time"><span style="flex:1">10:00 ص</span> : <span style="flex:1">6:30 م</span></div>
+                                <div class="pt-time"><span style="flex:1">${times.shift1.start}</span> : <span style="flex:1">${times.shift1.end}</span></div>
                                 <div class="pt-price">${shiftsData.thuFri?.shift1 || "غير متوفر"}</div>
                             </div>
                             <div class="pt-row">
                                 <div class="pt-type">${T.tShift2}</div>
-                                <div class="pt-time"><span style="flex:1">8:00 م</span> : <span style="flex:1">6:30 ص</span></div>
+                                <div class="pt-time"><span style="flex:1">${times.shift2.start}</span> : <span style="flex:1">${times.shift2.end}</span></div>
                                 <div class="pt-price">${shiftsData.thuFri?.shift2 || "غير متوفر"}</div>
                             </div>
                         </div>
