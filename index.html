@@ -529,8 +529,10 @@
                 priceShift: "أقل سعر للشفت",
                 currency: "ع.د",
                 minPriceLabel: "أقل سعر للشفت",
-                daysSatWed: "السبت - الأحد - الاثنين - الثلاثاء - الأربعاء",
+                daysSunWed: "الأحد - الاثنين - الثلاثاء - الأربعاء",
                 daysThuFri: "الخميس - الجمعة",
+                daySaturday: "يوم السبت", /* <-- پەیڤا 'بدون شفتات' لێرە هاتە لابردن */
+                offerThuFri: "عرض الخميس والجمعة معاً",
                 daysOccasions: "المناسبات والأعياد",
                 colPrice: "السعر ع.د",
                 colArrival: "الوصول",
@@ -587,8 +589,10 @@
                 priceShift: "Min price per shift",
                 currency: "IQD",
                 minPriceLabel: "Min price per shift",
-                daysSatWed: "Saturday to Wednesday",
+                daysSunWed: "Sunday - Monday - Tuesday - Wednesday",
                 daysThuFri: "Thursday - Friday",
+                daySaturday: "Saturday", /* <-- Changed from 'Saturday (No Shifts)' */
+                offerThuFri: "Thursday & Friday Offer",
                 daysOccasions: "Holidays and Occasions",
                 colPrice: "Price (IQD)",
                 colArrival: "Arrival",
@@ -639,7 +643,7 @@
 
                     if (data.prices) {
                         parsedShifts = {
-                            satWed: {
+                            sunWed: {
                                 fullDay: data.prices.regular?.full || "غير متوفر",
                                 shift1: data.prices.regular?.day || "غير متوفر",
                                 shift2: data.prices.regular?.night || "غير متوفر"
@@ -647,7 +651,13 @@
                             thuFri: {
                                 fullDay: data.prices.weekend?.full || "غير متوفر",
                                 shift1: data.prices.weekend?.day || "غير متوفر",
-                                shift2: data.prices.weekend?.night || "غير متوفر"
+                                shift2: data.prices.weekend?.night || "غير متوفر",
+                                offer: data.prices.weekend?.offer || "500,000"
+                            },
+                            saturday: {
+                                fullDay: data.prices.saturday?.full || "غير متوفر",
+                                shift1: data.prices.saturday?.day || "غير متوفر", /* <-- Added shift1 */
+                                shift2: data.prices.saturday?.night || "غير متوفر" /* <-- Added shift2 */
                             },
                             occasions: {
                                 fullDay: data.prices.holiday?.full || "غير متوفر",
@@ -826,15 +836,13 @@
             document.getElementById('ds-title').innerHTML = `${farm.name[currentLang] || farm.name.ar} ${farm.isVerified ? '<i class="fas fa-check-circle verified-badge"></i>' : ''}`;
             document.getElementById('ds-location').innerHTML = `<i class="fas fa-map-marker-alt" style="color:var(--primary-gold)"></i> ${farm.location[currentLang] || farm.location.ar}`;
             
-            // دانانا وەسفێ ب شێوەیەکێ دروست و لێزێدەکرنا تایبەتمەندیان
             let descText = farm.description ? (farm.description[currentLang] || farm.description.ar || T.noDesc) : T.noDesc;
 
-            // چارەسەری بۆ نیشاندانا تایبەتمەندیان (مەسبەح و هتد) د زمانی ئینگلیزی دا
             let featList = [];
             if (farm.features && farm.features[currentLang] && farm.features[currentLang].length > 0) {
                 featList = farm.features[currentLang];
             } else if (farm.features && farm.features.ar && farm.features.ar.length > 0) {
-                featList = farm.features.ar; // ئەگەر ب ئینگلیزی ڤالا بوو، دێ یێن عەرەبی نیشان دەت
+                featList = farm.features.ar; 
             }
 
             if (featList && featList.length > 0) {
@@ -853,8 +861,9 @@
             }
 
             const shiftsData = farm.shifts || {
-                satWed: { fullDay: "450,000", shift1: "200,000", shift2: "250,000" },
-                thuFri: { fullDay: "500,000", shift1: "200,000", shift2: "250,000" },
+                sunWed: { fullDay: "450,000", shift1: "200,000", shift2: "250,000" },
+                thuFri: { fullDay: "500,000", shift1: "300,000", shift2: "300,000", offer: "500,000" },
+                saturday: { fullDay: "350,000", shift1: "200,000", shift2: "200,000" }, /* <-- Added shift defaults */
                 occasions: { fullDay: "غير متوفر", shift1: "غير متوفر", shift2: "غير متوفر" }
             };
 
@@ -893,18 +902,15 @@
                 </div>`;
             }
 
-            const pricingHtml = `
-                <div class="min-price-alert">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <div><span class="val">${displayPrice}</span> ${T.currency} ${T.minPriceLabel}</div>
-                </div>
-
+            let saturdayHtml = '';
+            if (shiftsData.saturday) {
+                saturdayHtml = `
                 <div class="pricing-table-card" style="padding:0;">
                     <div class="accordion-header pt-header" style="padding:15px; margin-bottom:0; border-bottom:none;" onclick="toggleAccordion('acc-sat-${id}', 'icon-sat-${id}')">
-                        <div style="flex:1; text-align:center;">${T.daysSatWed}</div>
-                        <i class="fas fa-chevron-down accordion-icon active" id="icon-sat-${id}"></i>
+                        <div style="flex:1; text-align:center;">${T.daySaturday || "يوم السبت"}</div>
+                        <i class="fas fa-chevron-down accordion-icon" id="icon-sat-${id}"></i>
                     </div>
-                    <div class="accordion-content open" id="acc-sat-${id}" style="padding: 0 15px;">
+                    <div class="accordion-content" id="acc-sat-${id}" style="padding: 0 15px;">
                         <div style="border-top: 1px solid var(--border-color); padding-top: 10px; padding-bottom: 15px;">
                             <div class="pt-row pt-labels">
                                 <div class="pt-type"></div>
@@ -914,28 +920,35 @@
                             <div class="pt-row">
                                 <div class="pt-type">${T.tFullDay}</div>
                                 <div class="pt-time"><span style="flex:1">${times.fullDay.start}</span> : <span style="flex:1">${times.fullDay.end}</span></div>
-                                <div class="pt-price">${shiftsData.satWed?.fullDay || "غير متوفر"}</div>
+                                <div class="pt-price">${shiftsData.saturday.fullDay || "غير متوفر"}</div>
                             </div>
                             <div class="pt-row">
                                 <div class="pt-type">${T.tShift1}</div>
                                 <div class="pt-time"><span style="flex:1">${times.shift1.start}</span> : <span style="flex:1">${times.shift1.end}</span></div>
-                                <div class="pt-price">${shiftsData.satWed?.shift1 || "غير متوفر"}</div>
+                                <div class="pt-price">${shiftsData.saturday.shift1 || "غير متوفر"}</div>
                             </div>
                             <div class="pt-row">
                                 <div class="pt-type">${T.tShift2}</div>
                                 <div class="pt-time"><span style="flex:1">${times.shift2.start}</span> : <span style="flex:1">${times.shift2.end}</span></div>
-                                <div class="pt-price">${shiftsData.satWed?.shift2 || "غير متوفر"}</div>
+                                <div class="pt-price">${shiftsData.saturday.shift2 || "غير متوفر"}</div>
                             </div>
                         </div>
                     </div>
+                </div>`;
+            }
+
+            const pricingHtml = `
+                <div class="min-price-alert">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div><span class="val">${displayPrice}</span> ${T.currency} ${T.minPriceLabel}</div>
                 </div>
 
                 <div class="pricing-table-card" style="padding:0;">
                     <div class="accordion-header pt-header" style="padding:15px; margin-bottom:0; border-bottom:none;" onclick="toggleAccordion('acc-thu-${id}', 'icon-thu-${id}')">
                         <div style="flex:1; text-align:center;">${T.daysThuFri}</div>
-                        <i class="fas fa-chevron-down accordion-icon" id="icon-thu-${id}"></i>
+                        <i class="fas fa-chevron-down accordion-icon active" id="icon-thu-${id}"></i>
                     </div>
-                    <div class="accordion-content" id="acc-thu-${id}" style="padding: 0 15px;">
+                    <div class="accordion-content open" id="acc-thu-${id}" style="padding: 0 15px;">
                         <div style="border-top: 1px solid var(--border-color); padding-top: 10px; padding-bottom: 15px;">
                             <div class="pt-row pt-labels">
                                 <div class="pt-type"></div>
@@ -956,6 +969,45 @@
                                 <div class="pt-type">${T.tShift2}</div>
                                 <div class="pt-time"><span style="flex:1">${times.shift2.start}</span> : <span style="flex:1">${times.shift2.end}</span></div>
                                 <div class="pt-price">${shiftsData.thuFri?.shift2 || "غير متوفر"}</div>
+                            </div>
+                            
+                            <div class="pt-row" style="background-color: rgba(212, 175, 55, 0.08); border: 1px dashed var(--primary-gold); border-radius: 8px; margin-top: 8px; padding: 10px;">
+                                <div class="pt-type" style="color: var(--primary-gold);"><i class="fas fa-tags"></i> ${T.offerThuFri || 'عرض الخميس والجمعة'}</div>
+                                <div class="pt-time"><span style="flex:1; text-align:center; font-size: 0.85rem;">يومان / Two Days</span></div>
+                                <div class="pt-price" style="color: var(--primary-gold); font-size: 1.1rem; font-weight: 800;">${shiftsData.thuFri?.offer || "500,000"}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                ${saturdayHtml}
+
+                <div class="pricing-table-card" style="padding:0;">
+                    <div class="accordion-header pt-header" style="padding:15px; margin-bottom:0; border-bottom:none;" onclick="toggleAccordion('acc-sunwed-${id}', 'icon-sunwed-${id}')">
+                        <div style="flex:1; text-align:center;">${T.daysSunWed}</div>
+                        <i class="fas fa-chevron-down accordion-icon" id="icon-sunwed-${id}"></i>
+                    </div>
+                    <div class="accordion-content" id="acc-sunwed-${id}" style="padding: 0 15px;">
+                        <div style="border-top: 1px solid var(--border-color); padding-top: 10px; padding-bottom: 15px;">
+                            <div class="pt-row pt-labels">
+                                <div class="pt-type"></div>
+                                <div class="pt-time"><span style="flex:1;text-align:center">${T.colArrival}</span> : <span style="flex:1;text-align:center">${T.colDepart}</span></div>
+                                <div class="pt-price">${T.colPrice}</div>
+                            </div>
+                            <div class="pt-row">
+                                <div class="pt-type">${T.tFullDay}</div>
+                                <div class="pt-time"><span style="flex:1">${times.fullDay.start}</span> : <span style="flex:1">${times.fullDay.end}</span></div>
+                                <div class="pt-price">${shiftsData.sunWed?.fullDay || "غير متوفر"}</div>
+                            </div>
+                            <div class="pt-row">
+                                <div class="pt-type">${T.tShift1}</div>
+                                <div class="pt-time"><span style="flex:1">${times.shift1.start}</span> : <span style="flex:1">${times.shift1.end}</span></div>
+                                <div class="pt-price">${shiftsData.sunWed?.shift1 || "غير متوفر"}</div>
+                            </div>
+                            <div class="pt-row">
+                                <div class="pt-type">${T.tShift2}</div>
+                                <div class="pt-time"><span style="flex:1">${times.shift2.start}</span> : <span style="flex:1">${times.shift2.end}</span></div>
+                                <div class="pt-price">${shiftsData.sunWed?.shift2 || "غير متوفر"}</div>
                             </div>
                         </div>
                     </div>
