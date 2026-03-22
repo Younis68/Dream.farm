@@ -626,6 +626,7 @@
         let swiperInstances = [];
         let dsSwiperInstance = null;
         let favorites = JSON.parse(localStorage.getItem('dreamFarm_favs')) || []; 
+        let bookingDatePicker = null; // بۆ کۆنترۆلکرنا ڕۆژنامەیا حجزێ
 
         const storedTheme = localStorage.getItem('dreamFarm_theme') || 'light';
         if(storedTheme === 'dark') {
@@ -986,14 +987,35 @@
         const dateInput = document.getElementById('date');
 
         window.openBookingScreen = (id) => {
-            const T = translations[currentLang]; const currentFarm = farmsData.find(f => f.id == id);
-            document.getElementById('booking-farm-name').textContent = currentFarm.name[currentLang] || currentFarm.name.ar; document.getElementById('farm-id-booking').value = id;
-            dateInput.value = ''; document.getElementById('guests').value = ''; document.getElementById('families').value = '';
-            const typeSel = document.getElementById('type'); typeSel.innerHTML = '';
+            const T = translations[currentLang]; 
+            const currentFarm = farmsData.find(f => f.id == id);
+            
+            document.getElementById('booking-farm-name').textContent = currentFarm.name[currentLang] || currentFarm.name.ar; 
+            document.getElementById('farm-id-booking').value = id;
+            
+            // داخستنا ڕۆژێن گرتي ب ڕێکا flatpickr
+            if (bookingDatePicker) {
+                bookingDatePicker.destroy(); // ژێبرنا ڕۆژنامەیا بەرێ
+            }
+            bookingDatePicker = flatpickr("#date", {
+                locale: currentLang === 'en' ? "en" : "ar",
+                minDate: "today",
+                dateFormat: "Y-m-d",
+                disable: currentFarm.bookedDates || [] // ئەڤە ڕۆژێن محجوز قوفل دکەت
+            });
+
+            document.getElementById('date').value = ''; 
+            document.getElementById('guests').value = ''; 
+            document.getElementById('families').value = '';
+            
+            const typeSel = document.getElementById('type'); 
+            typeSel.innerHTML = '';
             const opts = { family: `<option>${T.optFam}</option>`, youth: `<option>${T.optYouth}</option>`, all: `<option>${T.optAll}</option>` };
             typeSel.innerHTML = opts[currentFarm.allowedType] || opts.all;
+            
             const backBtnBooking = document.querySelector('#booking-screen .ds-back i');
             if (backBtnBooking) backBtnBooking.className = currentLang === 'en' ? 'fas fa-arrow-left' : 'fas fa-arrow-right';
+            
             document.getElementById('booking-screen').classList.add('active');
         }
 
@@ -1002,10 +1024,24 @@
         document.getElementById('booking-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const securedFarm = farmsData.find(f => f.id == document.getElementById('farm-id-booking').value); 
-            const n = document.getElementById('name').value; const d = dateInput.value; const g = document.getElementById('guests').value; const fam = document.getElementById('families').value; const t = document.getElementById('type').value;
+            const d = document.getElementById('date').value; 
+            
+            // پشکنین: ئەگەر ڕۆژا هەلبژارتی یا محجوز بیت
+            if (securedFarm.bookedDates && securedFarm.bookedDates.includes(d)) {
+                alert(currentLang === 'en' ? "This date is already booked!" : "هذا التاريخ محجوز مسبقاً! يرجى اختيار تاريخ آخر.");
+                return; // ڕێگریێ ل هنارتنێ دکەت
+            }
+
+            const n = document.getElementById('name').value; 
+            const g = document.getElementById('guests').value; 
+            const fam = document.getElementById('families').value; 
+            const t = document.getElementById('type').value;
+            
             const msg = `*🔔 طلب حجز جديد (${currentLang.toUpperCase()})*\n🏡 ${securedFarm.name.ar}\n📅 ${d}\n👤 الاسم: ${n}\n👥 العدد الكلي: ${g}\n👨‍👩‍👧‍👦 عدد العوائل: ${fam}\n📋 النوع: ${t}`;
             const whatsappUrl = `https://wa.me/9647502679528?text=${encodeURIComponent(msg)}`;
-            window.location.href = whatsappUrl; closeBookingScreen();
+            
+            window.location.href = whatsappUrl; 
+            closeBookingScreen();
         });
 
         window.toggleAccordion = (contentId, iconId) => {
