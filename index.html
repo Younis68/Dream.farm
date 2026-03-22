@@ -44,7 +44,7 @@
 
         /* --- Calendar Colors --- */
         .flatpickr-calendar {
-            z-index: 99999 !important; /* ڕاستڤەکرنا دیاربوونا ڕۆژنامەیێ ل پێشیا شاشەیا حجزێ */
+            z-index: 99999 !important; 
         }
         .flatpickr-day.flatpickr-disabled, 
         .flatpickr-day.flatpickr-disabled:hover {
@@ -124,6 +124,9 @@
         
         .header-btns { position: absolute; top: 20px; right: 20px; display: flex; gap: 8px; z-index: 100; }
         html[dir="ltr"] .header-btns { right: auto; left: 20px; }
+
+        .header-btns-left { position: absolute; top: 20px; left: 20px; display: flex; gap: 8px; z-index: 100; }
+        html[dir="ltr"] .header-btns-left { left: auto; right: 20px; }
 
         .icon-btn { background: rgba(255, 255, 255, 0.15); color: white; width: 40px; height: 40px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; border: 1px solid rgba(255,255,255,0.2); }
         
@@ -254,7 +257,6 @@
         .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--text-main); font-size: 0.85rem; }
         .form-group input, .form-group select { width: 100%; padding: 12px 14px; border: 1px solid var(--border-color); border-radius: 10px; font-family: inherit; font-size: 0.95rem; transition: 0.2s; background: var(--input-bg); color: var(--text-main); }
         
-        /* ڕاستڤەکرنا دوگمەیا واتسئەپی */
         .submit-wa { 
             width: 100%; 
             padding: 14px; 
@@ -266,7 +268,7 @@
             cursor: pointer; 
             display: flex; 
             align-items: center; 
-            justify-content: center; /* راستڤەکرنا ڤێرە */
+            justify-content: center;
             gap: 8px; 
             font-size: 0.95rem; 
             margin-top: 8px; 
@@ -345,7 +347,7 @@
                 </div>
                 <div class="form-group">
                     <label data-i18n="labelDate">تاريخ الحجز</label>
-                    <input type="date" id="date" required style="cursor:pointer;">
+                    <input type="text" id="date" required style="cursor:pointer;" placeholder="التاريخ" readonly>
                     <div class="calendar-legend">
                         <div class="legend-item">
                             <span class="color-box color-available"></span>
@@ -379,15 +381,6 @@
         </div>
     </div>
 
-    <div id="lang-modal" class="modal-overlay">
-        <div class="modal-box">
-            <span class="close-modal" onclick="closeLangModal()">&times;</span>
-            <h3 style="text-align:center; margin-bottom:20px;" data-i18n="selectLang">اختر اللغة</h3>
-            <div class="lang-option" onclick="setLanguage('ar')"><span class="lang-label"><img src="https://flagcdn.com/w40/iq.png" class="flag-img" alt="Iraq"> العربية</span><i class="fas fa-check-circle" style="color:var(--primary-gold); display:none;" id="check-ar"></i></div>
-            <div class="lang-option" onclick="setLanguage('en')"><span class="lang-label"><img src="https://flagcdn.com/w40/us.png" class="flag-img" alt="USA"> English</span><i class="fas fa-check-circle" style="color:var(--primary-gold); display:none;" id="check-en"></i></div>
-        </div>
-    </div>
-
     <div id="welcome-modal" class="modal-overlay" style="z-index:9500; display:flex; opacity:0; pointer-events:none; transition:0.5s;">
         <div class="modal-box" style="text-align:center; border:2px solid var(--primary-gold);">
             <i class="fas fa-crown" style="font-size:3rem; color:var(--primary-gold); margin-bottom:12px;"></i>
@@ -403,11 +396,15 @@
 
     <header>
         <span class="brand-badge" data-i18n="badgePremium">Premium Rentals</span>
-        <div class="header-btns">
-            <div class="icon-btn" onclick="openLangModal()"><i class="fas fa-globe"></i></div>
+        
+        <div class="header-btns-left">
             <div class="icon-btn" onclick="toggleTheme()"><i id="theme-icon" class="fas fa-moon"></i></div>
+        </div>
+
+        <div class="header-btns">
             <div class="icon-btn settings-btn" onclick="openSettingsModal()"><i class="fas fa-cog"></i></div>
         </div>
+
         <h1>Dream Farm</h1>
         <p style="color:rgba(255,255,255,0.8); font-size:0.95rem" data-i18n="headerDesc">تجربة استثنائية لأجمل المزارع السياحية</p>
     </header>
@@ -459,17 +456,32 @@
         <div class="modal-box">
             <span class="close-modal" onclick="closeSettingsModal()">&times;</span>
             <h3 style="text-align:center; margin-bottom:20px;" data-i18n="settingsTitle">الإعدادات والمساعدة</h3>
+            
+            <h5 style="margin-bottom:12px; border-bottom:1px solid var(--border-color); padding-bottom:8px;" data-i18n="selectLang">اختر اللغة</h5>
+            <div class="lang-option" onclick="setLanguage('ar')">
+                <span class="lang-label"><img src="https://flagcdn.com/w40/iq.png" class="flag-img" alt="Iraq"> العربية</span>
+                <i class="fas fa-check-circle" style="color:var(--primary-gold); display:none;" id="check-ar"></i>
+            </div>
+            <div class="lang-option" onclick="setLanguage('en')">
+                <span class="lang-label"><img src="https://flagcdn.com/w40/us.png" class="flag-img" alt="USA"> English</span>
+                <i class="fas fa-check-circle" style="color:var(--primary-gold); display:none;" id="check-en"></i>
+            </div>
+            <br>
             <div style="background:rgba(37, 211, 102, 0.1); border:2px dashed #25D366; padding:20px; border-radius:12px; text-align:center; margin-bottom:25px;">
                 <h4 style="margin-bottom:6px; font-size:1rem" data-i18n="ownerTitle">هل تملك مزرعة؟</h4>
                 <p style="font-size:0.8rem; color:var(--text-sec); margin-bottom:12px;" data-i18n="ownerDesc">انضم إلينا واعرض مزرعتك للإيجار الآن</p>
                 <a href="https://wa.me/9647502679528?text=السلام%20عليكم%20اريد%20اضافة%20مزرعتي" target="_blank" style="background:#25D366; color:white; padding:8px 20px; border-radius:30px; text-decoration:none; font-weight:bold; display:inline-block; font-size:0.9rem" data-i18n="contactAdmin">تواصل مع الإدارة</a>
             </div>
-            <h5 style="margin-bottom:12px; border-bottom:1px solid var(--border-color); padding-bottom:8px;" data-i18n="rulesTitle">تعليمات هامة</h5>
-            <ul style="list-style:none; padding:0; text-align:inherit; color:var(--text-sec); line-height:1.6; font-size:0.9rem;">
-                <li style="margin-bottom:8px; color:#d32f2f; font-weight:bold;"><i class="fas fa-exclamation-triangle" style="margin-inline-end:8px;"></i> <span data-i18n="rule1">لا يتم حجز المزرعة إلا بعد استلام العربون.</span></li>
-                <li style="margin-bottom:8px;"><i class="fas fa-credit-card" style="color:var(--primary-gold); margin-inline-end:8px;"></i> <span data-i18n="rule2">الدفع عن طريق Qi Card (الماستر).</span></li>
-                <li><i class="fas fa-clock" style="color:var(--primary-gold); margin-inline-end:8px;"></i> <span data-i18n="rule3">وقت الدخول: 1:00 ظهراً / الخروج: 11:00 صباحاً</span></li>
-            </ul>
+            
+            <h5 style="margin-bottom:12px; border-bottom:1px solid var(--border-color); padding-bottom:8px; color: var(--primary-dark);">
+                <i class="fas fa-user-shield"></i> بوشێ ئەدمین (لوحة الإدارة)
+            </h5>
+            <div style="background: var(--badge-bg); padding: 15px; border-radius: 10px; border: 1px solid var(--border-color); text-align: center;">
+                <input type="password" id="adminPassword" placeholder="پاسۆردێ ئەدمینێ بنڤیسە..." style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; background: var(--input-bg); color: var(--text-main);">
+                <button onclick="loginAdmin()" style="background: var(--primary-gold); color: #fff; width: 100%; padding: 10px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                    چوونە ژوورەوە
+                </button>
+            </div>
         </div>
     </div>
 
@@ -722,7 +734,8 @@
 
             renderFarms(farmsData);
             applyFilters();
-            closeLangModal();
+            
+            closeSettingsModal();
         }
 
         function getSmartViewers(id) {
@@ -999,8 +1012,6 @@
             }
         }
 
-        window.openLangModal = () => document.getElementById('lang-modal').classList.add('modal-active');
-        window.closeLangModal = () => document.getElementById('lang-modal').classList.remove('modal-active');
         window.openSettingsModal = () => document.getElementById('settings-modal').classList.add('modal-active');
         window.closeSettingsModal = () => document.getElementById('settings-modal').classList.remove('modal-active');
         window.acceptTerms = () => { document.getElementById('welcome-modal').style.opacity = '0'; document.getElementById('welcome-modal').style.pointerEvents = 'none'; }
@@ -1048,8 +1059,7 @@
             else { navigator.clipboard.writeText(shareData.url).then(() => { const t = document.getElementById('toast-box'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }); }
         }
 
-        const dateInput = document.getElementById('date');
-
+        // --- گۆڕانکاری فۆڕمی حجز لێرە کراوە ---
         window.openBookingScreen = (id) => {
             const T = translations[currentLang]; 
             const currentFarm = farmsData.find(f => f.id == id);
@@ -1060,6 +1070,7 @@
             if (bookingDatePicker) {
                 bookingDatePicker.destroy(); 
             }
+            
             bookingDatePicker = flatpickr("#date", {
                 locale: currentLang === 'en' ? "en" : "ar",
                 minDate: "today",
@@ -1073,7 +1084,11 @@
             
             const typeSel = document.getElementById('type'); 
             typeSel.innerHTML = '';
-            const opts = { family: `<option>${T.optFam}</option>`, youth: `<option>${T.optYouth}</option>`, all: `<option>${T.optAll}</option>` };
+            const opts = { 
+                family: `<option>${T.optFam}</option>`, 
+                youth: `<option>${T.optYouth}</option>`, 
+                all: `<option>${T.optFam}</option><option>${T.optYouth}</option><option>${T.optAll}</option>` 
+            };
             typeSel.innerHTML = opts[currentFarm.allowedType] || opts.all;
             
             const backBtnBooking = document.querySelector('#booking-screen .ds-back i');
@@ -1089,6 +1104,11 @@
             const securedFarm = farmsData.find(f => f.id == document.getElementById('farm-id-booking').value); 
             const d = document.getElementById('date').value; 
             
+            if (!d) {
+                alert(currentLang === 'en' ? "Please select a date!" : "الرجاء تحديد التاريخ!");
+                return;
+            }
+
             if (securedFarm.bookedDates && securedFarm.bookedDates.includes(d)) {
                 alert(currentLang === 'en' ? "This date is already booked!" : "هذا التاريخ محجوز مسبقاً! يرجى اختيار تاريخ آخر.");
                 return; 
@@ -1121,6 +1141,17 @@
         function checkURLParams() { const params = new URLSearchParams(window.location.search); const farmId = params.get('id'); if (farmId) { const farm = farmsData.find(f => f.id == farmId); if (farm) { acceptTerms(); openFarmDetails(farm.id); } } }
         window.scrollToTop = () => { window.scrollTo({top: 0, behavior: 'smooth'}); };
         window.onscroll = () => { document.getElementById("scrollTopBtn").style.display = (window.scrollY > 300) ? "flex" : "none"; };
+
+        window.loginAdmin = () => {
+            const pass = document.getElementById('adminPassword').value;
+            if(pass === '12345') { 
+                alert('بەخێربێی بۆ بەشێ ئەدمینێ!');
+                document.getElementById('adminPassword').value = '';
+                // لێرە دەتوانین پەڕەی ئەدمین بکەینەوە
+            } else {
+                alert('پاسۆرد خەلەتە!');
+            }
+        };
     </script>
 </body>
 </html>
