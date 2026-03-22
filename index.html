@@ -631,7 +631,6 @@
                     let locAr = data.location?.ar || data.location || "العراق";
                     let locEn = data.location?.en || "Iraq";
 
-                    // کێشانا تایبەتمەندیان ل فایەربەیس گەر هەبن
                     let featuresAr = data.features?.ar || (Array.isArray(data.features) ? data.features : []);
                     let featuresEn = data.features?.en || [];
 
@@ -671,7 +670,7 @@
                         bookedDates: data.bookedDates || [],
                         allowedType: data.allowedType || "all",
                         description: { ar: descAr, en: descEn },
-                        features: { ar: featuresAr, en: featuresEn }, // لێرە زێدەکر
+                        features: { ar: featuresAr, en: featuresEn }, 
                         price: minPrice,
                         shifts: parsedShifts
                     });
@@ -827,10 +826,17 @@
             document.getElementById('ds-title').innerHTML = `${farm.name[currentLang] || farm.name.ar} ${farm.isVerified ? '<i class="fas fa-check-circle verified-badge"></i>' : ''}`;
             document.getElementById('ds-location').innerHTML = `<i class="fas fa-map-marker-alt" style="color:var(--primary-gold)"></i> ${farm.location[currentLang] || farm.location.ar}`;
             
-            // دانانا وەسفێ ب شێوەیەکێ دروست و لێزێدەکرنا تایبەتمەندیان ب سادەیی
+            // دانانا وەسفێ ب شێوەیەکێ دروست و لێزێدەکرنا تایبەتمەندیان
             let descText = farm.description ? (farm.description[currentLang] || farm.description.ar || T.noDesc) : T.noDesc;
-            
-            let featList = farm.features[currentLang] || farm.features.ar;
+
+            // چارەسەری بۆ نیشاندانا تایبەتمەندیان (مەسبەح و هتد) د زمانی ئینگلیزی دا
+            let featList = [];
+            if (farm.features && farm.features[currentLang] && farm.features[currentLang].length > 0) {
+                featList = farm.features[currentLang];
+            } else if (farm.features && farm.features.ar && farm.features.ar.length > 0) {
+                featList = farm.features.ar; // ئەگەر ب ئینگلیزی ڤالا بوو، دێ یێن عەرەبی نیشان دەت
+            }
+
             if (featList && featList.length > 0) {
                 descText += '\n\n' + T.featuresTitle + ':\n';
                 featList.forEach(item => {
