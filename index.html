@@ -472,16 +472,6 @@
                 <p style="font-size:0.8rem; color:var(--text-sec); margin-bottom:12px;" data-i18n="ownerDesc">انضم إلينا واعرض مزرعتك للإيجار الآن</p>
                 <a href="https://wa.me/9647502679528?text=السلام%20عليكم%20اريد%20اضافة%20مزرعتي" target="_blank" style="background:#25D366; color:white; padding:8px 20px; border-radius:30px; text-decoration:none; font-weight:bold; display:inline-block; font-size:0.9rem" data-i18n="contactAdmin">تواصل مع الإدارة</a>
             </div>
-            
-            <h5 style="margin-bottom:12px; border-bottom:1px solid var(--border-color); padding-bottom:8px; color: var(--primary-dark);">
-                <i class="fas fa-user-shield"></i> بوشێ ئەدمین (لوحة الإدارة)
-            </h5>
-            <div style="background: var(--badge-bg); padding: 15px; border-radius: 10px; border: 1px solid var(--border-color); text-align: center;">
-                <input type="password" id="adminPassword" placeholder="پاسۆردێ ئەدمینێ بنڤیسە..." style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; background: var(--input-bg); color: var(--text-main);">
-                <button onclick="loginAdmin()" style="background: var(--primary-gold); color: #fff; width: 100%; padding: 10px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
-                    چوونە ژوورەوە
-                </button>
-            </div>
         </div>
     </div>
 
@@ -1141,17 +1131,6 @@
         function checkURLParams() { const params = new URLSearchParams(window.location.search); const farmId = params.get('id'); if (farmId) { const farm = farmsData.find(f => f.id == farmId); if (farm) { acceptTerms(); openFarmDetails(farm.id); } } }
         window.scrollToTop = () => { window.scrollTo({top: 0, behavior: 'smooth'}); };
         window.onscroll = () => { document.getElementById("scrollTopBtn").style.display = (window.scrollY > 300) ? "flex" : "none"; };
-
-        window.loginAdmin = () => {
-            const pass = document.getElementById('adminPassword').value;
-            if(pass === '12345') { 
-                alert('بەخێربێی بۆ بەشێ ئەدمینێ!');
-                document.getElementById('adminPassword').value = '';
-                // لێرە دەتوانین پەڕەی ئەدمین بکەینەوە
-            } else {
-                alert('پاسۆرد خەلەتە!');
-            }
-        };
     </script>
 </body>
 </html>
