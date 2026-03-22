@@ -193,7 +193,7 @@
         .ds-content { padding: 20px; max-width: 800px; margin: 0 auto; width: 100%; padding-bottom: 50px;}
         .ds-title { font-size: 1.5rem; margin-top: 15px; margin-bottom: 5px; color: var(--text-main); }
         .ds-location { color: var(--text-sec); font-size: 0.95rem; margin-bottom: 20px; display: flex; align-items: center; gap: 5px;}
-        .ds-desc { background: var(--bg-card); padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); line-height: 1.8; color: var(--text-sec); white-space: pre-line; font-size: 0.95rem; text-align: justify; margin-bottom: 20px;}
+        .ds-desc { background: var(--bg-card); padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); line-height: 1.8; color: var(--text-sec); white-space: pre-line; font-size: 0.95rem; text-align: justify; margin-bottom: 25px;}
 
         /* --- Pricing Section & Accordion Styles --- */
         .min-price-alert {
@@ -322,8 +322,9 @@
             </div>
             <h2 class="ds-title" id="ds-title"></h2>
             <div class="ds-location" id="ds-location"></div>
-            <div class="ds-desc" id="ds-desc"></div>
             
+            <div class="ds-desc" id="ds-desc"></div>
+
             <div id="ds-pricing-section"></div>
         </div>
     </div>
@@ -506,10 +507,6 @@
                 ownerTitle: "هل تملك مزرعة؟",
                 ownerDesc: "انضم إلينا واعرض مزرعتك للإيجار الآن",
                 contactAdmin: "تواصل مع الإدارة",
-                rulesTitle: "تعليمات هامة",
-                rule1: "لا يتم حجز المزرعة إلا بعد استلام العربون.",
-                rule2: "الدفع عن طريق Qi Card (الماستر).",
-                rule3: "وقت الدخول: 1:00 ظهراً / الخروج: 11:00 صباحاً",
                 bookingTitle: "طلب حجز",
                 for: "لـ",
                 labelName: "الاسم الثلاثي",
@@ -542,7 +539,8 @@
                 tShift1: "شفت أول",
                 tShift2: "شفت ثاني",
                 legendAvailable: "متاح للحجز",
-                legendBooked: "محجوز (غير متاح)"
+                legendBooked: "محجوز (غير متاح)",
+                featuresTitle: "المميزات"
             },
             en: {
                 pageTitle: "Dream Farm | Best Farms for Rent",
@@ -567,10 +565,6 @@
                 ownerTitle: "Own a Farm?",
                 ownerDesc: "Join us and list your farm for rent now",
                 contactAdmin: "Contact Admin",
-                rulesTitle: "Important Rules",
-                rule1: "Farm is not booked without deposit.",
-                rule2: "Payment via Qi Card (Mastercard).",
-                rule3: "Check-in: 1:00 PM / Check-out: 11:00 AM",
                 bookingTitle: "Booking Request",
                 for: "For",
                 labelName: "Full Name",
@@ -603,7 +597,8 @@
                 tShift1: "1st Shift",
                 tShift2: "2nd Shift",
                 legendAvailable: "Available",
-                legendBooked: "Booked (Unavailable)"
+                legendBooked: "Booked (Unavailable)",
+                featuresTitle: "Features"
             }
         };
 
@@ -635,6 +630,10 @@
                     let descEn = data.description?.en || data.description || "No description available for this farm currently.";
                     let locAr = data.location?.ar || data.location || "العراق";
                     let locEn = data.location?.en || "Iraq";
+
+                    // کێشانا تایبەتمەندیان ل فایەربەیس گەر هەبن
+                    let featuresAr = data.features?.ar || (Array.isArray(data.features) ? data.features : []);
+                    let featuresEn = data.features?.en || [];
 
                     let parsedShifts = null;
                     let minPrice = data.price || "0";
@@ -669,10 +668,10 @@
                         isVerified: true,
                         images: farmImages,
                         videoUrl: data.videoUrl || "",
-                        featureKeys: data.featureKeys || [],
                         bookedDates: data.bookedDates || [],
                         allowedType: data.allowedType || "all",
                         description: { ar: descAr, en: descEn },
+                        features: { ar: featuresAr, en: featuresEn }, // لێرە زێدەکر
                         price: minPrice,
                         shifts: parsedShifts
                     });
@@ -820,22 +819,26 @@
             const T = translations[currentLang];
             
             const shiftHours = {
-                ar: {
-                    fullDay: { start: "10:00 ص", end: "8:00 ص" },
-                    shift1:  { start: "10:00 ص", end: "6:30 م" },
-                    shift2:  { start: "8:00 م",  end: "6:30 ص" }
-                },
-                en: {
-                    fullDay: { start: "10:00 AM", end: "8:00 AM" },
-                    shift1:  { start: "10:00 AM", end: "6:30 PM" },
-                    shift2:  { start: "8:00 PM",  end: "6:30 AM" }
-                }
+                ar: { fullDay: { start: "10:00 ص", end: "8:00 ص" }, shift1:  { start: "10:00 ص", end: "6:30 م" }, shift2:  { start: "8:00 م", end: "6:30 ص" } },
+                en: { fullDay: { start: "10:00 AM", end: "8:00 AM" }, shift1:  { start: "10:00 AM", end: "6:30 PM" }, shift2:  { start: "8:00 PM", end: "6:30 AM" } }
             };
             const times = shiftHours[currentLang];
             
             document.getElementById('ds-title').innerHTML = `${farm.name[currentLang] || farm.name.ar} ${farm.isVerified ? '<i class="fas fa-check-circle verified-badge"></i>' : ''}`;
             document.getElementById('ds-location').innerHTML = `<i class="fas fa-map-marker-alt" style="color:var(--primary-gold)"></i> ${farm.location[currentLang] || farm.location.ar}`;
-            document.getElementById('ds-desc').innerText = farm.description ? (farm.description[currentLang] || farm.description.ar || T.noDesc) : T.noDesc;
+            
+            // دانانا وەسفێ ب شێوەیەکێ دروست و لێزێدەکرنا تایبەتمەندیان ب سادەیی
+            let descText = farm.description ? (farm.description[currentLang] || farm.description.ar || T.noDesc) : T.noDesc;
+            
+            let featList = farm.features[currentLang] || farm.features.ar;
+            if (featList && featList.length > 0) {
+                descText += '\n\n' + T.featuresTitle + ':\n';
+                featList.forEach(item => {
+                    descText += '🔹 ' + item + '\n';
+                });
+            }
+            
+            document.getElementById('ds-desc').innerText = descText;
 
             let displayPrice = '200,000';
             if (farm.price) {
@@ -861,9 +864,7 @@
                         <div style="border-top: 1px solid var(--border-color); padding-top: 10px; padding-bottom: 15px;">
                             <div class="pt-row pt-labels">
                                 <div class="pt-type"></div>
-                                <div class="pt-time">
-                                    <span style="flex:1;text-align:center">${T.colArrival}</span> : <span style="flex:1;text-align:center">${T.colDepart}</span>
-                                </div>
+                                <div class="pt-time"><span style="flex:1;text-align:center">${T.colArrival}</span> : <span style="flex:1;text-align:center">${T.colDepart}</span></div>
                                 <div class="pt-price">${T.colPrice}</div>
                             </div>
                             <div class="pt-row">
@@ -883,16 +884,13 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                `;
+                </div>`;
             }
 
             const pricingHtml = `
                 <div class="min-price-alert">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <div>
-                        <span class="val">${displayPrice}</span> ${T.currency} ${T.minPriceLabel}
-                    </div>
+                    <div><span class="val">${displayPrice}</span> ${T.currency} ${T.minPriceLabel}</div>
                 </div>
 
                 <div class="pricing-table-card" style="padding:0;">
@@ -904,9 +902,7 @@
                         <div style="border-top: 1px solid var(--border-color); padding-top: 10px; padding-bottom: 15px;">
                             <div class="pt-row pt-labels">
                                 <div class="pt-type"></div>
-                                <div class="pt-time">
-                                    <span style="flex:1;text-align:center">${T.colArrival}</span> : <span style="flex:1;text-align:center">${T.colDepart}</span>
-                                </div>
+                                <div class="pt-time"><span style="flex:1;text-align:center">${T.colArrival}</span> : <span style="flex:1;text-align:center">${T.colDepart}</span></div>
                                 <div class="pt-price">${T.colPrice}</div>
                             </div>
                             <div class="pt-row">
@@ -937,9 +933,7 @@
                         <div style="border-top: 1px solid var(--border-color); padding-top: 10px; padding-bottom: 15px;">
                             <div class="pt-row pt-labels">
                                 <div class="pt-type"></div>
-                                <div class="pt-time">
-                                    <span style="flex:1;text-align:center">${T.colArrival}</span> : <span style="flex:1;text-align:center">${T.colDepart}</span>
-                                </div>
+                                <div class="pt-time"><span style="flex:1;text-align:center">${T.colArrival}</span> : <span style="flex:1;text-align:center">${T.colDepart}</span></div>
                                 <div class="pt-price">${T.colPrice}</div>
                             </div>
                             <div class="pt-row">
@@ -1049,7 +1043,6 @@
             else { navigator.clipboard.writeText(shareData.url).then(() => { const t = document.getElementById('toast-box'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }); }
         }
 
-        // --- گۆڕانکاری فۆڕمی حجز لێرە کراوە ---
         window.openBookingScreen = (id) => {
             const T = translations[currentLang]; 
             const currentFarm = farmsData.find(f => f.id == id);
