@@ -59,6 +59,34 @@
             background: var(--primary-gold) !important; border-color: var(--primary-gold) !important; color: white !important;
         }
 
+        /* Calendar Legend */
+        .calendar-legend {
+            display: flex;
+            gap: 15px;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: var(--text-sec);
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .color-box {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .color-available {
+            background: rgba(46, 125, 50, 0.1);
+            border: 1px solid #a5d6a7;
+        }
+        .color-booked {
+            background: rgba(198, 40, 40, 0.15);
+            border: 1px solid #ef9a9a;
+        }
+
         /* General Styles */
         html[dir="ltr"] { --font-main: var(--font-en); }
         html[dir="ltr"] .search-input-group i { margin-left: 0; margin-right: 10px; }
@@ -296,6 +324,16 @@
                 <div class="form-group">
                     <label data-i18n="labelDate">تاريخ الحجز</label>
                     <input type="date" id="date" required style="cursor:pointer;">
+                    <div class="calendar-legend">
+                        <div class="legend-item">
+                            <span class="color-box color-available"></span>
+                            <span data-i18n="legendAvailable">متاح للحجز</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="color-box color-booked"></span>
+                            <span data-i18n="legendBooked" style="color: #c62828; font-weight: bold;">محجوز</span>
+                        </div>
+                    </div>
                 </div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
                     <div class="form-group">
@@ -478,7 +516,9 @@
                 colDepart: "المغادرة",
                 tFullDay: "يوم كامل",
                 tShift1: "شفت أول",
-                tShift2: "شفت ثاني"
+                tShift2: "شفت ثاني",
+                legendAvailable: "متاح للحجز",
+                legendBooked: "محجوز (غير متاح)"
             },
             en: {
                 pageTitle: "Dream Farm | Best Farms for Rent",
@@ -537,7 +577,9 @@
                 colDepart: "Departure",
                 tFullDay: "Full Day",
                 tShift1: "1st Shift",
-                tShift2: "2nd Shift"
+                tShift2: "2nd Shift",
+                legendAvailable: "Available",
+                legendBooked: "Booked (Unavailable)"
             }
         };
 
