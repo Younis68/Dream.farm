@@ -360,16 +360,33 @@
                         </div>
                     </div>
                 </div>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-                    <div class="form-group">
-                        <label data-i18n="labelGuests">العدد الكلي</label>
-                        <input type="number" id="guests" placeholder="10" required min="1">
+
+                <div class="form-group" id="shift-group" style="display: none;">
+                    <label data-i18n="labelShift">وقت الحجز (الشفت)</label>
+                    <select id="shift-select" required onchange="updatePrice()"></select>
+                </div>
+
+                <div id="price-display-group" style="display: none; background: rgba(212, 175, 55, 0.1); border: 1px dashed var(--primary-gold); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 15px;">
+                    <span style="font-size: 0.9rem; color: var(--text-sec);" data-i18n="expectedPrice">السعر المتوقع:</span>
+                    <div id="booking-price" style="font-size: 1.4rem; font-weight: bold; color: var(--primary-gold); margin-top: 5px;">0 ع.د</div>
+                </div>
+
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-bottom: 15px;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label data-i18n="labelAdults">عدد البالغين</label>
+                        <input type="number" id="adults" placeholder="مثال: 5" required min="1">
                     </div>
-                    <div class="form-group">
-                        <label data-i18n="labelFamilies">عدد العوائل</label>
-                        <input type="number" id="families" placeholder="2" min="1">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label data-i18n="labelChildren">عدد الأطفال (غير البالغين)</label>
+                        <input type="number" id="children" placeholder="مثال: 3" required min="0">
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label data-i18n="labelFamilies">عدد العوائل</label>
+                    <input type="number" id="families" placeholder="مثال: 2" min="1">
+                </div>
+                
                 <div class="form-group">
                     <label data-i18n="labelType">نوع الكروب</label>
                     <select id="type" required></select>
@@ -512,7 +529,10 @@
                 labelName: "الاسم الثلاثي",
                 phName: "مثال: أحمد محمد علي",
                 labelDate: "تاريخ الحجز",
-                labelGuests: "العدد الكلي",
+                labelShift: "وقت الحجز (الشفت)",
+                expectedPrice: "السعر المتوقع:",
+                labelAdults: "عدد البالغين",
+                labelChildren: "عدد الأطفال (غير البالغين)",
                 labelFamilies: "عدد العوائل",
                 labelType: "نوع الكروب",
                 btnWhatsapp: "إرسال الطلب واتساب",
@@ -531,7 +551,7 @@
                 minPriceLabel: "أقل سعر للشفت",
                 daysSunWed: "الأحد - الاثنين - الثلاثاء - الأربعاء",
                 daysThuFri: "الخميس - الجمعة",
-                daySaturday: "يوم السبت", /* <-- پەیڤا 'بدون شفتات' لێرە هاتە لابردن */
+                daySaturday: "يوم السبت",
                 offerThuFri: "عرض الخميس والجمعة معاً",
                 daysOccasions: "المناسبات والأعياد",
                 colPrice: "السعر ع.د",
@@ -572,7 +592,10 @@
                 labelName: "Full Name",
                 phName: "Ex: Ahmed Mohammed Ali",
                 labelDate: "Booking Date",
-                labelGuests: "Total Guests",
+                labelShift: "Booking Time (Shift)",
+                expectedPrice: "Expected Price:",
+                labelAdults: "Number of Adults",
+                labelChildren: "Number of Minors (Children)",
                 labelFamilies: "Number of Families",
                 labelType: "Group Type",
                 btnWhatsapp: "Send Request via WhatsApp",
@@ -591,7 +614,7 @@
                 minPriceLabel: "Min price per shift",
                 daysSunWed: "Sunday - Monday - Tuesday - Wednesday",
                 daysThuFri: "Thursday - Friday",
-                daySaturday: "Saturday", /* <-- Changed from 'Saturday (No Shifts)' */
+                daySaturday: "Saturday",
                 offerThuFri: "Thursday & Friday Offer",
                 daysOccasions: "Holidays and Occasions",
                 colPrice: "Price (IQD)",
@@ -656,8 +679,8 @@
                             },
                             saturday: {
                                 fullDay: data.prices.saturday?.full || "غير متوفر",
-                                shift1: data.prices.saturday?.day || "غير متوفر", /* <-- Added shift1 */
-                                shift2: data.prices.saturday?.night || "غير متوفر" /* <-- Added shift2 */
+                                shift1: data.prices.saturday?.day || "غير متوفر",
+                                shift2: data.prices.saturday?.night || "غير متوفر" 
                             },
                             occasions: {
                                 fullDay: data.prices.holiday?.full || "غير متوفر",
@@ -863,7 +886,7 @@
             const shiftsData = farm.shifts || {
                 sunWed: { fullDay: "450,000", shift1: "200,000", shift2: "250,000" },
                 thuFri: { fullDay: "500,000", shift1: "300,000", shift2: "300,000", offer: "500,000" },
-                saturday: { fullDay: "350,000", shift1: "200,000", shift2: "200,000" }, /* <-- Added shift defaults */
+                saturday: { fullDay: "350,000", shift1: "200,000", shift2: "200,000" }, 
                 occasions: { fullDay: "غير متوفر", shift1: "غير متوفر", shift2: "غير متوفر" }
             };
 
@@ -1101,9 +1124,12 @@
             else { navigator.clipboard.writeText(shareData.url).then(() => { const t = document.getElementById('toast-box'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }); }
         }
 
+        window.currentBookingFarm = null;
+
         window.openBookingScreen = (id) => {
             const T = translations[currentLang]; 
             const currentFarm = farmsData.find(f => f.id == id);
+            window.currentBookingFarm = currentFarm;
             
             document.getElementById('booking-farm-name').textContent = currentFarm.name[currentLang] || currentFarm.name.ar; 
             document.getElementById('farm-id-booking').value = id;
@@ -1116,15 +1142,23 @@
                 locale: currentLang === 'en' ? "en" : "ar",
                 minDate: "today",
                 dateFormat: "Y-m-d",
-                disable: currentFarm.bookedDates || [] 
+                disable: currentFarm.bookedDates || [],
+                onChange: function(selectedDates, dateStr) {
+                    if(selectedDates.length > 0) {
+                        handleDateSelection(selectedDates[0], currentFarm);
+                    }
+                }
             });
 
             document.getElementById('date').value = ''; 
-            document.getElementById('guests').value = ''; 
+            document.getElementById('adults').value = ''; 
+            document.getElementById('children').value = ''; 
             document.getElementById('families').value = '';
+            document.getElementById('shift-group').style.display = 'none';
+            document.getElementById('price-display-group').style.display = 'none';
+            document.getElementById('shift-select').innerHTML = '';
             
             const typeSel = document.getElementById('type'); 
-            typeSel.innerHTML = '';
             const opts = { 
                 family: `<option>${T.optFam}</option>`, 
                 youth: `<option>${T.optYouth}</option>`, 
@@ -1138,15 +1172,61 @@
             document.getElementById('booking-screen').classList.add('active');
         }
 
+        window.handleDateSelection = (dateObj, farm) => {
+            if(!dateObj) return;
+            const dayOfWeek = dateObj.getDay(); 
+            let dayType = 'sunWed';
+            
+            if(dayOfWeek >= 0 && dayOfWeek <= 3) dayType = 'sunWed';
+            else if(dayOfWeek === 4 || dayOfWeek === 5) dayType = 'thuFri';
+            else if(dayOfWeek === 6) dayType = 'saturday';
+
+            const fallbackShifts = {
+                sunWed: { fullDay: "450,000", shift1: "200,000", shift2: "250,000" },
+                thuFri: { fullDay: "500,000", shift1: "300,000", shift2: "300,000", offer: "500,000" },
+                saturday: { fullDay: "350,000", shift1: "200,000", shift2: "200,000" }
+            };
+
+            const farmShifts = farm.shifts || fallbackShifts;
+            const shifts = farmShifts[dayType] || farmShifts.sunWed;
+            const T = translations[currentLang];
+            
+            const shiftSelect = document.getElementById('shift-select');
+            shiftSelect.innerHTML = `<option value="" disabled selected>${T.labelShift}</option>`;
+            
+            if(shifts.fullDay && shifts.fullDay !== "غير متوفر") shiftSelect.innerHTML += `<option value="${T.tFullDay}|${shifts.fullDay}">${T.tFullDay} - ${shifts.fullDay}</option>`;
+            if(shifts.shift1 && shifts.shift1 !== "غير متوفر") shiftSelect.innerHTML += `<option value="${T.tShift1}|${shifts.shift1}">${T.tShift1} - ${shifts.shift1}</option>`;
+            if(shifts.shift2 && shifts.shift2 !== "غير متوفر") shiftSelect.innerHTML += `<option value="${T.tShift2}|${shifts.shift2}">${T.tShift2} - ${shifts.shift2}</option>`;
+            if(dayType === 'thuFri' && shifts.offer && shifts.offer !== "غير متوفر") shiftSelect.innerHTML += `<option value="${T.offerThuFri || 'عرض'}|${shifts.offer}">${T.offerThuFri || 'عرض'} - ${shifts.offer}</option>`;
+
+            document.getElementById('shift-group').style.display = 'block';
+            document.getElementById('price-display-group').style.display = 'block';
+            document.getElementById('booking-price').innerText = '---';
+        }
+
+        window.updatePrice = () => {
+            const shiftVal = document.getElementById('shift-select').value;
+            if(!shiftVal) return;
+            const price = shiftVal.split('|')[1];
+            const T = translations[currentLang];
+            document.getElementById('booking-price').innerText = `${price} ${T.currency}`;
+        }
+
         window.closeBookingScreen = () => { document.getElementById('booking-screen').classList.remove('active'); }
 
         document.getElementById('booking-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const securedFarm = farmsData.find(f => f.id == document.getElementById('farm-id-booking').value); 
             const d = document.getElementById('date').value; 
+            const shiftInput = document.getElementById('shift-select');
+            const shiftVal = shiftInput ? shiftInput.value : null;
             
             if (!d) {
                 alert(currentLang === 'en' ? "Please select a date!" : "الرجاء تحديد التاريخ!");
+                return;
+            }
+            if (!shiftVal) {
+                alert(currentLang === 'en' ? "Please select a shift!" : "الرجاء اختيار الشفت!");
                 return;
             }
 
@@ -1155,12 +1235,16 @@
                 return; 
             }
 
+            const shiftName = shiftVal.split('|')[0];
+            const price = shiftVal.split('|')[1];
+
             const n = document.getElementById('name').value; 
-            const g = document.getElementById('guests').value; 
+            const adults = document.getElementById('adults').value; 
+            const children = document.getElementById('children').value; 
             const fam = document.getElementById('families').value; 
             const t = document.getElementById('type').value;
             
-            const msg = `*🔔 طلب حجز جديد (${currentLang.toUpperCase()})*\n🏡 ${securedFarm.name.ar}\n📅 ${d}\n👤 الاسم: ${n}\n👥 العدد الكلي: ${g}\n👨‍👩‍👧‍👦 عدد العوائل: ${fam}\n📋 النوع: ${t}`;
+            const msg = `*🔔 طلب حجز جديد (${currentLang.toUpperCase()})*\n🏡 المزرعة: ${securedFarm.name.ar}\n📅 التاريخ: ${d}\n⏳ الشفت: ${shiftName}\n💰 السعر المطلوب: ${price} ع.د\n\n👤 الاسم: ${n}\n👨 البالغين: ${adults}\n👶 الأطفال: ${children}\n👨‍👩‍👧‍👦 عدد العوائل: ${fam}\n📋 النوع: ${t}`;
             const whatsappUrl = `https://wa.me/9647502679528?text=${encodeURIComponent(msg)}`;
             
             window.location.href = whatsappUrl; 
