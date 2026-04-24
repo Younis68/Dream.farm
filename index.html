@@ -549,11 +549,11 @@
                 priceShift: "أقل سعر للشفت",
                 currency: "ع.د",
                 minPriceLabel: "أقل سعر للشفت",
-                daysSunWed: "الأحد - الاثنين - الثلاثاء - الأربعاء",
-                daysThuFri: "الخميس - الجمعة",
+                daysSunWed: "من الأحد إلى الأربعاء",
+                daysThuFri: "الخميس والجمعة (أيام العطل)",
                 daySaturday: "يوم السبت",
-                offerThuFri: "عرض الخميس والجمعة معاً",
-                daysOccasions: "المناسبات والأعياد",
+                offerThuFri: "عرض العطلة",
+                daysOccasions: "الأعياد والمناسبات",
                 colPrice: "السعر ع.د",
                 colArrival: "الوصول",
                 colDepart: "المغادرة",
@@ -612,11 +612,11 @@
                 priceShift: "Min price per shift",
                 currency: "IQD",
                 minPriceLabel: "Min price per shift",
-                daysSunWed: "Sunday - Monday - Tuesday - Wednesday",
-                daysThuFri: "Thursday - Friday",
+                daysSunWed: "Sunday to Wednesday",
+                daysThuFri: "Thursday & Friday (Holidays)",
                 daySaturday: "Saturday",
-                offerThuFri: "Thursday & Friday Offer",
-                daysOccasions: "Holidays and Occasions",
+                offerThuFri: "Holiday Offer",
+                daysOccasions: "Festivals",
                 colPrice: "Price (IQD)",
                 colArrival: "Arrival",
                 colDepart: "Departure",
@@ -675,7 +675,7 @@
                                 fullDay: data.prices.weekend?.full || "غير متوفر",
                                 shift1: data.prices.weekend?.day || "غير متوفر",
                                 shift2: data.prices.weekend?.night || "غير متوفر",
-                                offer: data.prices.weekend?.offer || "500,000"
+                                offer: data.prices.weekend?.offer || "غير متوفر"
                             },
                             saturday: {
                                 fullDay: data.prices.saturday?.full || "غير متوفر",
@@ -890,158 +890,94 @@
                 occasions: { fullDay: "غير متوفر", shift1: "غير متوفر", shift2: "غير متوفر" }
             };
 
-            let occasionsHtml = '';
-            if (shiftsData.occasions) {
-                occasionsHtml = `
-                <div class="pricing-table-card" style="padding:0;">
-                    <div class="accordion-header pt-header" style="padding:15px; margin-bottom:0; border-bottom:none;" onclick="toggleAccordion('acc-occ-${id}', 'icon-occ-${id}')">
-                        <div style="flex:1; text-align:center;">${T.daysOccasions}</div>
-                        <i class="fas fa-chevron-down accordion-icon" id="icon-occ-${id}"></i>
-                    </div>
-                    <div class="accordion-content" id="acc-occ-${id}" style="padding: 0 15px;">
-                        <div style="border-top: 1px solid var(--border-color); padding-top: 10px; padding-bottom: 15px;">
-                            <div class="pt-row pt-labels">
-                                <div class="pt-type"></div>
-                                <div class="pt-time"><span style="flex:1;text-align:center">${T.colArrival}</span> : <span style="flex:1;text-align:center">${T.colDepart}</span></div>
-                                <div class="pt-price">${T.colPrice}</div>
-                            </div>
-                            <div class="pt-row">
-                                <div class="pt-type">${T.tFullDay}</div>
-                                <div class="pt-time"><span style="flex:1">${times.fullDay.start}</span> : <span style="flex:1">${times.fullDay.end}</span></div>
-                                <div class="pt-price">${shiftsData.occasions.fullDay || "غير متوفر"}</div>
-                            </div>
-                            <div class="pt-row">
-                                <div class="pt-type">${T.tShift1}</div>
-                                <div class="pt-time"><span style="flex:1">${times.shift1.start}</span> : <span style="flex:1">${times.shift1.end}</span></div>
-                                <div class="pt-price">${shiftsData.occasions.shift1 || "غير متوفر"}</div>
-                            </div>
-                            <div class="pt-row">
-                                <div class="pt-type">${T.tShift2}</div>
-                                <div class="pt-time"><span style="flex:1">${times.shift2.start}</span> : <span style="flex:1">${times.shift2.end}</span></div>
-                                <div class="pt-price">${shiftsData.occasions.shift2 || "غير متوفر"}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>`;
-            }
+            const isValidPrice = (p) => p && p !== "غير متوفر" && p.trim() !== "";
 
-            let saturdayHtml = '';
-            if (shiftsData.saturday) {
-                saturdayHtml = `
+            const renderRow = (typeLabel, timeStart, timeEnd, price, isOffer = false) => {
+                if (!isValidPrice(price)) return "";
+                if (isOffer) {
+                    return `
+                    <div class="pt-row" style="background-color: rgba(212, 175, 55, 0.08); border: 1px dashed var(--primary-gold); border-radius: 8px; margin-top: 8px; padding: 10px;">
+                        <div class="pt-type" style="color: var(--primary-gold);"><i class="fas fa-tags"></i> ${typeLabel}</div>
+                        <div class="pt-time"><span style="flex:1; text-align:center; font-size: 0.85rem;">يومان / Two Days</span></div>
+                        <div class="pt-price" style="color: var(--primary-gold); font-size: 1.1rem; font-weight: 800;">${price}</div>
+                    </div>`;
+                }
+                return `
+                <div class="pt-row">
+                    <div class="pt-type">${typeLabel}</div>
+                    <div class="pt-time"><span style="flex:1">${timeStart}</span> : <span style="flex:1">${timeEnd}</span></div>
+                    <div class="pt-price">${price}</div>
+                </div>`;
+            };
+
+            const buildAccordion = (idSuffix, title, rowsHtml, isOpen = false) => {
+                if (!rowsHtml) return ""; 
+                return `
                 <div class="pricing-table-card" style="padding:0;">
-                    <div class="accordion-header pt-header" style="padding:15px; margin-bottom:0; border-bottom:none;" onclick="toggleAccordion('acc-sat-${id}', 'icon-sat-${id}')">
-                        <div style="flex:1; text-align:center;">${T.daySaturday || "يوم السبت"}</div>
-                        <i class="fas fa-chevron-down accordion-icon" id="icon-sat-${id}"></i>
+                    <div class="accordion-header pt-header" style="padding:15px; margin-bottom:0; border-bottom:none;" onclick="toggleAccordion('acc-${idSuffix}-${id}', 'icon-${idSuffix}-${id}')">
+                        <div style="flex:1; text-align:center;">${title}</div>
+                        <i class="fas fa-chevron-down accordion-icon ${isOpen ? 'active' : ''}" id="icon-${idSuffix}-${id}"></i>
                     </div>
-                    <div class="accordion-content" id="acc-sat-${id}" style="padding: 0 15px;">
+                    <div class="accordion-content ${isOpen ? 'open' : ''}" id="acc-${idSuffix}-${id}" style="padding: 0 15px;">
                         <div style="border-top: 1px solid var(--border-color); padding-top: 10px; padding-bottom: 15px;">
                             <div class="pt-row pt-labels">
                                 <div class="pt-type"></div>
                                 <div class="pt-time"><span style="flex:1;text-align:center">${T.colArrival}</span> : <span style="flex:1;text-align:center">${T.colDepart}</span></div>
                                 <div class="pt-price">${T.colPrice}</div>
                             </div>
-                            <div class="pt-row">
-                                <div class="pt-type">${T.tFullDay}</div>
-                                <div class="pt-time"><span style="flex:1">${times.fullDay.start}</span> : <span style="flex:1">${times.fullDay.end}</span></div>
-                                <div class="pt-price">${shiftsData.saturday.fullDay || "غير متوفر"}</div>
-                            </div>
-                            <div class="pt-row">
-                                <div class="pt-type">${T.tShift1}</div>
-                                <div class="pt-time"><span style="flex:1">${times.shift1.start}</span> : <span style="flex:1">${times.shift1.end}</span></div>
-                                <div class="pt-price">${shiftsData.saturday.shift1 || "غير متوفر"}</div>
-                            </div>
-                            <div class="pt-row">
-                                <div class="pt-type">${T.tShift2}</div>
-                                <div class="pt-time"><span style="flex:1">${times.shift2.start}</span> : <span style="flex:1">${times.shift2.end}</span></div>
-                                <div class="pt-price">${shiftsData.saturday.shift2 || "غير متوفر"}</div>
-                            </div>
+                            ${rowsHtml}
                         </div>
                     </div>
                 </div>`;
+            };
+
+            let thuFriRows = '';
+            if (shiftsData.thuFri) {
+                thuFriRows = renderRow(T.tFullDay, times.fullDay.start, times.fullDay.end, shiftsData.thuFri.fullDay) +
+                             renderRow(T.tShift1, times.shift1.start, times.shift1.end, shiftsData.thuFri.shift1) +
+                             renderRow(T.tShift2, times.shift2.start, times.shift2.end, shiftsData.thuFri.shift2) +
+                             renderRow(T.offerThuFri || 'عرض', '', '', shiftsData.thuFri.offer, true);
             }
+            let thuFriHtml = buildAccordion('thu', T.daysThuFri, thuFriRows, true); 
+
+            let satRows = '';
+            if (shiftsData.saturday) {
+                satRows = renderRow(T.tFullDay, times.fullDay.start, times.fullDay.end, shiftsData.saturday.fullDay) +
+                          renderRow(T.tShift1, times.shift1.start, times.shift1.end, shiftsData.saturday.shift1) +
+                          renderRow(T.tShift2, times.shift2.start, times.shift2.end, shiftsData.saturday.shift2);
+            }
+            let saturdayHtml = buildAccordion('sat', T.daySaturday, satRows, false);
+
+            let sunWedRows = '';
+            if (shiftsData.sunWed) {
+                sunWedRows = renderRow(T.tFullDay, times.fullDay.start, times.fullDay.end, shiftsData.sunWed.fullDay) +
+                             renderRow(T.tShift1, times.shift1.start, times.shift1.end, shiftsData.sunWed.shift1) +
+                             renderRow(T.tShift2, times.shift2.start, times.shift2.end, shiftsData.sunWed.shift2);
+            }
+            let sunWedHtml = buildAccordion('sunwed', T.daysSunWed, sunWedRows, false);
+
+            let occRows = '';
+            if (shiftsData.occasions) {
+                occRows = renderRow(T.tFullDay, times.fullDay.start, times.fullDay.end, shiftsData.occasions.fullDay) +
+                          renderRow(T.tShift1, times.shift1.start, times.shift1.end, shiftsData.occasions.shift1) +
+                          renderRow(T.tShift2, times.shift2.start, times.shift2.end, shiftsData.occasions.shift2);
+            }
+            let occasionsHtml = buildAccordion('occ', T.daysOccasions, occRows, false);
 
             const pricingHtml = `
                 <div class="min-price-alert">
                     <i class="fas fa-exclamation-triangle"></i>
                     <div><span class="val">${displayPrice}</span> ${T.currency} ${T.minPriceLabel}</div>
                 </div>
-
-                <div class="pricing-table-card" style="padding:0;">
-                    <div class="accordion-header pt-header" style="padding:15px; margin-bottom:0; border-bottom:none;" onclick="toggleAccordion('acc-thu-${id}', 'icon-thu-${id}')">
-                        <div style="flex:1; text-align:center;">${T.daysThuFri}</div>
-                        <i class="fas fa-chevron-down accordion-icon active" id="icon-thu-${id}"></i>
-                    </div>
-                    <div class="accordion-content open" id="acc-thu-${id}" style="padding: 0 15px;">
-                        <div style="border-top: 1px solid var(--border-color); padding-top: 10px; padding-bottom: 15px;">
-                            <div class="pt-row pt-labels">
-                                <div class="pt-type"></div>
-                                <div class="pt-time"><span style="flex:1;text-align:center">${T.colArrival}</span> : <span style="flex:1;text-align:center">${T.colDepart}</span></div>
-                                <div class="pt-price">${T.colPrice}</div>
-                            </div>
-                            <div class="pt-row">
-                                <div class="pt-type">${T.tFullDay}</div>
-                                <div class="pt-time"><span style="flex:1">${times.fullDay.start}</span> : <span style="flex:1">${times.fullDay.end}</span></div>
-                                <div class="pt-price">${shiftsData.thuFri?.fullDay || "غير متوفر"}</div>
-                            </div>
-                            <div class="pt-row">
-                                <div class="pt-type">${T.tShift1}</div>
-                                <div class="pt-time"><span style="flex:1">${times.shift1.start}</span> : <span style="flex:1">${times.shift1.end}</span></div>
-                                <div class="pt-price">${shiftsData.thuFri?.shift1 || "غير متوفر"}</div>
-                            </div>
-                            <div class="pt-row">
-                                <div class="pt-type">${T.tShift2}</div>
-                                <div class="pt-time"><span style="flex:1">${times.shift2.start}</span> : <span style="flex:1">${times.shift2.end}</span></div>
-                                <div class="pt-price">${shiftsData.thuFri?.shift2 || "غير متوفر"}</div>
-                            </div>
-                            
-                            <div class="pt-row" style="background-color: rgba(212, 175, 55, 0.08); border: 1px dashed var(--primary-gold); border-radius: 8px; margin-top: 8px; padding: 10px;">
-                                <div class="pt-type" style="color: var(--primary-gold);"><i class="fas fa-tags"></i> ${T.offerThuFri || 'عرض الخميس والجمعة'}</div>
-                                <div class="pt-time"><span style="flex:1; text-align:center; font-size: 0.85rem;">يومان / Two Days</span></div>
-                                <div class="pt-price" style="color: var(--primary-gold); font-size: 1.1rem; font-weight: 800;">${shiftsData.thuFri?.offer || "500,000"}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                ${thuFriHtml}
                 ${saturdayHtml}
-
-                <div class="pricing-table-card" style="padding:0;">
-                    <div class="accordion-header pt-header" style="padding:15px; margin-bottom:0; border-bottom:none;" onclick="toggleAccordion('acc-sunwed-${id}', 'icon-sunwed-${id}')">
-                        <div style="flex:1; text-align:center;">${T.daysSunWed}</div>
-                        <i class="fas fa-chevron-down accordion-icon" id="icon-sunwed-${id}"></i>
-                    </div>
-                    <div class="accordion-content" id="acc-sunwed-${id}" style="padding: 0 15px;">
-                        <div style="border-top: 1px solid var(--border-color); padding-top: 10px; padding-bottom: 15px;">
-                            <div class="pt-row pt-labels">
-                                <div class="pt-type"></div>
-                                <div class="pt-time"><span style="flex:1;text-align:center">${T.colArrival}</span> : <span style="flex:1;text-align:center">${T.colDepart}</span></div>
-                                <div class="pt-price">${T.colPrice}</div>
-                            </div>
-                            <div class="pt-row">
-                                <div class="pt-type">${T.tFullDay}</div>
-                                <div class="pt-time"><span style="flex:1">${times.fullDay.start}</span> : <span style="flex:1">${times.fullDay.end}</span></div>
-                                <div class="pt-price">${shiftsData.sunWed?.fullDay || "غير متوفر"}</div>
-                            </div>
-                            <div class="pt-row">
-                                <div class="pt-type">${T.tShift1}</div>
-                                <div class="pt-time"><span style="flex:1">${times.shift1.start}</span> : <span style="flex:1">${times.shift1.end}</span></div>
-                                <div class="pt-price">${shiftsData.sunWed?.shift1 || "غير متوفر"}</div>
-                            </div>
-                            <div class="pt-row">
-                                <div class="pt-type">${T.tShift2}</div>
-                                <div class="pt-time"><span style="flex:1">${times.shift2.start}</span> : <span style="flex:1">${times.shift2.end}</span></div>
-                                <div class="pt-price">${shiftsData.sunWed?.shift2 || "غير متوفر"}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                ${sunWedHtml}
                 ${occasionsHtml}
-
                 <button class="book-btn book-btn-large" onclick="openBookingScreen('${farm.id}')">
                     <i class="far fa-calendar-check"></i> ${T.bookNow}
                 </button>
             `;
+            
             document.getElementById('ds-pricing-section').innerHTML = pricingHtml;
 
             const slides = farm.images.map((img, idx) => `<div class="swiper-slide"><img src="${img}" style="width:100%; height:100%; object-fit:cover; border-radius: 20px;" onclick="openLightbox('${farm.id}', ${idx})"></div>`).join('');
@@ -1194,10 +1130,16 @@
             const shiftSelect = document.getElementById('shift-select');
             shiftSelect.innerHTML = `<option value="" disabled selected>${T.labelShift}</option>`;
             
-            if(shifts.fullDay && shifts.fullDay !== "غير متوفر") shiftSelect.innerHTML += `<option value="${T.tFullDay}|${shifts.fullDay}">${T.tFullDay} - ${shifts.fullDay}</option>`;
-            if(shifts.shift1 && shifts.shift1 !== "غير متوفر") shiftSelect.innerHTML += `<option value="${T.tShift1}|${shifts.shift1}">${T.tShift1} - ${shifts.shift1}</option>`;
-            if(shifts.shift2 && shifts.shift2 !== "غير متوفر") shiftSelect.innerHTML += `<option value="${T.tShift2}|${shifts.shift2}">${T.tShift2} - ${shifts.shift2}</option>`;
-            if(dayType === 'thuFri' && shifts.offer && shifts.offer !== "غير متوفر") shiftSelect.innerHTML += `<option value="${T.offerThuFri || 'عرض'}|${shifts.offer}">${T.offerThuFri || 'عرض'} - ${shifts.offer}</option>`;
+            const isValidPrice = (p) => p && p !== "غير متوفر" && p.trim() !== "";
+
+            if(isValidPrice(shifts.fullDay)) shiftSelect.innerHTML += `<option value="${T.tFullDay}|${shifts.fullDay}">${T.tFullDay} - ${shifts.fullDay}</option>`;
+            if(isValidPrice(shifts.shift1)) shiftSelect.innerHTML += `<option value="${T.tShift1}|${shifts.shift1}">${T.tShift1} - ${shifts.shift1}</option>`;
+            if(isValidPrice(shifts.shift2)) shiftSelect.innerHTML += `<option value="${T.tShift2}|${shifts.shift2}">${T.tShift2} - ${shifts.shift2}</option>`;
+            if(dayType === 'thuFri' && isValidPrice(shifts.offer)) shiftSelect.innerHTML += `<option value="${T.offerThuFri || 'عرض'}|${shifts.offer}">${T.offerThuFri || 'عرض'} - ${shifts.offer}</option>`;
+
+            if(shiftSelect.options.length <= 1) {
+                shiftSelect.innerHTML += `<option value="" disabled>لا توجد شفتات متاحة (No shifts available)</option>`;
+            }
 
             document.getElementById('shift-group').style.display = 'block';
             document.getElementById('price-display-group').style.display = 'block';
