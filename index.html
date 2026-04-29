@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0f2e20">
     
-    <title data-i18n="pageTitle">YAS | أفضل المزارع للإيجار</title>
+    <title data-i18n="pageTitle">YAS FARM | أفضل المزارع للإيجار</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -402,7 +402,7 @@
     <div id="welcome-modal" class="modal-overlay" style="z-index:9500; display:flex; opacity:0; pointer-events:none; transition:0.5s;">
         <div class="modal-box" style="text-align:center; border:2px solid var(--primary-gold);">
             <i class="fas fa-crown" style="font-size:3rem; color:var(--primary-gold); margin-bottom:12px;"></i>
-            <h2 style="margin-bottom:8px; font-size:1.4rem" data-i18n="welcomeTitle">أهلاً بك في YAS</h2>
+            <h2 style="margin-bottom:8px; font-size:1.4rem" data-i18n="welcomeTitle">أهلاً بك في YAS FARM</h2>
             <p style="color:var(--text-sec); font-size:0.9rem" data-i18n="welcomeSub">الوجهة الأولى للمزارع الراقية في العراق</p>
             <ul style="text-align:inherit; list-style:none; padding:15px; background:var(--badge-bg); border-radius:12px; margin:20px 0; font-size:0.9rem">
                 <li style="margin-bottom:10px; display:flex; align-items:center; gap:8px; color:#d32f2f;"><i class="fas fa-exclamation-triangle"></i> <span data-i18n="welcomeNote1"><b>تنبيه هام:</b> الحجز لا يتم إلا بعد دفع العربون.</span></li>
@@ -423,7 +423,7 @@
             <div class="icon-btn settings-btn" onclick="openSettingsModal()"><i class="fas fa-cog"></i></div>
         </div>
 
-        <h1>YAS</h1>
+        <h1>YAS FARM</h1>
         <p style="color:rgba(255,255,255,0.8); font-size:0.95rem" data-i18n="headerDesc">تجربة استثنائية لأجمل المزارع السياحية</p>
     </header>
 
@@ -458,7 +458,7 @@
     <button id="scrollTopBtn" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></button>
 
     <footer>
-        <span class="footer-logo">YAS</span>
+        <span class="footer-logo">YAS FARM</span>
         <p style="font-size:0.85rem; color:rgba(255,255,255,0.7);" data-i18n="footerDesc">أفضل خيار لقضاء عطلة مميزة</p>
         <div class="footer-links">
             <a href="#" onclick="scrollToTop()" data-i18n="footerHome">الرئيسية</a>
@@ -466,7 +466,7 @@
             <a href="#" onclick="openSettingsModal()" data-i18n="footerPolicy">سياسة الحجز</a>
         </div>
         <div style="font-size:0.75rem; opacity:0.4; border-top:1px solid rgba(255,255,255,0.1); padding-top:20px; margin-top:20px;">
-            &copy; 2025 YAS. All rights reserved.
+            &copy; 2025 YAS FARM. All rights reserved.
         </div>
     </footer>
 
@@ -502,7 +502,7 @@
     <script>
         const translations = {
             ar: {
-                pageTitle: "YAS | أفضل المزارع للإيجار",
+                pageTitle: "YAS FARM | أفضل المزارع للإيجار",
                 badgePremium: "Premium Rentals",
                 headerDesc: "تجربة استثنائية لأجمل المزارع السياحية",
                 searchPlaceholder: "ابحث عن مزرعة...",
@@ -515,7 +515,7 @@
                 footerHome: "الرئيسية",
                 footerPolicy: "سياسة الحجز",
                 copySuccess: "<i class='fas fa-check-circle'></i> تم نسخ الرابط بنجاح",
-                welcomeTitle: "أهلاً بك في YAS",
+                welcomeTitle: "أهلاً بك في YAS FARM",
                 welcomeSub: "الوجهة الأولى للمزارع الراقية في العراق",
                 welcomeNote1: "<b>تنبيه هام:</b> الحجز لا يتم إلا بعد دفع العربون.",
                 welcomeNote2: "<b>الدفع:</b> العربون عبر Qi Card (الماستر) حصراً.",
@@ -565,7 +565,7 @@
                 featuresTitle: "المميزات"
             },
             en: {
-                pageTitle: "YAS | Best Farms for Rent",
+                pageTitle: "YAS FARM | Best Farms for Rent",
                 badgePremium: "Premium Rentals",
                 headerDesc: "Exceptional experience for the best tourist farms",
                 searchPlaceholder: "Search for a farm...",
@@ -578,7 +578,7 @@
                 footerHome: "Home",
                 footerPolicy: "Booking Policy",
                 copySuccess: "<i class='fas fa-check-circle'></i> Link copied successfully",
-                welcomeTitle: "Welcome to YAS",
+                welcomeTitle: "Welcome to YAS FARM",
                 welcomeSub: "The premier destination for luxury farms in Iraq",
                 welcomeNote1: "<b>Important:</b> Booking is confirmed only after deposit.",
                 welcomeNote2: "<b>Payment:</b> Deposit via Qi Card (Mastercard) only.",
@@ -715,17 +715,17 @@
             }
         }
 
-        let currentLang = localStorage.getItem('dreamFarm_lang') || 'ar';
+        let currentLang = localStorage.getItem('yasFarm_lang') || 'ar';
         
         let currentCategory = 'all';
         let currentSearch = '';
         let currentSearchDate = '';
         let swiperInstances = [];
         let dsSwiperInstance = null;
-        let favorites = JSON.parse(localStorage.getItem('dreamFarm_favs')) || []; 
+        let favorites = JSON.parse(localStorage.getItem('yasFarm_favs')) || []; 
         let bookingDatePicker = null; 
 
-        const storedTheme = localStorage.getItem('dreamFarm_theme') || 'light';
+        const storedTheme = localStorage.getItem('yasFarm_theme') || 'light';
         if(storedTheme === 'dark') {
             document.documentElement.setAttribute('data-theme', 'dark');
             document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun');
@@ -733,7 +733,7 @@
 
         function setLanguage(lang) {
             currentLang = lang;
-            localStorage.setItem('dreamFarm_lang', lang);
+            localStorage.setItem('yasFarm_lang', lang);
             if (lang === 'en') document.documentElement.setAttribute('dir', 'ltr');
             else document.documentElement.setAttribute('dir', 'rtl');
             document.documentElement.setAttribute('lang', lang);
@@ -1019,8 +1019,8 @@
 
         window.toggleTheme = () => {
             const html = document.documentElement;
-            if (html.getAttribute('data-theme') === 'dark') { html.removeAttribute('data-theme'); localStorage.setItem('dreamFarm_theme', 'light'); document.getElementById('theme-icon').classList.replace('fa-sun', 'fa-moon'); } 
-            else { html.setAttribute('data-theme', 'dark'); localStorage.setItem('dreamFarm_theme', 'dark'); document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun'); }
+            if (html.getAttribute('data-theme') === 'dark') { html.removeAttribute('data-theme'); localStorage.setItem('yasFarm_theme', 'light'); document.getElementById('theme-icon').classList.replace('fa-sun', 'fa-moon'); } 
+            else { html.setAttribute('data-theme', 'dark'); localStorage.setItem('yasFarm_theme', 'dark'); document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun'); }
         }
 
         window.filterFarms = (category, btnElement) => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btnElement.classList.add('active'); currentCategory = category; applyFilters(); };
@@ -1049,7 +1049,7 @@
         window.toggleFav = (id, btn) => {
             if(favorites.includes(id)) { favorites = favorites.filter(fid => fid !== id); btn.classList.remove('is-fav'); btn.innerHTML = '<i class="far fa-heart"></i>'; } 
             else { favorites.push(id); btn.classList.add('is-fav'); btn.innerHTML = '<i class="fas fa-heart"></i>'; }
-            localStorage.setItem('dreamFarm_favs', JSON.stringify(favorites));
+            localStorage.setItem('yasFarm_favs', JSON.stringify(favorites));
             if(currentCategory === 'favorites') applyFilters();
         }
 
