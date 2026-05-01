@@ -43,9 +43,7 @@
         }
 
         /* --- Calendar Colors --- */
-        .flatpickr-calendar {
-            z-index: 99999 !important; 
-        }
+        .flatpickr-calendar { z-index: 99999 !important; }
         .flatpickr-day.flatpickr-disabled, 
         .flatpickr-day.flatpickr-disabled:hover {
             background: rgba(198, 40, 40, 0.15) !important;
@@ -63,32 +61,11 @@
         }
 
         /* Calendar Legend */
-        .calendar-legend {
-            display: flex;
-            gap: 15px;
-            margin-top: 8px;
-            font-size: 0.85rem;
-            color: var(--text-sec);
-        }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .color-box {
-            width: 14px;
-            height: 14px;
-            border-radius: 4px;
-            display: inline-block;
-        }
-        .color-available {
-            background: rgba(46, 125, 50, 0.1);
-            border: 1px solid #a5d6a7;
-        }
-        .color-booked {
-            background: rgba(198, 40, 40, 0.15);
-            border: 1px solid #ef9a9a;
-        }
+        .calendar-legend { display: flex; gap: 15px; margin-top: 8px; font-size: 0.85rem; color: var(--text-sec); }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .color-box { width: 14px; height: 14px; border-radius: 4px; display: inline-block; }
+        .color-available { background: rgba(46, 125, 50, 0.1); border: 1px solid #a5d6a7; }
+        .color-booked { background: rgba(198, 40, 40, 0.15); border: 1px solid #ef9a9a; }
 
         /* General Styles */
         html[dir="ltr"] { --font-main: var(--font-en); }
@@ -104,91 +81,30 @@
         
         /* --- VIP YAS Loader Styles --- */
         #loader { 
-            position: fixed; 
-            inset: 0; 
-            background: radial-gradient(circle at center, #1a3c2c 0%, #0f2e20 100%); 
-            z-index: 99999; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            flex-direction: column; 
+            position: fixed; inset: 0; background: radial-gradient(circle at center, #1a3c2c 0%, #0f2e20 100%); 
+            z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column; 
             transition: opacity 0.8s ease, visibility 0.8s ease; 
         }
-
-        .yas-logo-container {
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 40px;
-        }
-
+        .yas-logo-container { text-align: center; display: flex; flex-direction: column; align-items: center; margin-bottom: 40px; }
         .yas-logo-text {
-            font-family: 'Cinzel', serif; 
-            font-size: 5.5rem;
-            font-weight: 800;
-            color: transparent;
+            font-family: 'Cinzel', serif; font-size: 5.5rem; font-weight: 800; color: transparent;
             background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); 
-            background-clip: text;
-            -webkit-background-clip: text;
-            letter-spacing: 12px;
-            margin-right: -12px; 
-            line-height: 1;
-            position: relative;
+            background-clip: text; -webkit-background-clip: text; letter-spacing: 12px; margin-right: -12px; 
+            line-height: 1; position: relative;
             animation: elegantReveal 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards, subtleBreathe 3s infinite alternate ease-in-out;
         }
-
         .yas-logo-sub {
-            font-family: 'Poppins', sans-serif;
-            color: #a5d6a7; 
-            font-size: 1.1rem;
-            letter-spacing: 15px;
-            font-weight: 300;
-            margin-top: 10px;
-            margin-right: -15px;
-            opacity: 0;
+            font-family: 'Poppins', sans-serif; color: #a5d6a7; font-size: 1.1rem; letter-spacing: 15px;
+            font-weight: 300; margin-top: 10px; margin-right: -15px; opacity: 0;
             animation: fadeInSub 1.2s 1s ease forwards;
         }
+        .professional-loader-bar { width: 200px; height: 2px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden; position: relative; }
+        .loader-progress { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--primary-gold); box-shadow: 0 0 10px var(--primary-gold); animation: progressLoad 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 
-        .professional-loader-bar {
-            width: 200px;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .loader-progress {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0%;
-            background: var(--primary-gold);
-            box-shadow: 0 0 10px var(--primary-gold);
-            animation: progressLoad 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        @keyframes elegantReveal {
-            0% { opacity: 0; transform: translateY(20px) scale(0.95); filter: blur(10px); }
-            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-        }
-
-        @keyframes subtleBreathe {
-            0% { text-shadow: 0 0 15px rgba(212, 175, 55, 0.1); }
-            100% { text-shadow: 0 0 35px rgba(212, 175, 55, 0.5); }
-        }
-
-        @keyframes fadeInSub {
-            to { opacity: 1; }
-        }
-
-        @keyframes progressLoad {
-            0% { width: 0%; }
-            40% { width: 60%; }
-            100% { width: 100%; }
-        }
+        @keyframes elegantReveal { 0% { opacity: 0; transform: translateY(20px) scale(0.95); filter: blur(10px); } 100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
+        @keyframes subtleBreathe { 0% { text-shadow: 0 0 15px rgba(212, 175, 55, 0.1); } 100% { text-shadow: 0 0 35px rgba(212, 175, 55, 0.5); } }
+        @keyframes fadeInSub { to { opacity: 1; } }
+        @keyframes progressLoad { 0% { width: 0%; } 40% { width: 60%; } 100% { width: 100%; } }
 
         #toast-box { visibility: hidden; min-width: 260px; background-color: #333; color: #fff; text-align: center; border-radius: 50px; padding: 12px; position: fixed; z-index: 10000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 0.9rem; opacity: 0; transition: opacity 0.5s, bottom 0.5s; display: flex; align-items: center; justify-content: center; gap: 10px; }
         #toast-box.show { visibility: visible; opacity: 1; bottom: 50px; }
@@ -294,10 +210,7 @@
         }
         
         /* Accordion Header */
-        .accordion-header {
-            display: flex; justify-content: space-between; align-items: center;
-            cursor: pointer; user-select: none; transition: background-color 0.3s;
-        }
+        .accordion-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; transition: background-color 0.3s; }
         .accordion-header:hover { background-color: var(--badge-bg); }
         .pt-header { font-weight: 800; color: var(--primary-dark); font-size: 1rem; }
         [data-theme="dark"] .pt-header { color: var(--primary-gold); }
@@ -308,11 +221,7 @@
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, opacity 0.3s ease; opacity: 0; }
         .accordion-content.open { max-height: 600px; opacity: 1; }
 
-        .pt-row {
-            display: grid; grid-template-columns: 1fr 1.5fr 1fr; align-items: center;
-            padding: 12px 0; border-bottom: 1px dashed var(--border-color); font-size: 0.9rem;
-            color: var(--text-sec); text-align: center;
-        }
+        .pt-row { display: grid; grid-template-columns: 1fr 1.5fr 1fr; align-items: center; padding: 12px 0; border-bottom: 1px dashed var(--border-color); font-size: 0.9rem; color: var(--text-sec); text-align: center; }
         .pt-row.pt-labels { font-weight: bold; color: var(--text-main); border-bottom: 2px solid var(--border-color); }
         .pt-row:last-child { border-bottom: none; padding-bottom: 0; }
         .pt-type { text-align: right; font-weight: 700; color: var(--text-main); }
@@ -341,22 +250,7 @@
         .form-group input, .form-group select { width: 100%; padding: 12px 14px; border: 1px solid var(--border-color); border-radius: 10px; font-family: inherit; font-size: 0.95rem; transition: 0.2s; background: var(--input-bg); color: var(--text-main); }
         
         .submit-wa { 
-            width: 100%; 
-            padding: 14px; 
-            border: none; 
-            border-radius: 10px; 
-            background: linear-gradient(135deg, #25D366, #128C7E); 
-            color: white; 
-            font-weight: 700; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            gap: 8px; 
-            font-size: 0.95rem; 
-            margin-top: 8px; 
-            transition: 0.3s; 
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); 
+            width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #25D366, #128C7E); color: white; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.95rem; margin-top: 8px; transition: 0.3s; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); 
         }
         .submit-wa:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4); }
 
@@ -387,9 +281,7 @@
             <div class="yas-logo-text">YAS</div>
             <div class="yas-logo-sub">F A R M</div>
         </div>
-        <div class="professional-loader-bar">
-            <div class="loader-progress"></div>
-        </div>
+        <div class="professional-loader-bar"><div class="loader-progress"></div></div>
     </div>
 
     <div id="toast-box" data-i18n="copySuccess"><i class="fas fa-check-circle"></i> تم نسخ الرابط بنجاح</div>
@@ -414,9 +306,7 @@
             </div>
             <h2 class="ds-title" id="ds-title"></h2>
             <div class="ds-location" id="ds-location"></div>
-            
             <div class="ds-desc" id="ds-desc"></div>
-
             <div id="ds-pricing-section"></div>
         </div>
     </div>
@@ -442,14 +332,8 @@
                     <label data-i18n="labelDate">تاريخ الحجز</label>
                     <input type="text" id="date" required style="cursor:pointer;" placeholder="التاريخ" readonly>
                     <div class="calendar-legend">
-                        <div class="legend-item">
-                            <span class="color-box color-available"></span>
-                            <span data-i18n="legendAvailable">متاح للحجز</span>
-                        </div>
-                        <div class="legend-item">
-                            <span class="color-box color-booked"></span>
-                            <span data-i18n="legendBooked" style="color: #c62828; font-weight: bold;">محجوز</span>
-                        </div>
+                        <div class="legend-item"><span class="color-box color-available"></span><span data-i18n="legendAvailable">متاح للحجز</span></div>
+                        <div class="legend-item"><span class="color-box color-booked"></span><span data-i18n="legendBooked" style="color: #c62828; font-weight: bold;">محجوز</span></div>
                     </div>
                 </div>
 
@@ -506,15 +390,8 @@
 
     <header>
         <span class="brand-badge" data-i18n="badgePremium">Premium Rentals</span>
-        
-        <div class="header-btns-left">
-            <div class="icon-btn" onclick="toggleTheme()"><i id="theme-icon" class="fas fa-moon"></i></div>
-        </div>
-
-        <div class="header-btns">
-            <div class="icon-btn settings-btn" onclick="openSettingsModal()"><i class="fas fa-cog"></i></div>
-        </div>
-
+        <div class="header-btns-left"><div class="icon-btn" onclick="toggleTheme()"><i id="theme-icon" class="fas fa-moon"></i></div></div>
+        <div class="header-btns"><div class="icon-btn settings-btn" onclick="openSettingsModal()"><i class="fas fa-cog"></i></div></div>
         <h1>YAS FARM</h1>
         <p style="color:rgba(255,255,255,0.8); font-size:0.95rem" data-i18n="headerDesc">تجربة استثنائية لأجمل المزارع السياحية</p>
     </header>
@@ -566,7 +443,6 @@
         <div class="modal-box">
             <span class="close-modal" onclick="closeSettingsModal()">&times;</span>
             <h3 style="text-align:center; margin-bottom:20px;" data-i18n="settingsTitle">الإعدادات والمساعدة</h3>
-            
             <h5 style="margin-bottom:12px; border-bottom:1px solid var(--border-color); padding-bottom:8px;" data-i18n="selectLang">اختر اللغة</h5>
             <div class="lang-option" onclick="setLanguage('ar')">
                 <span class="lang-label"><img src="https://flagcdn.com/w40/iq.png" class="flag-img" alt="Iraq"> العربية</span>
@@ -639,7 +515,7 @@
                 priceBooked: "لا يوجد نتائج",
                 noDesc: "لا يوجد وصف لهذه المزرعة حالياً",
                 priceShift: "أقل سعر للشفت",
-                priceFullDay: "سعر اليوم الكامل", /* زێدەکرن */
+                priceFullDay: "سعر اليوم الكامل", 
                 currency: "ع.د",
                 minPriceLabel: "أقل سعر للشفت",
                 daysSunWed: "من الأحد إلى الأربعاء",
@@ -703,7 +579,7 @@
                 priceBooked: "No Results",
                 noDesc: "No description available for this farm",
                 priceShift: "Min price per shift",
-                priceFullDay: "Full Day Price", /* زێدەکرن */
+                priceFullDay: "Full Day Price", 
                 currency: "IQD",
                 minPriceLabel: "Min price per shift",
                 daysSunWed: "Sunday to Wednesday",
@@ -800,20 +676,15 @@
                         features: { ar: featuresAr, en: featuresEn }, 
                         price: minPrice,
                         shifts: parsedShifts,
-                        sortOrder: data.sortOrder, // وەرگرتنی sortOrder لە فایەربەیس
-                        createdAt: data.createdAt  // وەرگرتنی createdAt لە فایەربەیس
+                        sortOrder: data.sortOrder,
+                        createdAt: data.createdAt
                     });
                 });
 
-                // بەکارهێنانی کۆدی ڕیزکردنەکەی تۆ بۆ مەزرەعەکان پاش وەرگرتنیان لە فایەربەیس
                 farmsData.sort((a,b) => {
                     const orderA = a.sortOrder !== undefined ? a.sortOrder : 9999;
                     const orderB = b.sortOrder !== undefined ? b.sortOrder : 9999;
-                    
-                    if (orderA !== orderB) {
-                        return orderA - orderB; 
-                    }
-                    
+                    if (orderA !== orderB) return orderA - orderB; 
                     const tA = (a.createdAt && typeof a.createdAt.toMillis === 'function') ? a.createdAt.toMillis() : 0;
                     const tB = (b.createdAt && typeof b.createdAt.toMillis === 'function') ? b.createdAt.toMillis() : 0;
                     return tB - tA;
@@ -827,7 +698,6 @@
         }
 
         let currentLang = localStorage.getItem('yasFarm_lang') || 'ar';
-        
         let currentCategory = 'all';
         let currentSearch = '';
         let currentSearchDate = '';
@@ -866,7 +736,6 @@
 
             renderFarms(farmsData);
             applyFilters();
-            
             closeSettingsModal();
         }
 
@@ -941,7 +810,6 @@
                     else displayPrice = farm.price;
                 }
                 
-                // --- گۆڕانکاری ل ڤێرێ بۆ لێکۆلین د شێڤتان دا ---
                 let hasShifts = false;
                 let fullDayPrice = "";
                 const isValidPrice = (p) => p && p !== "غير متوفر" && p.trim() !== "";
@@ -969,7 +837,6 @@
                 }
 
                 const priceHtml = finalDisplayPrice ? `<div class="card-price-row"><i class="fas fa-exclamation-triangle" style="color: #F4B400;"></i><span><span class="price-val">${finalDisplayPrice}</span> ${T.currency} ${finalLabel}</span></div>` : '';
-                // ------------------------------------------------
 
                 container.innerHTML += `
                 <div class="farm-card is-visible" id="farm-${farm.id}" onclick="openFarmDetails('${farm.id}')">
@@ -1013,29 +880,20 @@
 
             if (featList && featList.length > 0) {
                 descText += '\n\n' + T.featuresTitle + ':\n';
-                featList.forEach(item => {
-                    descText += '🔹 ' + item + '\n';
-                });
+                featList.forEach(item => { descText += '🔹 ' + item + '\n'; });
             }
             
             document.getElementById('ds-desc').innerText = descText;
 
-            let displayPrice = '200,000';
+            let displayPrice = '';
             if (farm.price) {
                 if (typeof farm.price === 'object') displayPrice = farm.price[currentLang] || farm.price.ar;
                 else displayPrice = farm.price;
             }
 
-            const shiftsData = farm.shifts || {
-                sunWed: { fullDay: "450,000", shift1: "200,000", shift2: "250,000" },
-                thuFri: { fullDay: "500,000", shift1: "300,000", shift2: "300,000", offer: "500,000" },
-                saturday: { fullDay: "350,000", shift1: "200,000", shift2: "200,000" }, 
-                occasions: { fullDay: "غير متوفر", shift1: "غير متوفر", shift2: "غير متوفر" }
-            };
-
+            const shiftsData = farm.shifts || {}; // <-- چارەسەری کۆدی زێدەکرایە
             const isValidPrice = (p) => p && p !== "غير متوفر" && p.trim() !== "";
 
-            // --- گۆڕانکاری بۆ بەشی دیتیڵز (وەکی بەشی کارتان) ---
             let hasShiftsForDetails = false;
             let fullDayPriceForDetails = "";
             if (shiftsData) {
@@ -1059,7 +917,6 @@
                 alertPrice = fullDayPriceForDetails;
                 alertLabel = T.priceFullDay;
             }
-            // ---------------------------------------------------
 
             const renderRow = (typeLabel, timeStart, timeEnd, price, isOffer = false) => {
                 if (!isValidPrice(price)) return "";
@@ -1133,11 +990,18 @@
             }
             let occasionsHtml = buildAccordion('occ', T.daysOccasions, occRows, false);
 
-            const pricingHtml = `
+            // Hide alert if there is no price at all
+            let minPriceHtml = '';
+            if (alertPrice) {
+                minPriceHtml = `
                 <div class="min-price-alert">
                     <i class="fas fa-exclamation-triangle"></i>
                     <div><span class="val">${alertPrice}</span> ${T.currency} ${alertLabel}</div>
-                </div>
+                </div>`;
+            }
+
+            const pricingHtml = `
+                ${minPriceHtml}
                 ${thuFriHtml}
                 ${saturdayHtml}
                 ${sunWedHtml}
@@ -1229,12 +1093,9 @@
             else { navigator.clipboard.writeText(shareData.url).then(() => { const t = document.getElementById('toast-box'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }); }
         }
 
-        window.currentBookingFarm = null;
-
         window.openBookingScreen = (id) => {
             const T = translations[currentLang]; 
             const currentFarm = farmsData.find(f => f.id == id);
-            window.currentBookingFarm = currentFarm;
             
             document.getElementById('booking-farm-name').textContent = currentFarm.name[currentLang] || currentFarm.name.ar; 
             document.getElementById('farm-id-booking').value = id;
@@ -1286,14 +1147,9 @@
             else if(dayOfWeek === 4 || dayOfWeek === 5) dayType = 'thuFri';
             else if(dayOfWeek === 6) dayType = 'saturday';
 
-            const fallbackShifts = {
-                sunWed: { fullDay: "450,000", shift1: "200,000", shift2: "250,000" },
-                thuFri: { fullDay: "500,000", shift1: "300,000", shift2: "300,000", offer: "500,000" },
-                saturday: { fullDay: "350,000", shift1: "200,000", shift2: "200,000" }
-            };
-
-            const farmShifts = farm.shifts || fallbackShifts;
-            const shifts = farmShifts[dayType] || farmShifts.sunWed;
+            // <-- چارەسەری کۆدی زێدەکرایە
+            const farmShifts = farm.shifts || {};
+            const shifts = farmShifts[dayType] || farmShifts.sunWed || {};
             const T = translations[currentLang];
             
             const shiftSelect = document.getElementById('shift-select');
