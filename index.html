@@ -799,9 +799,26 @@
                         description: { ar: descAr, en: descEn },
                         features: { ar: featuresAr, en: featuresEn }, 
                         price: minPrice,
-                        shifts: parsedShifts
+                        shifts: parsedShifts,
+                        sortOrder: data.sortOrder, // وەرگرتنی sortOrder لە فایەربەیس
+                        createdAt: data.createdAt  // وەرگرتنی createdAt لە فایەربەیس
                     });
                 });
+
+                // بەکارهێنانی کۆدی ڕیزکردنەکەی تۆ بۆ مەزرەعەکان پاش وەرگرتنیان لە فایەربەیس
+                farmsData.sort((a,b) => {
+                    const orderA = a.sortOrder !== undefined ? a.sortOrder : 9999;
+                    const orderB = b.sortOrder !== undefined ? b.sortOrder : 9999;
+                    
+                    if (orderA !== orderB) {
+                        return orderA - orderB; 
+                    }
+                    
+                    const tA = (a.createdAt && typeof a.createdAt.toMillis === 'function') ? a.createdAt.toMillis() : 0;
+                    const tB = (b.createdAt && typeof b.createdAt.toMillis === 'function') ? b.createdAt.toMillis() : 0;
+                    return tB - tA;
+                });
+
                 renderFarms(farmsData);
                 applyFilters();
             } catch (error) {
