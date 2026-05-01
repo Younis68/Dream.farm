@@ -639,6 +639,7 @@
                 priceBooked: "لا يوجد نتائج",
                 noDesc: "لا يوجد وصف لهذه المزرعة حالياً",
                 priceShift: "أقل سعر للشفت",
+                priceFullDay: "سعر اليوم الكامل", /* زێدەکرن */
                 currency: "ع.د",
                 minPriceLabel: "أقل سعر للشفت",
                 daysSunWed: "من الأحد إلى الأربعاء",
@@ -702,6 +703,7 @@
                 priceBooked: "No Results",
                 noDesc: "No description available for this farm",
                 priceShift: "Min price per shift",
+                priceFullDay: "Full Day Price", /* زێدەکرن */
                 currency: "IQD",
                 minPriceLabel: "Min price per shift",
                 daysSunWed: "Sunday to Wednesday",
@@ -866,7 +868,6 @@
             setLanguage(currentLang);
             loadFarmsFromFirebase().then(() => {
                 setTimeout(() => { 
-                    // --- گۆهڕینا دەمێ لۆدینگێ و ئەنیمەیشنا ژێبرنێ ---
                     const loader = document.getElementById('loader');
                     loader.style.opacity = '0';
                     loader.style.visibility = 'hidden';
@@ -874,7 +875,7 @@
                     
                     document.getElementById('welcome-modal').style.opacity = '1';
                     document.getElementById('welcome-modal').style.pointerEvents = 'all';
-                }, 2500); // دەم هاتیە گۆهڕین بۆ ٢.٥ چرکە
+                }, 2500); 
             });
             checkURLParams(); 
             
@@ -923,8 +924,36 @@
                     else displayPrice = farm.price;
                 }
                 
-                const priceHtml = displayPrice ? `<div class="card-price-row"><i class="fas fa-exclamation-triangle" style="color: #F4B400;"></i><span><span class="price-val">${displayPrice}</span> ${T.currency} ${T.priceShift}</span></div>` : '';
-                
+                // --- گۆڕانکاری ل ڤێرێ بۆ لێکۆلین د شێڤتان دا ---
+                let hasShifts = false;
+                let fullDayPrice = "";
+                const isValidPrice = (p) => p && p !== "غير متوفر" && p.trim() !== "";
+
+                if (farm.shifts) {
+                    const days = ['sunWed', 'thuFri', 'saturday', 'occasions'];
+                    for (let day of days) {
+                        if (farm.shifts[day]) {
+                            if (isValidPrice(farm.shifts[day].shift1) || isValidPrice(farm.shifts[day].shift2)) {
+                                hasShifts = true;
+                            }
+                            if (!fullDayPrice && isValidPrice(farm.shifts[day].fullDay)) {
+                                fullDayPrice = farm.shifts[day].fullDay;
+                            }
+                        }
+                    }
+                }
+
+                let finalDisplayPrice = displayPrice;
+                let finalLabel = T.priceShift;
+
+                if (!hasShifts && fullDayPrice) {
+                    finalDisplayPrice = fullDayPrice;
+                    finalLabel = T.priceFullDay;
+                }
+
+                const priceHtml = finalDisplayPrice ? `<div class="card-price-row"><i class="fas fa-exclamation-triangle" style="color: #F4B400;"></i><span><span class="price-val">${finalDisplayPrice}</span> ${T.currency} ${finalLabel}</span></div>` : '';
+                // ------------------------------------------------
+
                 container.innerHTML += `
                 <div class="farm-card is-visible" id="farm-${farm.id}" onclick="openFarmDetails('${farm.id}')">
                     <div class="swiper mySwiper-${farm.id}">
@@ -988,6 +1017,32 @@
             };
 
             const isValidPrice = (p) => p && p !== "غير متوفر" && p.trim() !== "";
+
+            // --- گۆڕانکاری بۆ بەشی دیتیڵز (وەکی بەشی کارتان) ---
+            let hasShiftsForDetails = false;
+            let fullDayPriceForDetails = "";
+            if (shiftsData) {
+                const days = ['sunWed', 'thuFri', 'saturday', 'occasions'];
+                for (let day of days) {
+                    if (shiftsData[day]) {
+                        if (isValidPrice(shiftsData[day].shift1) || isValidPrice(shiftsData[day].shift2)) {
+                            hasShiftsForDetails = true;
+                        }
+                        if (!fullDayPriceForDetails && isValidPrice(shiftsData[day].fullDay)) {
+                            fullDayPriceForDetails = shiftsData[day].fullDay;
+                        }
+                    }
+                }
+            }
+
+            let alertPrice = displayPrice;
+            let alertLabel = T.minPriceLabel;
+
+            if (!hasShiftsForDetails && fullDayPriceForDetails) {
+                alertPrice = fullDayPriceForDetails;
+                alertLabel = T.priceFullDay;
+            }
+            // ---------------------------------------------------
 
             const renderRow = (typeLabel, timeStart, timeEnd, price, isOffer = false) => {
                 if (!isValidPrice(price)) return "";
@@ -1064,7 +1119,7 @@
             const pricingHtml = `
                 <div class="min-price-alert">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <div><span class="val">${displayPrice}</span> ${T.currency} ${T.minPriceLabel}</div>
+                    <div><span class="val">${alertPrice}</span> ${T.currency} ${alertLabel}</div>
                 </div>
                 ${thuFriHtml}
                 ${saturdayHtml}
